@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "stable"
+  
+  cache:
+  - rm -f npm-shrinkwrap.json	  directories:
+    - "node_modules"
+
+ install: npm install
