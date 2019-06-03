@@ -5,7 +5,7 @@ docopt==0.6.2
 ijson==2.3
 networkx==1.11
 numpy==1.11.1
-Pillow==3.3.0
+Pillow==3.3.2
 pyparsing==2.1.5
 python-dateutil==2.5.3
 pytz==2016.6.1
