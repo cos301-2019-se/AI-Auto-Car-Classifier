@@ -9,9 +9,9 @@ mode = "CNN"
 model = None
 
 if mode == "DNN":
-    model = load_model('car_detection_keras_DNN_model.h5')
+    model = load_model('boolean_car_detection/model/car_detection_keras_DNN_model.h5')
 else:
-    model = load_model('car_detection_keras_CNN_model.h5')
+    model = load_model('boolean_car_detection/model/car_detection_keras_CNN_model.h5')
 
 row,column = 100,100
 
@@ -21,7 +21,6 @@ parser = OptionParser()
 parser.add_option("-f", "--file", dest="filename", help="write report to FILE", metavar="FILE")
 (options, args) = parser.parse_args()
 URL = options.filename 
-print("URL ------> %s" %URL)
 
 img = Image.open(URL)
 #print("TESTING IMAGE -----> %s %s %s" %( img.bits, img.size, img.format))
@@ -68,4 +67,4 @@ else:
 # Do predictions 
 
 classes = model.predict(X_test)
-print(classes[0].max())
+print(classes[0][0])

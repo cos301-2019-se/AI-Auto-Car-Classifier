@@ -7,6 +7,7 @@ const { spawn } = require('child_process');
 router.post('/submit', submitImage);
 router.post('/color_detector', getImageColor);
 router.post('/car_detector', imageContainsCar);
+router.post('/car_classifier', getCarMakeAndModel);
 router.post('/', imageContainsCar);
 
 function submitImage(req, res)
@@ -86,7 +87,7 @@ const logErrors = (label) => (data) => {
 };
 
 function imageContainsCar(req, response) {
-    const process = spawn('python', ['boolean_car_detection/demo.py', `--file=${req.body.imageID}`]);
+    const process = spawn('python', ['boolean_car_detection/model/predictions.py', `--file=images/${req.body.imageID}`]);
     process.stdout.on(
       'data',
       sendProbability(response)
@@ -117,4 +118,40 @@ function imageContainsCar(req, response) {
       sendColor(response)
     );
   }
+
+
+  /**The below functions get the car make and model */
+  function getCarMakeAndModel(req, response) {
+      const process = spawn('python', ['car_detection/demo.py', req.body.imageID]);
+      process.stdout.on(
+        'data',
+        sendMakeAndModel(response)
+      );
+  
+      process.stderr.on(
+        'data',
+        logErrors('stderr')
+      );
+    }
+
+  const sendMakeAndModel = (res) => (data) => {
+    data = data.toString();
+    const make = data.substr(0, data.indexOf(' '));
+    data = data.replace(make+' ', '');
+    const model = data.substr(0, data.indexOf(' '));
+    data = data.replace(model+' ', '');
+    const bodyStyle = data.substr(0, data.indexOf(' '));
+    data = data.replace(bodyStyle+' ', '');
+    const year = data.substr(0, data.indexOf('-'));
+    data = data.replace(year+'-', '');
+    const confidence = parseFloat(data);
+      res.status(200).json({
+          make: make,
+          model: model,
+          bodyStyle: bodyStyle,
+          year: year,
+          confidence: confidence
+      })
+  };
+
 module.exports = router;
