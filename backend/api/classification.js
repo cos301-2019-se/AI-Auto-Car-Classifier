@@ -86,7 +86,7 @@ const logErrors = (label) => (data) => {
 };
 
 function imageContainsCar(req, response) {
-    const process = spawn('python', ['car_detection/demo.py', req.body.imageID]);
+    const process = spawn('python', ['boolean_car_detection/demo.py', `--file=${req.body.imageID}`]);
     process.stdout.on(
       'data',
       sendProbability(response)
