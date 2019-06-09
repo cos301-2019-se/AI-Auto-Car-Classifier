@@ -8,6 +8,7 @@ router.post('/submit', submitImage);
 router.post('/color_detector', getImageColor);
 router.post('/car_detector', imageContainsCar);
 router.post('/car_classifier', getCarMakeAndModel);
+router.post('/number_plate', getNumberPlate);
 router.post('/', imageContainsCar);
 
 function submitImage(req, res)
@@ -118,8 +119,64 @@ function imageContainsCar(req, response) {
       sendColor(response)
     );
   }
-
-
+ /**The functions below get the numberplate from an image of a car */
+ function getNumberPlate(req, res)
+ {
+     console.log("In Number plate function");
+     var imageID = req.body.imageID;
+     var file = ".\\images\\" + imageID;
+     if (fs.existsSync(file))
+     {
+         var image = fs.readFileSync(file);
+ 
+         const {exec} = require('child_process');
+         var command = 'alpr -c eu -d -j -n 1 ' + file;
+         exec(command, (err, stdout, stderr) =>
+         {
+             if (err)
+             {
+                 console.log(err);
+ 
+                 res.status(200).json({
+                     status: "failed",
+                 });
+ 
+                 return;
+             }
+ 
+             var object = JSON.parse(stdout);
+ 
+             var results = object.results;
+ 
+             var plate = results[0].plate;
+ 
+             var coords = results[0].coordinates;
+ 
+             //console.log("Plate: " + JSON.stringify(plate));
+             console.log("Plate: " + plate);
+             console.log("Coords: " + JSON.stringify(coords));
+ 
+             res.status(200).json({
+                 status: "success",
+                 numberPlate: plate,
+                 coordinates: coords
+             });
+ 
+ 
+         });
+ 
+ 
+     }
+     else
+     {
+         res.status(200).json({
+ 
+             status: "fail",
+             message: "Image Not Found"
+ 
+         });
+     }
+ }
   /**The below functions get the car make and model */
   function getCarMakeAndModel(req, response) {
       const process = spawn('python', ['car_detection/demo.py', req.body.imageID]);
