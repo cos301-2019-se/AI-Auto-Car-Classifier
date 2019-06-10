@@ -130,7 +130,7 @@ function imageContainsCar(req, response) {
          var image = fs.readFileSync(file);
  
          const {exec} = require('child_process');
-         var command = 'alpr -c eu -d -j -n 1 ' + file;
+         var command = '.\\openalpr_64\\alpr -c eu -d -j -n 1 ' + file;
          exec(command, (err, stdout, stderr) =>
          {
              if (err)
@@ -147,7 +147,13 @@ function imageContainsCar(req, response) {
              var object = JSON.parse(stdout);
  
              var results = object.results;
- 
+             if(results.length <= 0){
+                  res.status(200).json({
+                    status: "failed",
+                });
+
+                return;
+             }
              var plate = results[0].plate;
  
              var coords = results[0].coordinates;
