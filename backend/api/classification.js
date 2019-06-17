@@ -7,6 +7,8 @@ const { spawn } = require('child_process');
 router.post('/submit', submitImage);
 router.post('/color_detector', getImageColor);
 router.post('/car_detector', imageContainsCar);
+router.post('/car_classifier', getCarMakeAndModel);
+router.post('/number_plate', getNumberPlate);
 router.post('/', imageContainsCar);
 
 function submitImage(req, res)
@@ -35,7 +37,7 @@ function submitImage(req, res)
 
     res.status(200).json({
         status: statusVal,
-        message: mess
+        imageID: mess
     });
 }
 
@@ -86,7 +88,7 @@ const logErrors = (label) => (data) => {
 };
 
 function imageContainsCar(req, response) {
-    const process = spawn('python', ['car_detection/demo.py', req.body.imageID]);
+    const process = spawn('python', ['boolean_car_detection/model/predictions.py', `--file=images/${req.body.imageID}`]);
     process.stdout.on(
       'data',
       sendProbability(response)
@@ -117,4 +119,112 @@ function imageContainsCar(req, response) {
       sendColor(response)
     );
   }
+ /**The functions below get the numberplate from an image of a car */
+ function getNumberPlate(req, res)
+ {
+     console.log("In Number plate function");
+     var imageID = req.body.imageID;
+     var file = ".\\images\\" + imageID;
+     if (fs.existsSync(file))
+     {
+         var image = fs.readFileSync(file);
+ 
+         const {exec} = require('child_process');
+         var command = '.\\openalpr_64\\alpr -c eu -d -j -n 1 ' + file;
+         exec(command, (err, stdout, stderr) =>
+         {
+             if (err)
+             {
+                 console.log(err);
+ 
+                 res.status(200).json({
+                     status: "failed",
+                 });
+ 
+                 return;
+             }
+ 
+             var object = JSON.parse(stdout);
+ 
+             var results = object.results;
+             if(results.length <= 0){
+                  res.status(200).json({
+                    status: "failed",
+                });
+
+                return;
+             }
+             var plate = results[0].plate;
+ 
+             var coords = results[0].coordinates;
+ 
+             //console.log("Plate: " + JSON.stringify(plate));
+             console.log("Plate: " + plate);
+             console.log("Coords: " + JSON.stringify(coords));
+ 
+             res.status(200).json({
+                 status: "success",
+                 numberPlate: plate,
+                 coordinates: coords
+             });
+ 
+ 
+         });
+ 
+ 
+     }
+     else
+     {
+         res.status(200).json({
+ 
+             status: "fail",
+             message: "Image Not Found"
+ 
+         });
+     }
+ }
+  /**The below functions get the car make and model */
+  function getCarMakeAndModel(req, response) {
+      const process = spawn('python', ['car_detection/demo.py', req.body.imageID]);
+      process.stdout.on(
+        'data',
+        sendMakeAndModel(response)
+      );
+  
+      process.stderr.on(
+        'data',
+        logErrors('stderr')
+      );
+    }
+  const getNumWords = (word) => {
+      return word.split(' ').length;
+  }
+  const sendMakeAndModel = (res) => (data) => {
+    const numWords = getNumWords(data.toString());
+    console.log(numWords);
+    let extendedModel;
+    console.log(data.toString());
+    data = data.toString();
+    const make = data.substr(0, data.indexOf(' '));
+    data = data.replace(make+' ', '');
+    let model = data.substr(0, data.indexOf(' '));
+    data = data.replace(model+' ', '');
+    if(numWords > 4){
+      extendedModel = data.substr(0, data.indexOf(' '));
+      data = data.replace(extendedModel+' ', '');
+      model = model+' '+extendedModel;
+    }
+    const bodyStyle = data.substr(0, data.indexOf(' '));
+    data = data.replace(bodyStyle+' ', '');
+    const year = data.substr(0, data.indexOf('-'));
+    data = data.replace(year+'-', '');
+    const confidence = parseFloat(data);
+      res.status(200).json({
+          make: make,
+          model: model,
+          bodyStyle: bodyStyle,
+          year: year,
+          confidence: confidence
+      })
+  };
 module.exports = router;

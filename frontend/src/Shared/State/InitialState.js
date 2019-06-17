@@ -1,6 +1,20 @@
 const InitialState = {
     homeState: {
-        message: 'This is just a boilerplate'
+        image: '',
+        imageID: '',
+        loading: false,
+        carDetails: {
+            make: '',
+            model: '',
+            year: '',
+            color: '',
+            bodyStyle: '',
+            description: '',
+            numberPlate: '',
+            colorConfidence: 0,
+            carConfidence: 0,
+            plateConfidence: 0
+        }
     }
 };
 
