@@ -1,26 +1,50 @@
 import axios from 'axios';
 
-export default function handleImageUpload() {
+export const uploadImage = async (image) => {
 
-    axios.post('http://localhost:3001/classify/submit', { image: this.state.imagePreviewUrl }, {
+    const response = await axios.post('http://localhost:3000/classify/submit', { image: image }, {
         headers: {
             'Content-Type': 'application/json'
         }
-    })
-        .then((response) => {
-            this.setState({
-                route: 'classify/car_detector',
-                loading: false,
-                imageID: response.data.message
-            });
-        })
-        .catch((error) => {
-            console.log(error);
-            this.setState({
-                showImage: false,
-                response: error,
-                loading: false,
-                probabilityBack: false
-            });
-        });
+    });
+    return response.data;
+};
+
+export const getMakeAndModel = async (imageID) =>{
+    const response = await axios.post('http://localhost:3000/classify/car_classifier', { imageID: imageID }, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+
+    const carDetails = {
+        make: response.data.make,
+        model: response.data.model,
+        bodyStyle: response.data.bodyStyle,
+        year: response.data.year,
+        confidence: response.data.confidence,
+        color: '',
+        numberPlate: ''
+    };
+    carDetails.color = await getCarColor(imageID);
+    carDetails.numberPlate = await getNumberPlate(imageID);
+    return carDetails;
+};
+
+export const getCarColor = async (imageID) => {
+    const response = await axios.post('http://localhost:3000/classify/color_detector', { imageID: imageID }, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    return response.data.color;
+};
+
+export const getNumberPlate = async (imageID) => {
+    const response = await axios.post('http://localhost:3000/classify/number_plate', { imageID: imageID }, {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    });
+    return response.data.numberPlate;
 };

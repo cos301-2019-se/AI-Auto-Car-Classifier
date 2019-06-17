@@ -37,7 +37,7 @@ function submitImage(req, res)
 
     res.status(200).json({
         status: statusVal,
-        message: mess
+        imageID: mess
     });
 }
 
@@ -196,13 +196,24 @@ function imageContainsCar(req, response) {
         logErrors('stderr')
       );
     }
-
+  const getNumWords = (word) => {
+      return word.split(' ').length;
+  }
   const sendMakeAndModel = (res) => (data) => {
+    const numWords = getNumWords(data.toString());
+    console.log(numWords);
+    let extendedModel;
+    console.log(data.toString());
     data = data.toString();
     const make = data.substr(0, data.indexOf(' '));
     data = data.replace(make+' ', '');
-    const model = data.substr(0, data.indexOf(' '));
+    let model = data.substr(0, data.indexOf(' '));
     data = data.replace(model+' ', '');
+    if(numWords > 4){
+      extendedModel = data.substr(0, data.indexOf(' '));
+      data = data.replace(extendedModel+' ', '');
+      model = model+' '+extendedModel;
+    }
     const bodyStyle = data.substr(0, data.indexOf(' '));
     data = data.replace(bodyStyle+' ', '');
     const year = data.substr(0, data.indexOf('-'));
@@ -216,5 +227,4 @@ function imageContainsCar(req, response) {
           confidence: confidence
       })
   };
-
 module.exports = router;

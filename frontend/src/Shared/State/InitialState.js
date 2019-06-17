@@ -1,18 +1,20 @@
 const InitialState = {
     homeState: {
-        file: '',
-        imagePreviewUrl: '',
-        showImage: false,
+        image: '',
+        imageID: '',
         loading: false,
-        carProbability: null,
-        route: 'classify/submit',
-        imageID: null,
-        probabilityBack: false,
-        imageColor: '',
-        colorBack: false
-    },
-    carResultState: {
-        carInfo: null
+        carDetails: {
+            make: '',
+            model: '',
+            year: '',
+            color: '',
+            bodyStyle: '',
+            description: '',
+            numberPlate: '',
+            colorConfidence: 0,
+            carConfidence: 0,
+            plateConfidence: 0
+        }
     }
 };
 

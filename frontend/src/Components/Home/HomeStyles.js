@@ -9,8 +9,11 @@ const styles = {
         height: '68vh',
         borderRadius: '7px'
     },
-    imagePreview: {
-        
+    image: {
+        marginTop: '25%',
+        maxWidth: '100%',
+        marginLeft: 'auto',
+        marginRight: 'auto'
     },
     resultsWrapper: {
         marginTop: '5em',
@@ -42,7 +45,7 @@ const styles = {
     },
     textFields: {
         paddingLeft: '1em',
-        textAlign: 'right'
+        marginTop: '0.5em'
     },
     description: {
         borderRadius: '7px',
@@ -65,10 +68,17 @@ const styles = {
         borderRadius: '7px'
     },
     classifyButton: {
-        marginLeft: '27.5em'
+        marginLeft: '23.5em',
+        width: '15em',
+        height: '2.6em',
     },
     uploadButton: {
 
+    },
+    loader: {
+        color: '#FFFFFF',
+        width: '0.5em',
+        height: '0.5em'
     }
 };
 
