@@ -1,9 +1,12 @@
 language: node_js
-node_js:
-  - "stable"
-  
-  cache:
-  - rm -f npm-shrinkwrap.json	  directories:
-    - "node_modules"
-
- install: npm install
+node_js: stable
+sudo: required
+dist: trusty
+jobs:
+  include:
+    - stage: frontend_CI
+      name: "Frontend tests"
+      before_install: cd frontend
+      script:
+        - npm run test
+        - npm run build
