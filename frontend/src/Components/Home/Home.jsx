@@ -109,7 +109,6 @@ class Home extends React.PureComponent {
                                     onChange={this.props.updateCarDetails}
                                 />    
                             </Grid>
-
                             <Grid
                                 container
                                 item
