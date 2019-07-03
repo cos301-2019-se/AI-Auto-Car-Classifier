@@ -10,8 +10,10 @@ script:
   - npm run test
   - npm run build
 before_deploy:
+  - cd frontend
   - cd build
 deploy:
   provider: azure_web_apps
+  on: master
   skip_cleanup: true
   verbose: true
