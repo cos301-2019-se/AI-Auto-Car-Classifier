@@ -10,8 +10,8 @@ script:
   - npm run test
   - npm run build
 before_deploy:
-  - cd frontend
-  - cd build
+  - mv build ../
+  - cd ../build
 deploy:
   provider: azure_web_apps
   on: master

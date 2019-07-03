@@ -1,7 +1,6 @@
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import React from 'react';
 import Signin from '../Components/Shared/Signin/Signin.jsx';
-//import CaptureImage from '../Components/CaptureImage/CaptureImage.jsx';
 import Home from '../Components/Home/Home';
 
 const Routes = () => {
