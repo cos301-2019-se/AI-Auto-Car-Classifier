@@ -1,0 +1,17 @@
+language: node_js
+node_js: stable
+sudo: required
+dist: trusty
+before_install:
+  - cd frontend
+install:
+  - npm install
+script:
+  - npm run test
+  - npm run build
+before_deploy:
+  - cd build
+deploy:
+  provider: azure_web_apps
+  skip_cleanup: true
+  verbose: true
