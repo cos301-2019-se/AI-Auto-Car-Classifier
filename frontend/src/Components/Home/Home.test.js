@@ -11,16 +11,8 @@ describe('Home', () => {
         const wrapper = shallow(<Home/>);
         expect(wrapper).not.toBeNull();
     });
-    it('Should render', () => {
+    it('Should render with no problem', () => {
         const wrapper = shallow(<Home/>);
         expect(wrapper).not.toBeNull();
-    });
-    it('Should not render', () => {
-        const wrapper = shallow(null);
-        expect(wrapper).toBeNull();
-    });
-    it('Should break', () => {
-        const wrapper = shallow(null);
-        expect(wrapper).toBeNull();
     });
 });

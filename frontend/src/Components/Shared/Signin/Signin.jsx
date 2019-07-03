@@ -71,6 +71,7 @@ class SignIn extends React.Component {
 }
 SignIn.propTypes = {
     styles: PropTypes.object.isRequired,
+    classes: PropTypes.object
 };
 
 export default withStyles(styles)(SignIn);
