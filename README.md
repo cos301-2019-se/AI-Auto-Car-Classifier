@@ -7,13 +7,7 @@
 * AI Auto Car Classifier is a progressive web app that can be used to take images of vehicles, cars to be specific, and classify them according to make, model and year.
 
 **HOW TO RUN THE PROJECT**
-* 1 Download the mode at (https://drive.google.com/file/d/16kknPBoMcY3i2UEt6kOX0Rw7kmHTQRKo/view?usp=sharing)
-* 2 Move the downloaded model to the directory backend/car_detection/models. Create the directory if it does not exist
-* 3 Go to the directory `backend/` and create a folder named `images`
-* 4 Go to the `backend/` directory and run `npm install` then `npm start`
-* 5 Go to the `frontend/` directory and run `npm install` then `npm start`
-* 6 Step 4 will open a browser tab on `port 3000`, step 3 on `port 3001`, thus make sure these ports are not used
-* 7 If the above steps do not work, make sure you have the latest version of `tensorflow-cpu`
+* The project is hosted on azure web apps for development purposes and can be found here [AI Auto Car Classifier](https://autocarclassifier.azurewebsites.net) 
 
 
 ## **[Documentation](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/SRS_DEMO2.pdf)**
