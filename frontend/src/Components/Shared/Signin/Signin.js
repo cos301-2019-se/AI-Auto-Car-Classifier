@@ -1,21 +1,26 @@
+const HUNDRED = 100;
+const TWO = 2;
+const THREE = 3;
+const EIGHT = 8;
+const FOUR = 4;
 const styles = theme => ({
     main: {
         width: 'auto',
         display: 'block', // Fix IE 11 issue.
-        marginLeft: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
-        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-            width: 400,
+        marginLeft: theme.spacing.unit * THREE,
+        marginRight: theme.spacing.unit * THREE,
+        [theme.breakpoints.up(HUNDRED * FOUR + theme.spacing.unit * THREE * TWO)]: {
+            width: HUNDRED * FOUR,
             marginLeft: 'auto',
             marginRight: 'auto',
         },
     },
     paper: {
-        marginTop: theme.spacing.unit * 8,
+        marginTop: theme.spacing.unit * EIGHT,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+        padding: `${theme.spacing.unit * THREE}px ${theme.spacing.unit * THREE}px ${theme.spacing.unit * THREE}px`,
     },
     avatar: {
         margin: theme.spacing.unit,
@@ -26,7 +31,7 @@ const styles = theme => ({
         marginTop: theme.spacing.unit,
     },
     submit: {
-        marginTop: theme.spacing.unit * 3,
+        marginTop: theme.spacing.unit * THREE,
     },
 });
 

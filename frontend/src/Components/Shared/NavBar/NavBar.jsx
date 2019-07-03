@@ -4,14 +4,10 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle';
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 import styles from './NavBarStyles';
 
 class NavBar extends React.PureComponent {
@@ -34,12 +30,4 @@ NavBar.propTypes = {
     classes: PropTypes.object
 };
 
-const mapStateToProps = state => ({
-
-});
-
-const mapActionsToProps = (dispatch) => ({
-
-});
-
-export default withRouter(connect(mapStateToProps, mapActionsToProps)(withStyles(styles)(NavBar)));
+export default withRouter(connect()(withStyles(styles)(NavBar)));
