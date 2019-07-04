@@ -516,14 +516,15 @@ visibility: collapse;
     padding-right: 60px;
   }
 
-@media (max-width: 576px) {
-  .wrap-login100 {
-    padding-left: 15px;
-    padding-right: 15px;
-  }
+  @media (max-width: 576px) {
+    .wrap-login100 {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
 
-  .btn-face,
-  .btn-google {
-    width: 100%;
+    .btn-face,
+    .btn-google {
+      width: 100%;
+    }
   }
 }
