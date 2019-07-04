@@ -263,3 +263,9 @@ backend/color-extractor/__pycache__
 backend/__pycache__
 backend/car_detection/models
 
+
+frontend/\.idea/
+
+backend/\.idea/
+
+backend/uploads/
