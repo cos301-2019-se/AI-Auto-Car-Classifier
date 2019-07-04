@@ -1,0 +1,28 @@
+.pictureArea{
+    width: 100%;
+    min-height: 50vh;
+    background: #555555;
+}
+
+.wrapper{
+    width: 100%;
+    margin: 0 auto;
+
+}
+
+.picture{
+    background: #00dbde;
+}
+
+.picInfo{
+    background: #c80000;
+}
+
+.heading{
+    font-weight: bold;
+}
+
+.listElement{
+    font-weight: normal;
+    padding-left: 15px;
+}
