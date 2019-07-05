@@ -19,6 +19,7 @@ var storage = multer.diskStorage({
 var upload = multer({ storage: storage });
 
 router.post('/submit', upload.single('image'), submitImage);
+router.post('/submit_multiple',upload.array('imageMultiple'),submitMultipleImages);
 router.post('/submit64',submitImage64);
 router.post('/color_detector', getImageColor);
 router.post('/car_detector', imageContainsCar);
@@ -28,12 +29,36 @@ router.post('/', imageContainsCar);
 
 function submitImage(req,res)
 {
-    console.log("Submit Image");
+    console.log("Image Submitted");
     var statusVal = "success";
     var mess = "Image Received";
 
-    const file = req.file;
-    if (!file) {
+    const files = req.files;
+    if (!files)
+    {
+        console.log("Error in Submit Image");
+        statusVal = "fail";
+        mess = "No Image Data received";
+
+    }
+
+
+    res.status(200).json({
+        status: statusVal,
+        imageID: mess
+    });
+}
+
+function submitMultipleImages(req,res)
+{
+    console.log("Multiple Images Submitted");
+    var statusVal = "success";
+    var mess = "Image Received";
+
+    const files = req.files;
+    if (!files)
+    {
+        console.log("Error in Submit Multiple Images");
         statusVal = "fail";
         mess = "No Image Data received";
 
