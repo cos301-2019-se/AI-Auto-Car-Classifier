@@ -1,8 +1,63 @@
 
 $( document ).ready(function()
 {
+    const uploadButton = document.querySelector('.browse-btn');
+    const fileInfo = document.querySelector('.file-info');
+    const realInput = document.getElementById('real-input');
+
+    uploadButton.addEventListener('click', (e) => {
+        realInput.click();
+    });
+
+    realInput.addEventListener('change', () => {
+        const name = realInput.value.split(/\\|\//).pop();
+        const truncated = name.length > 20
+            ? name.substr(name.length - 20)
+            : name;
+
+        fileInfo.innerHTML = truncated;
+
+        var title = $('#title').val();
+
+        $('.uploadForm').ajaxSubmit({
+            data: {title: title},
+            contentType: 'multipart/form-data',
+            success: function(response){
+                console.log('image uploaded and form submitted');
+            }
+        });
+        return false;
+    });
+
+
+    $('.uploadForm').submit(function(e){
+        e.preventDefault();
+
+
+    });
+
 
 });
+
+/*function uploadImages()
+{
+    var files = $('#input-file').prop('files');
+
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:3000/classify/submit_multiple",
+        data: files,
+        processData: false,
+        contentType: false,
+        success: function(r){
+            console.log("result",r)
+        },
+        error: function (e) {
+            console.log("some error", e);
+        }
+    });
+
+}*/
 
 function displayImage(imagePath)
 {
