@@ -1,17 +1,77 @@
 var express = require('express');
 const router = express.Router();
 const request = require("request");
-var fs = require('fs');
-const { spawn } = require('child_process');
+const path = require('path');
 
-router.post('/submit', submitImage);
+const { spawn } = require('child_process');
+const multer = require('multer');
+const fs = require('fs-extra');
+
+var storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'uploads')
+    },
+    filename: function (req, file, cb) {
+        cb(null, 'image' + '-' + Date.now() + path.extname(file.originalname))
+    }
+});
+
+var upload = multer({ storage: storage });
+
+router.post('/submit', upload.single('image'), submitImage);
+router.post('/submit_multiple',upload.array('imageMultiple'),submitMultipleImages);
+router.post('/submit64',submitImage64);
 router.post('/color_detector', getImageColor);
 router.post('/car_detector', imageContainsCar);
 router.post('/car_classifier', getCarMakeAndModel);
 router.post('/number_plate', getNumberPlate);
 router.post('/', imageContainsCar);
 
-function submitImage(req, res)
+function submitImage(req,res)
+{
+    console.log("Image Submitted");
+    var statusVal = "success";
+    var mess = "Image Received";
+
+    const files = req.files;
+    if (!files)
+    {
+        console.log("Error in Submit Image");
+        statusVal = "fail";
+        mess = "No Image Data received";
+
+    }
+
+
+    res.status(200).json({
+        status: statusVal,
+        imageID: mess
+    });
+}
+
+function submitMultipleImages(req,res)
+{
+    console.log("Multiple Images Submitted");
+    var statusVal = "success";
+    var mess = "Image Received";
+
+    const files = req.files;
+    if (!files)
+    {
+        console.log("Error in Submit Multiple Images");
+        statusVal = "fail";
+        mess = "No Image Data received";
+
+    }
+
+
+    res.status(200).json({
+        status: statusVal,
+        imageID: mess
+    });
+}
+
+function submitImage64(req, res)
 {
 
     console.log("In function submitImage");
