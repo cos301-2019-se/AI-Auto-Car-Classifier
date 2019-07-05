@@ -266,6 +266,6 @@ backend/car_detection/models
 
 frontend/\.idea/
 
-backend/uploads/
-
 backend/\.idea/
+
+backend/uploads/
