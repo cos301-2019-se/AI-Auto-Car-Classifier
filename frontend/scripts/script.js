@@ -1,15 +1,16 @@
-
-$( document ).ready(function()
+$(document).ready(function ()
 {
     const uploadButton = document.querySelector('.browse-btn');
     const fileInfo = document.querySelector('.file-info');
     const realInput = document.getElementById('real-input');
 
-    uploadButton.addEventListener('click', (e) => {
+    uploadButton.addEventListener('click', (e) =>
+    {
         realInput.click();
     });
 
-    realInput.addEventListener('change', () => {
+    realInput.addEventListener('change', () =>
+    {
         const name = realInput.value.split(/\\|\//).pop();
         const truncated = name.length > 20
             ? name.substr(name.length - 20)
@@ -17,108 +18,67 @@ $( document ).ready(function()
 
         fileInfo.innerHTML = truncated;
 
+
         var title = $('#title').val();
 
         $('.uploadForm').ajaxSubmit({
             data: {title: title},
             contentType: 'multipart/form-data',
-            success: function(response){
+            success: function (response)
+            {
                 console.log('image uploaded and form submitted');
+            },
+            complete: function ()
+            {
+                displayImage("D:\\Pictures\\Cars\\370z.jpg");
             }
         });
         return false;
     });
 
 
-    $('.uploadForm').submit(function(e){
+    $('.uploadForm').submit(function (e)
+    {
         e.preventDefault();
-
-
     });
 
 
 });
 
-/*function uploadImages()
+
+function generateGallery(imagePaths)
 {
-    var files = $('#input-file').prop('files');
+    var i;
+    var gallery = $('.gallery');
+    gallery.append('<div class="row">');
+    var numImagesOnRow = 0;
+    for (i = 0; i < imagePaths.length; ++i)
+    {
+        var imageHtml = generateImageHTML(imagePaths[i]);
+        gallery.append(imageHtml);
 
-    $.ajax({
-        type: "POST",
-        url: "http://localhost:3000/classify/submit_multiple",
-        data: files,
-        processData: false,
-        contentType: false,
-        success: function(r){
-            console.log("result",r)
-        },
-        error: function (e) {
-            console.log("some error", e);
+        if(numImagesOnRow === 3)
+        {
+            gallery.append('</div>');
+            gallery.append('<div class="row"> <div class="col-md-4">');
+            numImagesOnRow = 0;
         }
-    });
+    }
+}
 
-}*/
+function generateImageHTML(path)
+{
+    var html = '<div class="col-md-4"> <div class="thumbnail"> <img src="' + path + '" alt="" style="width:100%"> </div> </div>'
+
+    return html;
+}
 
 function displayImage(imagePath)
 {
-    console.log( "ready!" );
-    var canvas = $("#pictureCanvas");
-    var context = canvas.getContext("2d");
-    var image = new Image();
-    image.src = imagePath;
 
-    image.onload = function(){drawImageProp(context, image, 0, 0, canvas.width, canvas.height);}
+    $("#mainImage").attr("src", imagePath);
 
 }
-
-function drawImageProp(ctx, img, x, y, w, h, offsetX, offsetY) {
-
-    if (arguments.length === 2) {
-        x = y = 0;
-        w = ctx.canvas.width;
-        h = ctx.canvas.height;
-    }
-
-    // default offset is center
-    offsetX = typeof offsetX === "number" ? offsetX : 0.5;
-    offsetY = typeof offsetY === "number" ? offsetY : 0.5;
-
-    // keep bounds [0.0, 1.0]
-    if (offsetX < 0) offsetX = 0;
-    if (offsetY < 0) offsetY = 0;
-    if (offsetX > 1) offsetX = 1;
-    if (offsetY > 1) offsetY = 1;
-
-    var iw = img.width,
-        ih = img.height,
-        r = Math.min(w / iw, h / ih),
-        nw = iw * r,   // new prop. width
-        nh = ih * r,   // new prop. height
-        cx, cy, cw, ch, ar = 1;
-
-    // decide which gap to fill
-    if (nw < w) ar = w / nw;
-    if (Math.abs(ar - 1) < 1e-14 && nh < h) ar = h / nh;  // updated
-    nw *= ar;
-    nh *= ar;
-
-    // calc source rectangle
-    cw = iw / (nw / w);
-    ch = ih / (nh / h);
-
-    cx = (iw - cw) * offsetX;
-    cy = (ih - ch) * offsetY;
-
-    // make sure source rectangle is valid
-    if (cx < 0) cx = 0;
-    if (cy < 0) cy = 0;
-    if (cw > iw) cw = iw;
-    if (ch > ih) ch = ih;
-
-    // fill image in dest. rectangle
-    ctx.drawImage(img, cx, cy, cw, ch,  x, y, w, h);
-}
-
 
 function onSignIn(googleUser)
 {

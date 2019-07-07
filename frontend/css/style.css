@@ -1,8 +1,10 @@
 .pictureArea{
     width: 100%;
     min-height: 50vh;
-    background: #555555;
+
 }
+
+
 
 .gallery{
     width: 100%;
@@ -20,11 +22,12 @@ h1 { text-align: center; }
 
 
 .picture{
-    background: #00dbde;
+    background: #d7d7d7;
 }
 
 .picInfo{
-    background: #c80000;
+padding: 1%;
+    background: #d7d7d7;
 }
 
 .heading{
