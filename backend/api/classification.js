@@ -53,21 +53,34 @@ function submitMultipleImages(req,res)
 {
     console.log("Multiple Images Submitted");
     var statusVal = "success";
-    var mess = "Image Received";
+    var data = [];
 
     const files = req.files;
+
+
     if (!files)
     {
         console.log("Error in Submit Multiple Images");
         statusVal = "fail";
-        mess = "No Image Data received";
 
+
+    }
+    else
+    {
+        var paths = [];
+        for(var i = 0; i < files.length; i++)
+        {
+            console.log("Image Uploaded: " + files[i].filename);
+            paths.push(files[i].filename);
+        }
+
+        data = paths;
     }
 
 
     res.status(200).json({
         status: statusVal,
-        imageID: mess
+        imagePaths: data
     });
 }
 
