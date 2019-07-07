@@ -24,13 +24,19 @@ $(document).ready(function ()
         $('.uploadForm').ajaxSubmit({
             data: {title: title},
             contentType: 'multipart/form-data',
-            success: function (response)
+            success: function (res)
             {
-                console.log('image uploaded and form submitted');
+                console.log('Response: ' + res.status);
+                var images = res.imagePaths;
+                console.log("Images: " + images);
+
+                var path = '../backend/uploads/';
+                displayImage(path + images[0]);
+                generateGallery(images);
             },
-            complete: function ()
+            error: function ()
             {
-                displayImage("D:\\Pictures\\Cars\\370z.jpg");
+               console.log("Error in ajax call");
             }
         });
         return false;
@@ -43,6 +49,8 @@ $(document).ready(function ()
     });
 
 
+
+
 });
 
 
@@ -50,25 +58,33 @@ function generateGallery(imagePaths)
 {
     var i;
     var gallery = $('.gallery');
-    gallery.append('<div class="row">');
+    var html = '<div class="row">';
+
+
     var numImagesOnRow = 0;
     for (i = 0; i < imagePaths.length; ++i)
     {
         var imageHtml = generateImageHTML(imagePaths[i]);
-        gallery.append(imageHtml);
+       html += imageHtml;
 
+        numImagesOnRow++;
         if(numImagesOnRow === 3)
         {
-            gallery.append('</div>');
-            gallery.append('<div class="row"> <div class="col-md-4">');
+            html += '</div>';
+          html +='<div class="row">';
             numImagesOnRow = 0;
         }
+
     }
+
+    html+= '</div>';
+    gallery.append(html);
 }
 
-function generateImageHTML(path)
+function generateImageHTML(image)
 {
-    var html = '<div class="col-md-4"> <div class="thumbnail"> <img src="' + path + '" alt="" style="width:100%"> </div> </div>'
+    var path = '../backend/uploads/' + image;
+    var html = '<div class="col-md-4"> <div class="thumbnail"> <img src="' + path + '" alt="" style="width:100%"> </div> </div>';
 
     return html;
 }

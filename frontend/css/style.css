@@ -1,40 +1,50 @@
-.pictureArea{
+.pictureArea {
     width: 100%;
     min-height: 50vh;
 
 }
 
 
-
-.gallery{
+.gallery {
+    padding-bottom: 20px;
+    padding-top: 20px;
     width: 100%;
     min-height: 50vh;
-    background: #bc911c;
+    background: #d7d7d7;
+    max-height: 70vh;
+    overflow-y: scroll;
 }
 
-.wrapper{
+#footer {
+    padding: 20px;
+}
+
+.wrapper {
     width: 100%;
     margin: 0 auto;
 
 }
 
-h1 { text-align: center; }
+h1 {
+  text-align: center;
+    padding-bottom: 10px;
+}
 
 
-.picture{
+.picture {
     background: #d7d7d7;
 }
 
-.picInfo{
-padding: 1%;
+.picInfo {
+    padding: 1%;
     background: #d7d7d7;
 }
 
-.heading{
+.heading {
     font-weight: bold;
 }
 
-.listElement{
+.listElement {
     font-weight: normal;
     padding-left: 15px;
 }
