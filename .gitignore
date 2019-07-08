@@ -271,3 +271,5 @@ backend/\.idea/
 backend/uploads/
 
 backend/car_detection/custom_layers/__pycache__/
+
+backend/color-extractor/color_extractor/__pycache__/

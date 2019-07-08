@@ -9,7 +9,7 @@ const fs = require('fs-extra');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads')
+        cb(null, 'images')
     },
     filename: function (req, file, cb) {
         cb(null, 'image' + '-' + Date.now() + path.extname(file.originalname))
@@ -200,6 +200,7 @@ function imageContainsCar(req, response) {
      var file = ".\\images\\" + imageID;
      if (fs.existsSync(file))
      {
+
          var image = fs.readFileSync(file);
  
          const {exec} = require('child_process');
@@ -220,7 +221,9 @@ function imageContainsCar(req, response) {
              var object = JSON.parse(stdout);
  
              var results = object.results;
-             if(results.length <= 0){
+             if(results.length <= 0)
+             {
+                 console.log("Unable to determine number plate");
                   res.status(200).json({
                     status: "failed",
                 });
