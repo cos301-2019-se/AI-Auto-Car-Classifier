@@ -34,9 +34,11 @@ $(document).ready(function ()
                 var images = res.imagePaths;
                 console.log("Images: " + images);
 
-                var path = '../backend/uploads/';
-                displayImage(path + images[0]);
+                var path = '../backend/images/';
+                displayImage(images[0]);
+
                 generateGallery(images);
+                classifyImage(images[0]);
             },
             error: function ()
             {
@@ -60,7 +62,7 @@ $(document).ready(function ()
         console.log('Clicked');
         var src = $(this).children("img").attr("src");
         var imageID = $(this).children("img").attr("id");
-        displayImage(src);
+        displayImage(imageID);
 
         $("html, body").animate({ scrollTop: 0 }, 200);
 
@@ -71,10 +73,10 @@ $(document).ready(function ()
 
 function classifyImage(imageID)
 {
-    getProbability(imageID,function)
+    getProbability(imageID);
 }
 
-function getProbability(imageID,callBack)
+function getProbability(imageID)
 {
     $.ajax({
         method: "POST",
@@ -85,7 +87,7 @@ function getProbability(imageID,callBack)
         {
             var prob = res.probability;
 
-           if(prob > 80)
+           if(prob > 0.80)
            {
              getColour(imageID);
            }
@@ -135,8 +137,10 @@ function getMake(imageID)
         success: function(res)
         {
             var make = res.make;
-            var confidence = res.confidence;
+            var confidence = parseFloat(res.confidence) * 100;
+           confidence = Math.round(confidence * 100) / 100;
             console.log("Car Make: " + make);
+            console.log("Confidence: " + res.confidence);
 
             $('#makeItem').text(make + " (" + confidence + "%)");
 
@@ -156,10 +160,19 @@ function getNumberPlate(imageID)
         url: "http://localhost:3000/classify/number_plate",
         success: function(res)
         {
-            var plate = res.numberPlate;
-            console.log("Car Plate: " + plate);
+            if(res.status === "success")
+            {
+                var plate = res.numberPlate;
+                console.log("Car Plate: " + plate);
 
-            $('#plateItem').text(plate);
+                $('#plateItem').text(plate);
+            }
+            else
+            {
+                console.log("Car Plate FAILED" );
+                $('#plateItem').text("???");
+            }
+
         },
         error: function(jqXHR,exception)
         {
@@ -197,16 +210,18 @@ function generateGallery(imagePaths)
 
 function generateImageHTML(image)
 {
-    var path = '../backend/uploads/' + image;
+    var path = '../backend/images/' + image;
     var html = '<div class="col-md-4"> <div class="thumbnail"> <img id="'+image+'" src="' + path + '" alt="" style="width:100%"> </div> </div>';
 
     return html;
 }
 
-function displayImage(imagePath)
+function displayImage(image)
 {
-
+    $('.listElement').html('&nbsp;');
+    var imagePath = '../backend/images/' + image;
     $("#mainImage").attr("src", imagePath);
+
 
 }
 
