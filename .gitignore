@@ -269,3 +269,5 @@ frontend/\.idea/
 backend/\.idea/
 
 backend/uploads/
+
+backend/car_detection/custom_layers/__pycache__/
