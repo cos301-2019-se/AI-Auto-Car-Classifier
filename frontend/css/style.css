@@ -1,7 +1,24 @@
+@font-face {
+    font-family: Poppins-Regular, sans-serif;
+    src: url('../login/fonts/poppins/Poppins-Regular.ttf');
+}
+
+@font-face {
+    font-family: Poppins-Medium;
+    src: url('../login/fonts/poppins/Poppins-Medium.ttf');
+}
+
+body, html {
+    font-family: Poppins-Regular, sans-serif;
+}
 .pictureArea {
     width: 100%;
     min-height: 50vh;
 
+}
+
+h1, h2, h3{
+    font-family: Poppins-Medium, sans-serif;
 }
 
 
@@ -42,6 +59,7 @@ h1 {
 }
 
 .heading {
+    font-family: Poppins-Medium, sans-serif;
     font-weight: bold;
 }
 
