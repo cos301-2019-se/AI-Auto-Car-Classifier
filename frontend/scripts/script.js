@@ -50,6 +50,14 @@ $(document).ready(function ()
 
 
 
+    $(document).on('click','.thumbnail',function()
+    {
+        console.log('Clicked');
+        var src = $(this).children("img").attr("src");
+        displayImage(src);
+
+        $("html, body").animate({ scrollTop: 0 }, 200);
+    });
 
 });
 
