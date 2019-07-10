@@ -218,7 +218,9 @@ function generateImageHTML(image)
 
 function displayImage(image)
 {
-    $('.listElement').html('&nbsp;');
+    var loadingGif = '<img src="./resources/loading%20screen%20colour.gif" height="50px" width="50px">';
+    $('.listElement').html(loadingGif);
+
     var imagePath = '../backend/images/' + image;
     $("#mainImage").attr("src", imagePath);
 
