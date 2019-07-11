@@ -1,18 +1,95 @@
-# -*- coding: utf-8 -*-
-
+#resnet_152 dependencies
 from keras.optimizers import SGD
 from keras.layers import Input, Dense, Conv2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Flatten, Activation, add
 from keras.layers.normalization import BatchNormalization
 from keras.models import Model
+from keras.layers.core import Layer
+from keras.engine import InputSpec
 from keras import backend as K
-
+import codecs, json
 from sklearn.metrics import log_loss
 
-from custom_layers.scale_layer import Scale
+try:
+    from keras import initializations
+except ImportError:
+    from keras import initializers as initializations
 
 import sys
 sys.setrecursionlimit(3000)
+import azureml.core.model as azure_model
 
+#run function dependencies
+import numpy as np
+import cv2 as cv
+from azureml.core import Workspace, Datastore
+import scipy.io
+
+
+#scale_layers from custom_layers
+class Scale(Layer):
+    '''Learns a set of weights and biases used for scaling the input data.
+    the output consists simply in an element-wise multiplication of the input
+    and a sum of a set of constants:
+
+        out = in * gamma + beta,
+
+    where 'gamma' and 'beta' are the weights and biases larned.
+
+    # Arguments
+        axis: integer, axis along which to normalize in mode 0. For instance,
+            if your input tensor has shape (samples, channels, rows, cols),
+            set axis to 1 to normalize per feature map (channels axis).
+        momentum: momentum in the computation of the
+            exponential average of the mean and standard deviation
+            of the data, for feature-wise normalization.
+        weights: Initialization weights.
+            List of 2 Numpy arrays, with shapes:
+            `[(input_shape,), (input_shape,)]`
+        beta_init: name of initialization function for shift parameter
+            (see [initializations](../initializations.md)), or alternatively,
+            Theano/TensorFlow function to use for weights initialization.
+            This parameter is only relevant if you don't pass a `weights` argument.
+        gamma_init: name of initialization function for scale parameter (see
+            [initializations](../initializations.md)), or alternatively,
+            Theano/TensorFlow function to use for weights initialization.
+            This parameter is only relevant if you don't pass a `weights` argument.
+    '''
+    def __init__(self, weights=None, axis=-1, momentum = 0.9, beta_init='zero', gamma_init='one', **kwargs):
+        self.momentum = momentum
+        self.axis = axis
+        self.beta_init = initializations.get(beta_init)
+        self.gamma_init = initializations.get(gamma_init)
+        self.initial_weights = weights
+        super(Scale, self).__init__(**kwargs)
+
+    def build(self, input_shape):
+        self.input_spec = [InputSpec(shape=input_shape)]
+        shape = (int(input_shape[self.axis]),)
+
+        # Compatibility with TensorFlow >= 1.0.0
+        self.gamma = K.variable(self.gamma_init(shape), name='{}_gamma'.format(self.name))
+        self.beta = K.variable(self.beta_init(shape), name='{}_beta'.format(self.name))
+        #self.gamma = self.gamma_init(shape, name='{}_gamma'.format(self.name))
+        #self.beta = self.beta_init(shape, name='{}_beta'.format(self.name))
+        self.trainable_weights = [self.gamma, self.beta]
+
+        if self.initial_weights is not None:
+            self.set_weights(self.initial_weights)
+            del self.initial_weights
+
+    def call(self, x, mask=None):
+        input_shape = self.input_spec[0].shape
+        broadcast_shape = [1] * len(input_shape)
+        broadcast_shape[self.axis] = input_shape[self.axis]
+
+        out = K.reshape(self.gamma, broadcast_shape) * x + K.reshape(self.beta, broadcast_shape)
+        return out
+
+    def get_config(self):
+        config = {"momentum": self.momentum, "axis": self.axis}
+        base_config = super(Scale, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))
+#resnet_152 functions
 def identity_block(input_tensor, kernel_size, filters, stage, block):
     '''The identity_block is the block that has no conv layer at shortcut
     # Arguments
@@ -147,12 +224,7 @@ def resnet152_model(img_rows, img_cols, color_type=1, num_classes=None):
 
     model = Model(img_input, x_fc)
 
-    if K.image_dim_ordering() == 'th':
-      # Use pre-trained weights for Theano backend
-      weights_path = 'models/resnet152_weights_th.h5'
-    else:
-      # Use pre-trained weights for Tensorflow backend
-      weights_path = 'car_detection/models/model.96-0.89.hdf5'
+    weights_path = azure_model.Model.get_model_path('image_detection_model')
 
     model.load_weights(weights_path, by_name=True)
 
@@ -171,33 +243,29 @@ def resnet152_model(img_rows, img_cols, color_type=1, num_classes=None):
 
     return model
 
-if __name__ == '__main__':
+def init():
+    global model, class_names
+    model = resnet152_model(224, 224, 3, 196)
+    ws = Workspace(subscription_id='d4ab7ef5-e767-4bec-9593-30d1ca4e1789', resource_group='AIAutoCarClassifier', workspace_name='controlaltelite')
+    ds = ws.get_default_datastore()
+    ds.download(target_path='.', prefix='cars_meta', show_progress=True)
+    cars_meta = scipy.io.loadmat('cars_meta')
+    class_names = cars_meta['class_names']
+    class_names = np.transpose(class_names)
 
-    # Example to fine-tune on 3000 samples from Cifar10
+def run(raw_data):
+    try:
+        img_width, img_height = 224, 224
+        image = json.loads(raw_data)['data']
+        bgr_img = np.array(image, dtype='uint8')
+        bgr_img = cv.resize(bgr_img, (img_width, img_height), cv.INTER_CUBIC)
+        rgb_img = cv.cvtColor(bgr_img, cv.COLOR_BGR2RGB)
+        rgb_img = np.expand_dims(rgb_img, 0)
+        preds = model.predict(rgb_img)
+        prob = np.max(preds)
+        class_id = np.argmax(preds)
+        return {"car": class_names[class_id][0][0], "confidence": float(prob)}
+    except Exception as e:
+        result = str(e)
+        return {"error": result}
 
-    img_rows, img_cols = 224, 224 # Resolution of inputs
-    channel = 3
-    num_classes = 10 
-    batch_size = 8
-    epochs = 10
-
-    # Load Cifar10 data. Please implement your own load_data() module for your own dataset
-    X_train, Y_train, X_valid, Y_valid = load_cifar10_data(img_rows, img_cols)
-
-    # Load our model
-    model = resnet152_model(img_rows, img_cols, channel, num_classes)
-
-    # Start Fine-tuning
-    model.fit(X_train, Y_train,
-              batch_size=batch_size,
-              epochs=epochs,
-              shuffle=True,
-              verbose=1,
-              validation_data=(X_valid, Y_valid),
-              )
-
-    # Make predictions
-    predictions_valid = model.predict(X_valid, batch_size=batch_size, verbose=1)
-
-    # Cross-entropy loss score
-    score = log_loss(Y_valid, predictions_valid)
