@@ -87,7 +87,7 @@ function getProbability(imageID)
         {
             var prob = res.probability;
 
-           if(prob > 0.80)
+           if(prob > 0.60)
            {
              getColour(imageID);
            }
@@ -158,6 +158,7 @@ function getNumberPlate(imageID)
     $.ajax({
         method: "POST",
         url: "http://localhost:3000/classify/number_plate",
+        data: {imageID:imageID},
         success: function(res)
         {
             if(res.status === "success")
