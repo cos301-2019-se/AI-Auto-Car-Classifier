@@ -15,7 +15,7 @@ jobs:
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # - image: circleci/mongo:3.4.4
 
-    working_directory: ~/backend
+    working_directory: ~/https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/backend/package.json
   
     steps:
       - checkout
@@ -28,7 +28,7 @@ jobs:
             - v1-dependencies-
           
           paths:
-            - ~/backend
+            - ~/https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/backend
             
       - run: npm install
 
