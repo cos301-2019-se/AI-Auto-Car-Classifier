@@ -3,7 +3,7 @@ node_js: stable
 sudo: required
 dist: trusty
 before_install:
-  - cd backend
+  - cd frontend
 install:
   - npm install
 script:
