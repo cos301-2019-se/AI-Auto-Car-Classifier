@@ -6,6 +6,7 @@ const path = require('path');
 const { spawn } = require('child_process');
 const multer = require('multer');
 const fs = require('fs-extra');
+var nj = require('numjs');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -17,26 +18,24 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({ storage: storage });
+const MODEL_ENDPOINT = 'http://a5deb1f4-0ca6-433e-bd75-b81b447fdee4.westeurope.azurecontainer.io/score';
 
 router.post('/submit', upload.single('image'), submitImage);
 router.post('/submit_multiple',upload.array('imageMultiple'),submitMultipleImages);
 router.post('/submit64',submitImage64);
 router.post('/color_detector', getImageColor);
 router.post('/car_detector', imageContainsCar);
-router.post('/car_classifier', getCarMakeAndModel);
 router.post('/number_plate', getNumberPlate);
 router.post('/', imageContainsCar);
 
 function submitImage(req,res)
 {
-    console.log("Image Submitted");
     var statusVal = "success";
     var mess = "Image Received";
 
     const files = req.files;
     if (!files)
     {
-        console.log("Error in Submit Image");
         statusVal = "fail";
         mess = "No Image Data received";
 
@@ -51,7 +50,6 @@ function submitImage(req,res)
 
 function submitMultipleImages(req,res)
 {
-    console.log("Multiple Images Submitted");
     var statusVal = "success";
     var data = [];
 
@@ -60,17 +58,13 @@ function submitMultipleImages(req,res)
 
     if (!files)
     {
-        console.log("Error in Submit Multiple Images");
         statusVal = "fail";
-
-
     }
     else
     {
         var paths = [];
         for(var i = 0; i < files.length; i++)
         {
-            console.log("Image Uploaded: " + files[i].filename);
             paths.push(files[i].filename);
         }
 
@@ -86,16 +80,12 @@ function submitMultipleImages(req,res)
 
 function submitImage64(req, res)
 {
-
-    console.log("In function submitImage");
-
     var imageBase64 = req.body.image;
 
     var numFiles = countFiles("images/");
     var fileName = "images/Image" + (numFiles + 1) + ".jpg";
     var statusVal = "success";
     var mess = "Image Received";
-    console.log('Found '+numFiles+' images');
     if (imageBase64 == null || imageBase64.length === 0)
     {
       statusVal = "fail";
@@ -120,12 +110,6 @@ function writeToFile(err)
     {
         mess = err.message;
         status = "fail";
-        console.log(err);
-    }
-    else
-    {
-        console.log("The file was saved!");
-
     }
 }
 
@@ -133,7 +117,6 @@ function classify(req, res)
 {
     //TODO: Implement Function
 
-    console.log("In function classify");
 
     res.status(200).json({
 
@@ -160,21 +143,35 @@ const logErrors = (label) => (data) => {
    console.log(`${label} ${data}`);
 };
 
-function imageContainsCar(req, response) {
-    const process = spawn('python', ['boolean_car_detection/model/predictions.py', `--file=images/${req.body.imageID}`]);
-    process.stdout.on(
-      'data',
-      sendProbability(response)
-    );
+function imageContainsCar(req, res) {
 
-    process.stderr.on(
-      'data',
-      logErrors('stderr')
-    );
+    //read image as numpy array, turn it into numpy list and send an api call to the model
+    let numpyArray = nj.images.read(`images/${req.body.imageID}`);
+    numpyArray = numpyArray.tolist();
+
+    request.post({
+        headers: {
+            'content-type' : 'application/json'
+        },
+        url: MODEL_ENDPOINT,
+        body: {
+            data: numpyArray
+        },
+        json: true,
+        }, function(error, response, body){
+            if( response && response.statusCode == 200){
+                sendMakeAndModel(res, `${response.body.car}-${response.body.confidence}`);
+            } else {
+                res.status(500).json({
+                    error: error
+                });
+            }
+
+    });
+
   }
 
   const sendColor = (res) => (data) => {
-    console.log('data: '+data);
     res.status(200).json({
         color: data.toString()
     })
@@ -195,7 +192,6 @@ function imageContainsCar(req, response) {
  /**The functions below get the numberplate from an image of a car */
  function getNumberPlate(req, res)
  {
-     console.log("In Number plate function");
      var imageID = req.body.imageID;
      var file = ".\\images\\" + imageID;
      if (fs.existsSync(file))
@@ -208,8 +204,6 @@ function imageContainsCar(req, response) {
          {
              if (err)
              {
-                 console.log(err);
- 
                  res.status(200).json({
                      status: "failed",
                  });
@@ -230,10 +224,6 @@ function imageContainsCar(req, response) {
              var plate = results[0].plate;
  
              var coords = results[0].coordinates;
- 
-             //console.log("Plate: " + JSON.stringify(plate));
-             console.log("Plate: " + plate);
-             console.log("Coords: " + JSON.stringify(coords));
  
              res.status(200).json({
                  status: "success",
@@ -257,26 +247,13 @@ function imageContainsCar(req, response) {
      }
  }
   /**The below functions get the car make and model */
-  function getCarMakeAndModel(req, response) {
-      const process = spawn('python', ['car_detection/demo.py', req.body.imageID]);
-      process.stdout.on(
-        'data',
-        sendMakeAndModel(response)
-      );
-  
-      process.stderr.on(
-        'data',
-        logErrors('stderr')
-      );
-    }
+
   const getNumWords = (word) => {
       return word.split(' ').length;
   }
-  const sendMakeAndModel = (res) => (data) => {
+  function sendMakeAndModel(res, data) {
     const numWords = getNumWords(data.toString());
-    console.log(numWords);
     let extendedModel;
-    console.log(data.toString());
     data = data.toString();
     const make = data.substr(0, data.indexOf(' '));
     data = data.replace(make+' ', '');
