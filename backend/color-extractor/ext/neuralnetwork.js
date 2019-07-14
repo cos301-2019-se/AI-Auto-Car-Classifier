@@ -4,9 +4,10 @@ let xs, ys; ; //xs => input, ys => outputs
 let rSlider, gSlider, bSlider;
 let labelP;
 let lossP;
+var lossCal;
 var ctx;
 
-let ind = 150;
+let ind = 20;
 var i = 0;
 
 var red, green, blue, alpha;
@@ -40,7 +41,7 @@ function preload() {
 }
 
 function setup() {
-
+load();
   console.log("data entries: " + data.entries.length);
   // Crude interface
   labelP = createP('label');
@@ -96,6 +97,7 @@ async function train() {
     epochs: ind,                                    //number of times to iterate over the training data
     callbacks: {                                    //callbacks called during training
       onEpochEnd: (epoch, logs) => {
+        lossCal = logs.loss;
         console.log(epoch+ ' Loss: ' + logs.loss );
         lossP.html('loss: ' + logs.loss.toFixed(5));
       },
@@ -103,19 +105,41 @@ async function train() {
         await tf.nextFrame();
       },
       onTrainEnd: () => {
-        ind = 5;
+        ind = 20;
         saver(model);
+        console.log(model);
       console.log('finished');
+
+      if(lossCal > .05)
+      {
+        train();
+      }
       },
       shuffle:true
     },
   });//////////////////////THIS FUNCTION RETURNS A PROMISE////////////
 }
 
+async function load()
+{
+  try{
+    if(!model)
+    {
+      console.log("Loading module");
+      model =  await tf.loadLayersModel('downloads://my-model-1');
+      console.log("Loading model");
+      console.log(model);
+    }
+  }catch(anyL)
+  {
+    console.log("Error loading");
+  }
+}
+
 async function saver(model)
 {
   try {
-    saveResult = await model.save('downloads://my-model'+ind );
+    saveResult = await model.save('downloads://my-model-1' );
     console.log(model);
   }catch(anL){
     console.log(anL);
