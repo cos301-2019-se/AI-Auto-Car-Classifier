@@ -21,7 +21,7 @@ deploy:
 jobs:
   include:
     - stage: test
-      script: ./frondend/test
-    - # stage name not required, will continue to use `test`
       script: ./backend/test
+    - # stage name not required, will continue to use `test`
+      script: ./frondend/test
 
