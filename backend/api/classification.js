@@ -27,6 +27,8 @@ router.post('/color_detector', getImageColor);
 router.post('/car_detector', imageContainsCar);
 router.post('/number_plate', getNumberPlate);
 router.post('/', imageContainsCar);
+router.post('/color_detector_MOCK', getImageColorMock);
+router.post('/car_detector_MOCK', imageContainsCarMock);
 
 function submitImage(req,res)
 {
@@ -159,8 +161,10 @@ function imageContainsCar(req, res) {
         },
         json: true,
         }, function(error, response, body){
+        console.log("Response: " + response.statusCode);
             if( response && response.statusCode == 200){
                 sendMakeAndModel(res, `${response.body.car}-${response.body.confidence}`);
+
             } else {
                 console.log("Error in imageContainsCar Function: " + error);
                 res.status(500).json({
@@ -170,6 +174,13 @@ function imageContainsCar(req, res) {
 
     });
 
+  }
+
+  function imageContainsCarMock(req, res){
+      res.status(200).json({
+          make: "Ford",
+          confidence: "0.85463128"
+      });
   }
 
   const sendColor = (res) => (data) => {
@@ -190,6 +201,14 @@ function imageContainsCar(req, res) {
       sendColor(response)
     );
   }
+
+  function getImageColorMock(req, res)
+  {
+      res.status(200).json({
+          color: "black"
+      })
+  }
+
  /**The functions below get the numberplate from an image of a car */
  function getNumberPlate(req, res)
  {
