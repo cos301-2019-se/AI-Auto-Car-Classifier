@@ -162,6 +162,7 @@ function imageContainsCar(req, res) {
             if( response && response.statusCode == 200){
                 sendMakeAndModel(res, `${response.body.car}-${response.body.confidence}`);
             } else {
+                console.log("Error in imageContainsCar Function: " + error);
                 res.status(500).json({
                     error: error
                 });

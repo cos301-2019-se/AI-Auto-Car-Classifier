@@ -96,9 +96,11 @@ function getProbability(imageID)
                alert("Image is not a car (" + prob + ")")
            }
         },
-        error: function(jqXHR,exception)
+        error: function(jqXHR,textStatus,exception)
         {
             console.log("Error in getting Colour: " + jqXHR.status);
+            console.log(textStatus);
+            console.log(exception);
             return -1;
         }
     });
