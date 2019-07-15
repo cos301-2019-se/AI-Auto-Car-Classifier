@@ -29,6 +29,7 @@ router.post('/number_plate', getNumberPlate);
 router.post('/', imageContainsCar);
 router.post('/color_detector_MOCK', getImageColorMock);
 router.post('/car_detector_MOCK', imageContainsCarMock);
+router.post('/car_classifier_MOCK', classifyCarMock);
 
 function submitImage(req,res)
 {
@@ -176,10 +177,18 @@ function imageContainsCar(req, res) {
 
   }
 
-  function imageContainsCarMock(req, res){
+  function classifyCarMock(req, res){
+    console.log("classifyCar Mock Function");
       res.status(200).json({
           make: "Ford",
           confidence: "0.85463128"
+      });
+  }
+
+  function imageContainsCarMock(req, res){
+      console.log("Detect Car Mock Function");
+      res.status(200).json({
+          probability: "0.9216358"
       });
   }
 
@@ -204,6 +213,7 @@ function imageContainsCar(req, res) {
 
   function getImageColorMock(req, res)
   {
+      console.log("Get Colour Mock Function");
       res.status(200).json({
           color: "black"
       })

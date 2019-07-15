@@ -35,11 +35,11 @@ $(document).ready(function ()
                 var images = res.imagePaths;
                 console.log("Images: " + images);
 
-                var path = '../backend/images/';
+                var path = './images/';
                 displayImage(images[0]);
 
                 generateGallery(images);
-                detectCar(images[0]);
+                detectCar(images[0],classifyImage);
             },
             error: function ()
             {
@@ -84,7 +84,7 @@ function detectCar(imageID, callback)
 
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/classify/car_detector",
+        url: "http://localhost:3000/classify/car_detector_MOCK",
         dataType: "json",
         data: {imageID: imageID},
         success: function (res)
@@ -115,7 +115,7 @@ function getColour(imageID)
 
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/classify/color_detector",
+        url: "http://localhost:3000/classify/color_detector_MOCK",
         dataType: "json",
         data: {imageID: imageID},
         success: function (res)
@@ -139,7 +139,7 @@ function getMake(imageID)
 {
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/classify/car_classifier",
+        url: "http://localhost:3000/classify/car_classifier_MOCK",
         dataType: "json",
         data: {imageID: imageID},
         success: function (res)
@@ -179,14 +179,14 @@ function getNumberPlate(imageID)
                 var lowerLeftY = coordinates[3].y;
                 var upperRightX = coordinates[1].x;
 
-                var width = upperRightX - upperLeftX;
-                var height = lowerLeftY -  upperLeftY;
+                var width = upperRightX - upperLeftX + 10;
+                var height = lowerLeftY -  upperLeftY + 20;
 
                 console.log("Car Plate: " + plate);
 
                 $('#plateItem').text(plate);
 
-                createPlatePopover(imageID,width,height,upperLeftX,upperLeftY);
+                createPlatePopover(imageID,width,height,upperLeftX - 10,upperLeftY - 10);
 
             }
             else
@@ -208,13 +208,13 @@ function createPlatePopover(imageID,width,height,x,y)
 {
     var imgObject = new Image();
     imgObject.crossOrigin = null;
-    imgObject.src = '../backend/images/' + imageID;
+    imgObject.src = './images/' + imageID;
 
     imgObject.onload = function ()
     {
-        var newImg = getImagePortion(imgObject, width, height, x, y, 2);
-        var imageHTML = '<img src="' + newImage + '">';
-        $('[data-toggle="popover"]').popover({title: 'Plate Region', content: imageHTML, html: true});
+        var newImg = getImagePortion(imgObject, width, height, x, y, 1);
+        var imageHTML = '<img src="' + newImg + '"">';
+        $('[data-toggle="popover"]').popover({title: 'Plate Region', content: imageHTML, html: true,placement: 'right'});
     }
 }
 
@@ -269,7 +269,7 @@ function generateGallery(imagePaths)
 
 function generateImageHTML(image)
 {
-    var path = '../backend/images/' + image;
+    var path = './images/' + image;
     var html = '<div class="col-md-4"> <div class="thumbnail"> <img id="' + image + '" src="' + path + '" alt="" style="width:100%"> </div> </div>';
 
     return html;
@@ -280,7 +280,7 @@ function displayImage(image)
     var loadingGif = '<img src="./resources/loading%20screen%20colour.gif" height="50px" width="50px">';
     $('.listElement').html(loadingGif);
 
-    var imagePath = '../backend/images/' + image;
+    var imagePath = './images/' + image;
     $("#mainImage").attr("src", imagePath);
 
 
