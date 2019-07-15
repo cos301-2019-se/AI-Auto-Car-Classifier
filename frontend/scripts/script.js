@@ -1,5 +1,6 @@
 $(document).ready(function ()
 {
+
     /****************** Create Upload Form **********************/
 
     const uploadButton = document.querySelector('.browse-btn');
@@ -38,11 +39,11 @@ $(document).ready(function ()
                 displayImage(images[0]);
 
                 generateGallery(images);
-                classifyImage(images[0]);
+                detectCar(images[0]);
             },
             error: function ()
             {
-               console.log("Error in ajax call");
+                console.log("Error in ajax call");
             }
         });
         return false;
@@ -55,16 +56,16 @@ $(document).ready(function ()
     });
 
 
-/****************** Gallery Image Clicked *******************/
+    /****************** Gallery Image Clicked *******************/
 
-    $(document).on('click','.thumbnail',function()
+    $(document).on('click', '.thumbnail', function ()
     {
         console.log('Clicked');
         var src = $(this).children("img").attr("src");
         var imageID = $(this).children("img").attr("id");
         displayImage(imageID);
 
-        $("html, body").animate({ scrollTop: 0 }, 200);
+        $("html, body").animate({scrollTop: 0}, 200);
 
         classifyImage(imageID);
     });
@@ -73,30 +74,33 @@ $(document).ready(function ()
 
 function classifyImage(imageID)
 {
-    getProbability(imageID);
+    getColour(imageID);
+    getMake(imageID);
+    getNumberPlate(imageID);
 }
 
-function getProbability(imageID)
+function detectCar(imageID, callback)
 {
+
     $.ajax({
         method: "POST",
         url: "http://localhost:3000/classify/car_detector",
         dataType: "json",
-        data: {imageID:imageID},
-        success: function(res)
+        data: {imageID: imageID},
+        success: function (res)
         {
             var prob = res.probability;
 
-           if(prob > 0.60)
-           {
-             getColour(imageID);
-           }
-           else
-           {
-               alert("Image is not a car (" + prob + ")")
-           }
+            if (prob > 0.60)
+            {
+               callback(imageID);
+            }
+            else
+            {
+                alert("Image is not a car (" + prob + ")")
+            }
         },
-        error: function(jqXHR,textStatus,exception)
+        error: function (jqXHR, textStatus, exception)
         {
             console.log("Error in getting Colour: " + jqXHR.status);
             console.log(textStatus);
@@ -108,82 +112,134 @@ function getProbability(imageID)
 
 function getColour(imageID)
 {
+
     $.ajax({
         method: "POST",
         url: "http://localhost:3000/classify/color_detector",
         dataType: "json",
-        data: {imageID:imageID},
-        success: function(res)
+        data: {imageID: imageID},
+        success: function (res)
         {
             var colour = res.color;
             console.log("Car Colour: " + colour);
 
             $('#colourItem').text(colour);
 
-            getMake(imageID);
+
         },
-        error: function(jqXHR,exception)
+        error: function (jqXHR, exception)
         {
             console.log("Error in getting Colour: " + jqXHR.status);
 
         }
     });
 }
+
 function getMake(imageID)
 {
     $.ajax({
         method: "POST",
         url: "http://localhost:3000/classify/car_classifier",
         dataType: "json",
-        data: {imageID:imageID},
-        success: function(res)
+        data: {imageID: imageID},
+        success: function (res)
         {
             var make = res.make;
             var confidence = parseFloat(res.confidence) * 100;
-           confidence = Math.round(confidence * 100) / 100;
+            confidence = Math.round(confidence * 100) / 100;
             console.log("Car Make: " + make);
             console.log("Confidence: " + res.confidence);
 
             $('#makeItem').text(make + " (" + confidence + "%)");
 
-            getNumberPlate(imageID);
+
         },
-        error: function(jqXHR,exception)
+        error: function (jqXHR, exception)
         {
             console.log("Error in getting Colour: " + jqXHR.status);
 
         }
     });
 }
+
 function getNumberPlate(imageID)
 {
     $.ajax({
         method: "POST",
         url: "http://localhost:3000/classify/number_plate",
-        data: {imageID:imageID},
-        success: function(res)
+        data: {imageID: imageID},
+        success: function (res)
         {
-            if(res.status === "success")
+            if (res.status === "success")
             {
                 var plate = res.numberPlate;
+                var coordinates = res.coordinates; // Upper left, Upper Right, Lower Right, Lower Left
+                var upperLeftX = coordinates[0].x;
+                var upperLeftY = coordinates[0].y;
+                var lowerLeftY = coordinates[3].y;
+                var upperRightX = coordinates[1].x;
+
+                var width = upperRightX - upperLeftX;
+                var height = lowerLeftY -  upperLeftY;
+
                 console.log("Car Plate: " + plate);
 
                 $('#plateItem').text(plate);
+
+                createPlatePopover(imageID,width,height,upperLeftX,upperLeftY);
+
             }
             else
             {
-                console.log("Car Plate FAILED" );
+                console.log("Car Plate FAILED");
                 $('#plateItem').text("???");
             }
 
         },
-        error: function(jqXHR,exception)
+        error: function (jqXHR, exception)
         {
             console.log("Error in getting Colour: " + jqXHR.status);
 
         }
     });
 }
+
+function createPlatePopover(imageID,width,height,x,y)
+{
+    var imgObject = new Image();
+    imgObject.crossOrigin = null;
+    imgObject.src = '../backend/images/' + imageID;
+
+    imgObject.onload = function ()
+    {
+        var newImg = getImagePortion(imgObject, width, height, x, y, 2);
+        var imageHTML = '<img src="' + newImage + '">';
+        $('[data-toggle="popover"]').popover({title: 'Plate Region', content: imageHTML, html: true});
+    }
+}
+
+function getImagePortion(imgObj, newWidth, newHeight, startX, startY, ratio)
+{
+    /* the parameters: - the image element - the new width - the new height - the x point we start taking pixels - the y point we start taking pixels - the ratio */
+    //set up canvas for thumbnail
+    var tnCanvas = document.createElement('canvas');
+    var tnCanvasContext = tnCanvas.getContext('2d');
+    tnCanvas.width = newWidth;
+    tnCanvas.height = newHeight;
+
+    /* use the sourceCanvas to duplicate the entire image. This step was crucial for iOS4 and under devices. Follow the link at the end of this post to see what happens when you don’t do this */
+    var bufferCanvas = document.createElement('canvas');
+    var bufferContext = bufferCanvas.getContext('2d');
+    bufferCanvas.width = imgObj.width;
+    bufferCanvas.height = imgObj.height;
+    bufferContext.drawImage(imgObj, 0, 0);
+
+    /* now we use the drawImage method to take the pixels from our bufferCanvas and draw them into our thumbnail canvas */
+    tnCanvasContext.drawImage(bufferCanvas, startX, startY, newWidth * ratio, newHeight * ratio, 0, 0, newWidth, newHeight);
+    return tnCanvas.toDataURL();
+}
+
+
 function generateGallery(imagePaths)
 {
     var i;
@@ -195,26 +251,26 @@ function generateGallery(imagePaths)
     for (i = 0; i < imagePaths.length; ++i)
     {
         var imageHtml = generateImageHTML(imagePaths[i]);
-       html += imageHtml;
+        html += imageHtml;
 
         numImagesOnRow++;
-        if(numImagesOnRow === 3)
+        if (numImagesOnRow === 3)
         {
             html += '</div>';
-          html +='<div class="row">';
+            html += '<div class="row">';
             numImagesOnRow = 0;
         }
 
     }
 
-    html+= '</div>';
+    html += '</div>';
     gallery.append(html);
 }
 
 function generateImageHTML(image)
 {
     var path = '../backend/images/' + image;
-    var html = '<div class="col-md-4"> <div class="thumbnail"> <img id="'+image+'" src="' + path + '" alt="" style="width:100%"> </div> </div>';
+    var html = '<div class="col-md-4"> <div class="thumbnail"> <img id="' + image + '" src="' + path + '" alt="" style="width:100%"> </div> </div>';
 
     return html;
 }
