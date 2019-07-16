@@ -114,12 +114,12 @@ function detectCar(imageID, callback)
 
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/classify/car_detector_MOCK",
+        url: "http://localhost:3000/classify/car_detector",
         dataType: "json",
         data: {imageID: imageID},
         success: function (res)
         {
-            var prob = res.probability;
+            var prob = res.confidence;
 
             if (prob > 0.60)
             {
@@ -169,7 +169,7 @@ function getMake(imageID)
 {
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/classify/car_classifier_MOCK",
+        url: "http://localhost:3000/classify/get_car_details",
         dataType: "json",
         data: {imageID: imageID},
         success: function (res)

@@ -10,6 +10,7 @@ var nj = require('numjs');
 const Jimp = require('jimp');
 const glob = require('glob');
 const FileSet = require('fileset');
+const colour = require('color-namer');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb)
@@ -36,7 +37,6 @@ router.post('/number_plate', getNumberPlate);
 router.post('/', imageContainsCar);
 router.post('/color_detector_MOCK', getImageColorMock);
 router.post('/car_detector_MOCK', imageContainsCarMock);
-router.post('/car_classifier_MOCK', classifyCarMock);
 router.post('/resize_images', resizeImages);
 
 function submitImage(req, res)
@@ -284,7 +284,8 @@ const logErrors = (label) => (data) =>
     console.log(`${label} ${data}`);
 };
 
-function getMakeAndModel(req, res) {
+function getMakeAndModel(req, res)
+{
 
     //read image as numpy array, turn it into numpy list and send an api call to the model
     let numpyArray = nj.images.read(`images/${req.body.imageID}`);
@@ -319,7 +320,8 @@ function getMakeAndModel(req, res) {
 
 }
 
-  function imageContainsCar(req, res) {
+function imageContainsCar(req, res)
+{
 
     //read image as numpy array, turn it into numpy list and send an api call to the model
     let numpyArray = nj.images.read(`images/${req.body.imageID}`);
@@ -327,35 +329,33 @@ function getMakeAndModel(req, res) {
 
     request.post({
         headers: {
-            'content-type' : 'application/json'
+            'content-type': 'application/json'
         },
         url: BOOLEAN_MODEL_ENDPOINT,
         body: {
             data: numpyArray
         },
         json: true,
-        }, function(error, response, body){
-            console.log(response.body);
-            if( response && response.statusCode == 200){
-                res.status(200).json({
-                    ...response.body
-                })
-            } else {
-                res.status(500).json({
-                    error: error
-                });
-            }
+    }, function (error, response, body)
+    {
+        console.log(response.body);
+        if (response && response.statusCode == 200)
+        {
+            res.status(200).json({
+                ...response.body
+            })
+        }
+        else
+        {
+            res.status(500).json({
+                error: error
+            });
+        }
 
     });
 
-  }
-
-  const sendColor = (res) => (data) => {
-    res.status(200).json({
-        make: "Ford",
-        confidence: "0.85463128"
-    });
 }
+
 
 function imageContainsCarMock(req, res)
 {
@@ -372,18 +372,112 @@ const sendColor = (res) => (data) =>
     })
 };
 
-function getImageColor(req, response)
+function getImageColor(req, res)
 {
-    const process = spawn('python', ['color-extractor/getColor', 'color-extractor/color_names.npz', `images/${req.body.imageID}`]);
-    process.stdout.on(
-        'data',
-        sendColor(response)
-    );
+    var imagePath = './images/' + req.body.imageID;
 
-    process.stderr.on(
-        'data',
-        sendColor(response)
-    );
+    Jimp.read(imagePath, function (err, image)
+    {
+        var midpointX = image.bitmap.width / 2;
+        var midpointY = image.bitmap.height / 2;
+
+        var samples = [];
+
+        samples.push(image.getPixelColor(midpointX, midpointY));
+
+        console.log("MidpointX: " + midpointX);
+        console.log("MidpointY: " + midpointY);
+        //    Jimp.intToRGBA(hex)
+        console.log("Colour: " + Jimp.intToRGBA(image.getPixelColor(midpointX, midpointY)));
+
+        var x = midpointX;
+        var y = midpointY;
+
+        //right
+        for (var i = 0; i < 10; i++)
+        {
+            x += 10;
+            samples.push(image.getPixelColor(x, midpointY));
+        }
+        //left
+        x = midpointX;
+        for (var i = 0; i < 10; i++)
+        {
+            x -= 10;
+            samples.push(image.getPixelColor(x, midpointY));
+        }
+        //up
+        for (var i = 0; i < 10; i++)
+        {
+            y -= 10;
+            samples.push(image.getPixelColor(midpointX, y));
+        }
+
+        //Diagonal left
+        x = midpointX;
+        y = midpointY;
+        for (var i = 0; i < 10; i++)
+        {
+            y -= 10;
+            x -= 10
+            samples.push(image.getPixelColor(x, y));
+        }
+        //Diagonal Right
+        x = midpointX;
+        y = midpointY;
+        for (var i = 0; i < 10; i++)
+        {
+            y -= 10;
+            x += 10
+            samples.push(image.getPixelColor(x, y));
+        }
+
+        var colourCount = [];
+
+        for (var i = 0; i < samples.length; i++)
+        {
+            var rgba = Jimp.intToRGBA(samples[i]);
+            var rgbString = "rgb(" + rgba.r + "," + rgba.g + "," + rgba.b + ")";
+            var names = colour(rgbString, {pick: ['basic']});
+
+            var colourName = names.basic[0].name;
+
+
+            if( colourCount[colourName] === undefined)
+            {
+
+                colourCount[colourName] = 1;
+            }
+            else
+            {
+
+                colourCount[colourName]++;
+            }
+
+        }
+
+        var keys = Object.keys(colourCount);
+        var max = -1;
+        var matchedColour = "";
+        for(var key in colourCount)
+        {
+            if(colourCount[key] > max)
+            {
+                max = colourCount[key];
+                matchedColour = key.toString();
+            }
+        }
+
+     console.log("COLOUR IS: " + matchedColour);
+
+
+        res.status(200).json({
+            status: "success",
+            colour: matchedColour
+        });
+    });
+
+
 }
 
 function getImageColorMock(req, res)
