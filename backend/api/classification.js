@@ -28,7 +28,14 @@ router.post('/color_detector', getImageColor);
 router.post('/car_detector', imageContainsCar);
 router.post('/get_car_details', getMakeAndModel);
 router.post('/number_plate', getNumberPlate);
-router.post('/', imageContainsCar);
+router.get('/', serverRunning);
+
+
+function serverRunning(req, res){
+    res.status(200).json({
+        message: 'server running'
+    });
+}
 
 function submitImage(req,res)
 {
@@ -90,8 +97,11 @@ function submitImage64(req, res)
     var mess = "Image Received";
     if (imageBase64 == null || imageBase64.length === 0)
     {
-      statusVal = "fail";
-      mess = "No Image Data received";
+        statusVal = "fail";
+        mess = "No Image Data received";
+        res.status(401).json({
+            status: statusVal
+        });
     }
     else
     {
@@ -113,18 +123,6 @@ function writeToFile(err)
         mess = err.message;
         status = "fail";
     }
-}
-
-function classify(req, res)
-{
-    //TODO: Implement Function
-
-
-    res.status(200).json({
-
-        message: "classify Function"
-
-    });
 }
 
 function countFiles(dir)
