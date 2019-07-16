@@ -1,6 +1,8 @@
+var IMAGE_PATH = './images/';
+
 $(document).ready(function ()
 {
-
+    $("#loadingImage").css('visibility','hidden');
     /****************** Create Upload Form **********************/
 
     const uploadButton = document.querySelector('.browse-btn');
@@ -31,19 +33,23 @@ $(document).ready(function ()
             contentType: 'multipart/form-data',
             success: function (res)
             {
+                $("#loadingImage").css('visibility','visible');
                 console.log('Response: ' + res.status);
                 var images = res.imagePaths;
                 console.log("Images: " + images);
 
-                var path = './images/';
-                displayImage(images[0]);
+                var path = './imagesResized/';
 
-                generateGallery(images);
-                detectCar(images[0],classifyImage);
+                resizeImages(images);
+
+
             },
-            error: function ()
+            error: function (jqXHR, textStatus, exception)
             {
-                console.log("Error in ajax call");
+                console.log("Error in Upload: " + jqXHR.status);
+                console.log(textStatus);
+                console.log(exception);
+
             }
         });
         return false;
@@ -71,6 +77,30 @@ $(document).ready(function ()
     });
 
 });
+
+function resizeImages(images)
+{
+    console.log("Resizing images AJAX Call");
+    $.ajax({
+        method: "POST",
+        url: "http://localhost:3000/classify/resize_images",
+        dataType: "json",
+        data: {images: images},
+        success: function (res)
+        {
+            displayImage(images[0]);
+            generateGallery(images);
+            detectCar(images[0],classifyImage);
+        },
+        error: function (jqXHR, textStatus, exception)
+        {
+            console.log("Error in Resize Image: " + jqXHR.status);
+            console.log(textStatus);
+            console.log(exception);
+            return -1;
+        }
+    });
+}
 
 function classifyImage(imageID)
 {
@@ -102,7 +132,7 @@ function detectCar(imageID, callback)
         },
         error: function (jqXHR, textStatus, exception)
         {
-            console.log("Error in getting Colour: " + jqXHR.status);
+            console.log("Error in detect Car: " + jqXHR.status);
             console.log(textStatus);
             console.log(exception);
             return -1;
@@ -208,7 +238,7 @@ function createPlatePopover(imageID,width,height,x,y)
 {
     var imgObject = new Image();
     imgObject.crossOrigin = null;
-    imgObject.src = './images/' + imageID;
+    imgObject.src = IMAGE_PATH + imageID;
 
     imgObject.onload = function ()
     {
@@ -269,7 +299,7 @@ function generateGallery(imagePaths)
 
 function generateImageHTML(image)
 {
-    var path = './images/' + image;
+    var path = IMAGE_PATH + image;
     var html = '<div class="col-md-4"> <div class="thumbnail"> <img id="' + image + '" src="' + path + '" alt="" style="width:100%"> </div> </div>';
 
     return html;
@@ -277,10 +307,11 @@ function generateImageHTML(image)
 
 function displayImage(image)
 {
+    $("#loadingImage").css('visibility','hidden');
     var loadingGif = '<img src="./resources/loading%20screen%20colour.gif" height="50px" width="50px">';
     $('.listElement').html(loadingGif);
 
-    var imagePath = './images/' + image;
+    var imagePath = IMAGE_PATH + image;
     $("#mainImage").attr("src", imagePath);
 
 

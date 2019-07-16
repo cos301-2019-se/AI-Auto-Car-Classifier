@@ -3,26 +3,31 @@ const router = express.Router();
 const request = require("request");
 const path = require('path');
 
-const { spawn } = require('child_process');
+const {spawn} = require('child_process');
 const multer = require('multer');
 const fs = require('fs-extra');
 var nj = require('numjs');
+const Jimp = require('jimp');
+const glob = require('glob');
+const FileSet = require('fileset');
 
 var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'images')
+    destination: function (req, file, cb)
+    {
+        cb(null, 'unprocessedImages')
     },
-    filename: function (req, file, cb) {
+    filename: function (req, file, cb)
+    {
         cb(null, 'image' + '-' + Date.now() + path.extname(file.originalname))
     }
 });
 
-var upload = multer({ storage: storage });
+var upload = multer({storage: storage});
 const MODEL_ENDPOINT = 'http://a5deb1f4-0ca6-433e-bd75-b81b447fdee4.westeurope.azurecontainer.io/score';
 
 router.post('/submit', upload.single('image'), submitImage);
-router.post('/submit_multiple',upload.array('imageMultiple'),submitMultipleImages);
-router.post('/submit64',submitImage64);
+router.post('/submit_multiple', upload.array('imageMultiple'), submitMultipleImages);
+router.post('/submit64', submitImage64);
 router.post('/color_detector', getImageColor);
 router.post('/car_detector', imageContainsCar);
 router.post('/number_plate', getNumberPlate);
@@ -30,8 +35,9 @@ router.post('/', imageContainsCar);
 router.post('/color_detector_MOCK', getImageColorMock);
 router.post('/car_detector_MOCK', imageContainsCarMock);
 router.post('/car_classifier_MOCK', classifyCarMock);
+router.post('/resize_images', resizeImages);
 
-function submitImage(req,res)
+function submitImage(req, res)
 {
     var statusVal = "success";
     var mess = "Image Received";
@@ -51,7 +57,7 @@ function submitImage(req,res)
     });
 }
 
-function submitMultipleImages(req,res)
+function submitMultipleImages(req, res)
 {
     var statusVal = "success";
     var data = [];
@@ -66,12 +72,14 @@ function submitMultipleImages(req,res)
     else
     {
         var paths = [];
-        for(var i = 0; i < files.length; i++)
+        for (var i = 0; i < files.length; i++)
         {
             paths.push(files[i].filename);
         }
 
         data = paths;
+
+
     }
 
 
@@ -79,6 +87,131 @@ function submitMultipleImages(req,res)
         status: statusVal,
         imagePaths: data
     });
+}
+
+function resizeImages(req, res)
+{
+    console.log("Resizing Images");
+    resizeDirectoryImages('./unprocessedImages', {width: 1000})  // Resize all png, jpg, and bmp images in the example directory to be at max 500 wide
+        .then(() =>
+        {
+            console.log('Resizing Done!');
+            moveProcessedImages(res);
+
+        });
+
+}
+
+function moveProcessedImages(res)
+{
+    console.log("Moving Images");
+    FileSet('**/unprocessedImages/*', '', function (err, files)
+    {
+        if (err) return console.error(err);
+
+
+        console.log(files);
+
+        for (var i = 0; i < files.length; i++)
+        {
+            console.log("files[i]: " + files[i]);
+            let oldPath = './' + files[i];
+
+            let newPath = './images/' + oldPath.split("/")[2];
+            fs.renameSync(oldPath, newPath);
+        }
+
+        res.status(200).json({
+            status: "success",
+
+        });
+    });
+
+}
+
+/**
+ * Resizes images in the directory. Only operates on .png, .jpg, and .bmp.
+ * @param {string} dirPath - Path to directory. Can be relative or absolute.
+ * @param {Object} options
+ * @param {int|Jimp.AUTO} [options.width=Jimp.AUTO]
+ * @param {int|Jimp.AUTO} [options.height=Jimp.AUTO]
+ * @param {boolean} [options.recursive=false] - Whether or not to also resize recursively.
+ * @return {Promise}
+ */
+function resizeDirectoryImages(dirPath, {width = Jimp.AUTO, height = Jimp.AUTO, recursive = false})
+{
+    return new Promise((resolve, reject) =>
+    {
+        glob((recursive ? "**/" : "") + "*.@(png|jpg|bmp)", {
+            nocase: true,
+            nodir: true,
+            realpath: true,
+            cwd: dirPath
+        }, (err, files) =>
+        {
+            if (err)
+            {
+                reject(err);
+            }
+            else
+            {
+                resolve(files);
+            }
+        });
+    }).then(files =>
+    {
+        return Promise.all(files.map(path =>
+        {
+            return new Promise((resolve, reject) =>
+            {
+                return Jimp.read(path).then(image =>
+                {
+                    image
+                        .resize(width, height)
+                        .quality(50)
+                        .write(path, (err) =>
+                        {
+                            if (err)
+                            {
+                                reject(err);
+                            }
+                            else
+                            {
+                                resolve(path);
+                            }
+                        });
+                })
+            }).then(console.log)
+        }));
+    });
+}
+
+
+function resize(files, callback)
+{
+    for (var i = 0; i < files.length; i++)
+    {
+        console.log("In FOr loop");
+        let filename = files[i].toString();
+        console.log("resizing File: " + filename);
+        let filePath = './images/' + filename;
+        let newPath = './imagesResized/' + filename;
+        console.log("Path: " + filePath);
+
+        Jimp.read(filePath, function (err, img)
+        {
+            if (err)
+            {
+                console.log("Err in jimp: " + err);
+                throw err;
+            }
+            img.scaleToFit(1000, Jimp.AUTO, Jimp.RESIZE_BEZIER).quality(50).write(newPath);
+
+            callback();
+        });
+
+
+    }
 }
 
 function submitImage64(req, res)
@@ -91,14 +224,14 @@ function submitImage64(req, res)
     var mess = "Image Received";
     if (imageBase64 == null || imageBase64.length === 0)
     {
-      statusVal = "fail";
-      mess = "No Image Data received";
+        statusVal = "fail";
+        mess = "No Image Data received";
     }
     else
     {
         var data = imageBase64.replace(/^data:image\/\w+;base64,/, '');
         fs.writeFile(fileName, data, {encoding: 'base64'}, writeToFile);
-        mess = 'Image'+ (numFiles + 1) + '.jpg';
+        mess = 'Image' + (numFiles + 1) + '.jpg';
     }
 
     res.status(200).json({
@@ -136,17 +269,21 @@ function countFiles(dir)
 
 
 }
-const sendProbability = (res) => (data) => {
+
+const sendProbability = (res) => (data) =>
+{
     res.status(200).json({
         probability: parseFloat(data)
     })
 };
 
-const logErrors = (label) => (data) => {
-   console.log(`${label} ${data}`);
+const logErrors = (label) => (data) =>
+{
+    console.log(`${label} ${data}`);
 };
 
-function imageContainsCar(req, res) {
+function imageContainsCar(req, res)
+{
 
     //read image as numpy array, turn it into numpy list and send an api call to the model
     let numpyArray = nj.images.read(`images/${req.body.imageID}`);
@@ -154,160 +291,173 @@ function imageContainsCar(req, res) {
 
     request.post({
         headers: {
-            'content-type' : 'application/json'
+            'content-type': 'application/json'
         },
         url: MODEL_ENDPOINT,
         body: {
             data: numpyArray
         },
         json: true,
-        }, function(error, response, body){
+    }, function (error, response, body)
+    {
         console.log("Response: " + response.statusCode);
-            if( response && response.statusCode == 200){
-                sendMakeAndModel(res, `${response.body.car}-${response.body.confidence}`);
+        if (response && response.statusCode == 200)
+        {
+            sendMakeAndModel(res, `${response.body.car}-${response.body.confidence}`);
 
-            } else {
-                console.log("Error in imageContainsCar Function: " + error);
-                res.status(500).json({
-                    error: error
-                });
-            }
+        }
+        else
+        {
+            console.log("Error in imageContainsCar Function: " + error);
+            res.status(500).json({
+                error: error
+            });
+        }
 
     });
 
-  }
+}
 
-  function classifyCarMock(req, res){
+function classifyCarMock(req, res)
+{
     console.log("classifyCar Mock Function");
-      res.status(200).json({
-          make: "Ford",
-          confidence: "0.85463128"
-      });
-  }
+    res.status(200).json({
+        make: "Ford",
+        confidence: "0.85463128"
+    });
+}
 
-  function imageContainsCarMock(req, res){
-      console.log("Detect Car Mock Function");
-      res.status(200).json({
-          probability: "0.9216358"
-      });
-  }
+function imageContainsCarMock(req, res)
+{
+    console.log("Detect Car Mock Function");
+    res.status(200).json({
+        probability: "0.9216358"
+    });
+}
 
-  const sendColor = (res) => (data) => {
+const sendColor = (res) => (data) =>
+{
     res.status(200).json({
         color: data.toString()
     })
 };
 
-  function getImageColor(req, response) {
+function getImageColor(req, response)
+{
     const process = spawn('python', ['color-extractor/getColor', 'color-extractor/color_names.npz', `images/${req.body.imageID}`]);
     process.stdout.on(
-      'data',
-      sendColor(response)
+        'data',
+        sendColor(response)
     );
 
     process.stderr.on(
-      'data',
-      sendColor(response)
+        'data',
+        sendColor(response)
     );
-  }
+}
 
-  function getImageColorMock(req, res)
-  {
-      console.log("Get Colour Mock Function");
-      res.status(200).json({
-          color: "black"
-      })
-  }
+function getImageColorMock(req, res)
+{
+    console.log("Get Colour Mock Function");
+    res.status(200).json({
+        color: "black"
+    })
+}
 
- /**The functions below get the numberplate from an image of a car */
- function getNumberPlate(req, res)
- {
-     var imageID = req.body.imageID;
-     var file = ".\\images\\" + imageID;
-     if (fs.existsSync(file))
-     {
+/**The functions below get the numberplate from an image of a car */
+function getNumberPlate(req, res)
+{
+    var imageID = req.body.imageID;
+    var file = ".\\images\\" + imageID;
+    if (fs.existsSync(file))
+    {
 
-         var image = fs.readFileSync(file);
- 
-         const {exec} = require('child_process');
-         var command = '.\\openalpr_64\\alpr -c eu -d -j -n 1 ' + file;
-         exec(command, (err, stdout, stderr) =>
-         {
-             if (err)
-             {
-                 res.status(200).json({
-                     status: "failed",
-                 });
- 
-                 return;
-             }
- 
-             var object = JSON.parse(stdout);
- 
-             var results = object.results;
-             if(results.length <= 0)
-             {
-                 console.log("Unable to determine number plate");
-                  res.status(200).json({
+        var image = fs.readFileSync(file);
+
+        const {exec} = require('child_process');
+        var command = '.\\openalpr_64\\alpr -c eu -d -j -n 1 ' + file;
+        exec(command, (err, stdout, stderr) =>
+        {
+            if (err)
+            {
+                res.status(200).json({
                     status: "failed",
                 });
 
                 return;
-             }
-             var plate = results[0].plate;
- 
-             var coords = results[0].coordinates;
- 
-             res.status(200).json({
-                 status: "success",
-                 numberPlate: plate,
-                 coordinates: coords
-             });
- 
- 
-         });
- 
- 
-     }
-     else
-     {
-         res.status(200).json({
- 
-             status: "fail",
-             message: "Image Not Found"
- 
-         });
-     }
- }
-  /**The below functions get the car make and model */
+            }
 
-  const getNumWords = (word) => {
-      return word.split(' ').length;
-  }
-  function sendMakeAndModel(res, data) {
+            var object = JSON.parse(stdout);
+
+            var results = object.results;
+            if (results.length <= 0)
+            {
+                console.log("Unable to determine number plate");
+                res.status(200).json({
+                    status: "failed",
+                });
+
+                return;
+            }
+            var plate = results[0].plate;
+
+            var coords = results[0].coordinates;
+
+            res.status(200).json({
+                status: "success",
+                numberPlate: plate,
+                coordinates: coords
+            });
+
+
+        });
+
+
+    }
+    else
+    {
+        res.status(200).json({
+
+            status: "fail",
+            message: "Image Not Found"
+
+        });
+    }
+}
+
+/**The below functions get the car make and model */
+
+const getNumWords = (word) =>
+{
+    return word.split(' ').length;
+}
+
+function sendMakeAndModel(res, data)
+{
     const numWords = getNumWords(data.toString());
     let extendedModel;
     data = data.toString();
     const make = data.substr(0, data.indexOf(' '));
-    data = data.replace(make+' ', '');
+    data = data.replace(make + ' ', '');
     let model = data.substr(0, data.indexOf(' '));
-    data = data.replace(model+' ', '');
-    if(numWords > 4){
-      extendedModel = data.substr(0, data.indexOf(' '));
-      data = data.replace(extendedModel+' ', '');
-      model = model+' '+extendedModel;
+    data = data.replace(model + ' ', '');
+    if (numWords > 4)
+    {
+        extendedModel = data.substr(0, data.indexOf(' '));
+        data = data.replace(extendedModel + ' ', '');
+        model = model + ' ' + extendedModel;
     }
     const bodyStyle = data.substr(0, data.indexOf(' '));
-    data = data.replace(bodyStyle+' ', '');
+    data = data.replace(bodyStyle + ' ', '');
     const year = data.substr(0, data.indexOf('-'));
-    data = data.replace(year+'-', '');
+    data = data.replace(year + '-', '');
     const confidence = parseFloat(data);
-      res.status(200).json({
-          make: make,
-          model: model,
-          bodyStyle: bodyStyle,
-          year: year,
-          confidence: confidence
-      })
-  };
+    res.status(200).json({
+        make: make,
+        model: model,
+        bodyStyle: bodyStyle,
+        year: year,
+        confidence: confidence
+    })
+};
 module.exports = router;
