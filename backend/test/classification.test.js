@@ -1,10 +1,53 @@
-const uploadImage = require('../api/classification');
-//var fs = require('fs');
-var assert = require('assert');
+var request = require("supertest");
+var should = require("should");
+const app = require("../server.js");
 
-//var file = fs. require('./car');
-  describe('uploadImage("",0)', function() {
-    it('should return "No Image Data received"', function() {
-      assert.equal(uploadImage("",0), "No Image Data received");
-    });
+/**health tests for server */
+describe('Test whether the server is up and running', function () {
+  it('respond with json containing saying that the \'server is running\'', function (done) {
+      request(app)
+          .get('/classify/')
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200, done);
   });
+
+  it('It shoud return a 404 due to wrong protocol name', function (done) {
+    request(app)
+        .post('/classify/')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(404, done);
+  });
+
+  it('It shoud return a 200 even with missing slash after port', function (done) {
+    request(app)
+        .get('classify/')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200, done);
+  });
+
+  it('It shoud return a 200 even with missing slash after classify', function (done) {
+    request(app)
+        .get('/classify')
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+        .expect(200, done);
+  });
+});
+
+
+/**health tests for server */
+describe('Test whether the server is up and running', function () {
+  it('respond with json containing saying that the \'server is running\'', function (done) {
+      request(app)
+          .get('/classify/')
+          .set('Accept', 'application/json')
+          .expect('Content-Type', /json/)
+          .expect(200, done);
+  });
+});
+
+
+
