@@ -187,7 +187,6 @@ function getMakeAndModel(req, res) {
         },
         json: true,
         }, function(error, response, body){
-            console.log(response.body);
             if( response && response.statusCode == 200){
                 res.status(200).json({
                     ...response.body
