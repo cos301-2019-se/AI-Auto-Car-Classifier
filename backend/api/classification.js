@@ -19,12 +19,14 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 const MODEL_ENDPOINT = 'http://a5deb1f4-0ca6-433e-bd75-b81b447fdee4.westeurope.azurecontainer.io/score';
+const BOOLEAN_MODEL_ENDPOINT = 'http://6da32a8d-2d25-4f29-ad22-fa2351cd85e0.westeurope.azurecontainer.io/score';
 
 router.post('/submit', upload.single('image'), submitImage);
 router.post('/submit_multiple',upload.array('imageMultiple'),submitMultipleImages);
 router.post('/submit64',submitImage64);
 router.post('/color_detector', getImageColor);
 router.post('/car_detector', imageContainsCar);
+router.post('/get_car_details', getMakeAndModel);
 router.post('/number_plate', getNumberPlate);
 router.post('/', imageContainsCar);
 
@@ -143,7 +145,7 @@ const logErrors = (label) => (data) => {
    console.log(`${label} ${data}`);
 };
 
-function imageContainsCar(req, res) {
+function getMakeAndModel(req, res) {
 
     //read image as numpy array, turn it into numpy list and send an api call to the model
     let numpyArray = nj.images.read(`images/${req.body.imageID}`);
@@ -161,6 +163,37 @@ function imageContainsCar(req, res) {
         }, function(error, response, body){
             if( response && response.statusCode == 200){
                 sendMakeAndModel(res, `${response.body.car}-${response.body.confidence}`);
+            } else {
+                res.status(500).json({
+                    error: error
+                });
+            }
+
+    });
+
+  }
+
+  function imageContainsCar(req, res) {
+
+    //read image as numpy array, turn it into numpy list and send an api call to the model
+    let numpyArray = nj.images.read(`images/${req.body.imageID}`);
+    numpyArray = numpyArray.tolist();
+
+    request.post({
+        headers: {
+            'content-type' : 'application/json'
+        },
+        url: BOOLEAN_MODEL_ENDPOINT,
+        body: {
+            data: numpyArray
+        },
+        json: true,
+        }, function(error, response, body){
+            console.log(response.body);
+            if( response && response.statusCode == 200){
+                res.status(200).json({
+                    ...response.body
+                })
             } else {
                 res.status(500).json({
                     error: error
