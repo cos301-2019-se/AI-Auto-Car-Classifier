@@ -13,10 +13,11 @@
   },
   "devDependencies": {
     "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
     "should": "^13.2.3",
     "supertest": "^4.0.2"
   },
   "scripts": {
-    "test": "mocha test"
+    "test": "nyc mocha test --exit"
   }
 }
