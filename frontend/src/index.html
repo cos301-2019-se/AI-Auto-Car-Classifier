@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Auto Car Classifier</title>
+<script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="wrapper">
+
+
+    <div class="container">
+    <h1> Auto Car Classifier</h1>
+        <div id="mainDiv" class="row pictureArea">
+            <div class="col-md-9  picture"> <h3>Image</h3> <img id="mainImage" src="resources/placeholderGrey.jpg" class="img-fluid" alt="Responsive image"> </div>
+            <div class="col-md-3  picInfo">
+               <h3>Details</h3>
+                <ul class="list-unstyled">
+                    <li class="heading"> Vehicle Colour <ul class="list-unstyled">
+                        <li id="colourItem" class="listElement"> &nbsp;</li> </ul>
+                    </li>
+                    <li class="heading">Vehicle Make <ul class="list-unstyled">
+                        <li id="makeItem" class="listElement"> &nbsp;</li> </ul>
+                    </li>
+                    <li class="heading">License Plate <ul class="list-unstyled">
+                        <li id="plateItem" class="listElement">&nbsp; </li> </ul>
+                    </li>
+                </ul>
+                <button id="reportBtn" type="button" class="btn btn-danger btn-sm">Report Incorrect Details</button>
+               <!-- <button id="classifyBtn" type="button" class="btn btn-success btn-lg">Classify</button> -->
+            </div>
+
+        </div>
+
+      <!--  <form action="http://localhost:3000/classify/submit_multiple"  enctype="multipart/form-data" method="POST">
+           <label class="uploadLabel"><input type="file" class="btn btn-primary" name="imageMultiple" multiple></label>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form> -->
+
+
+            <form class="uploadForm" action="http://localhost:3000/classify/submit_multiple"  enctype="multipart/form-data" method="POST">
+                <div class="input-container">
+            <input type="file" id="real-input" name="imageMultiple" multiple>
+            <button class="browse-btn">
+                Browse Files
+            </button>
+            <span class="file-info">Upload a file</span>
+	</div>
+	</form>
+	
+	<div>
+	
+	  Color<br>
+  <input id="color"  type="text" name="color">
+  <br>
+  Make<br>
+  <input id="make" type="text" name="make">
+  <br>
+    Number Plate<br>
+  <input id="numberPlate" type="text" name="numberplate">
+  <br>
+
+  <button class="submitToInventory" onclick="writeUserData()">
+                Submit to inventory
+</button>
+
+<button class="viewInventory" onclick="ReadUserData()">
+                View inventory
+</button>
+</div>
+
+    </div>
+    
+    <h1>Gallery</h1>
+    <div class="container gallery">
+
+
+
+    </div>
+
+    <div id="footer"> </div>
+
+</div>
+<script>
+	  var config = {
+apiKey: "AIzaSyCB24cefzF7l0aGN2NIjGQkozZ3fA0Jx0k",
+    authDomain: "fabled-gist-246121.firebaseapp.com",
+    databaseURL: "https://fabled-gist-246121.firebaseio.com",
+    projectId: "fabled-gist-246121",
+    storageBucket: "",
+    messagingSenderId: "161898052209",
+    appId: "1:161898052209:web:dd313493716149b3"
+  };
+  firebase.initializeApp(config);
+  
+  const db= firebase.database();
+  
+
+ function writeUserData() {
+  
+ var col= document.getElementById('color');
+ var mak= document.getElementById('make');
+ var numberPlate = document.getElementById('numberPlate');
+// console.log(col.value);
+ //console.log(mak.value);
+ //console.log(numberPlate.value);
+ 
+ var userId = firebase.auth().currentUser.uid;
+  console.log(userId);
+ //userID's array 
+ var array= [];
+  var car = {color :col.value, Company: mak.value, NumberPlate: numberPlate.value};
+ array.push(car);
+ 
+ //var userId = firebase.auth().currentUser.uid;
+var newPostKey = firebase.database().ref().child('cars/'+userId).push().set(car);
+ 
+  //firebase.database().ref('cars/' + userId).set(array);
+}
+
+function ReadUserData(){
+ var userId = firebase.auth().currentUser.uid;
+  
+  firebase.database().ref('/cars/'+userId ).once('value').then(function(snapshot) {
+  var username = (snapshot.val()) || 'Anonymous';
+document.getElementById("myData").innerHTML= JSON.stringify(username);
+
+
+  console.log(username);
+  // ...
+});
+ 
+}
+
+
+  </script>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
+<script src="scripts/script.js"></script>
+
+ <button onclick="mainApp.logOut()">LogOut</button>
+<div id="myData"></div>
+
+    <script src="firebase.js"></script>
+    <script src="main.js"></script>
+    <script src="login.js"></script>
+    
+</body>
+</html>
