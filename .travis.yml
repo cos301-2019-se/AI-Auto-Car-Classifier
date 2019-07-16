@@ -18,10 +18,3 @@ deploy:
   skip_cleanup: true
   verbose: true
 
-jobs:
-  include:
-    - stage: test
-      script: ./backend/test
-    - # stage name not required, will continue to use `test`
-      script: ./frondend/test
-
