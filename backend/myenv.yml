@@ -10,7 +10,14 @@
 # https://conda.io/docs/using/envs.html#create-environment-file-by-hand
 
 # For managing Spark packages and configuration, see spark_dependencies.yml.
-
+#
+######### Boolean car detection dependencies ###########
+    # - keras
+    # - numpy
+    # - matplotlib
+    # - tensorflow
+    # - azureml.core
+    # - Pillow
 name: autocarclassifier
 dependencies:
   - python==3.7.3
