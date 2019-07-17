@@ -1,3 +1,5 @@
+import * as tf from '@tensorflow/tfjs';
+
 let data; //date loaded here from json file
 let model;
 let xs, ys; ; //xs => input, ys => outputs
@@ -39,6 +41,24 @@ function preload() {
     }
   console.log("data after loading: " )
 }
+
+async function loadMd() {
+  console.log("Load");
+  if (localStorage.length > 0) {
+    const LEARNING_RATE = 0.25;
+    const optimizer = tf.train.sgd(LEARNING_RATE);
+    let item = Number(localStorage.getItem('saveNo'));
+    model = await tf.loadModel(`indexeddb://colorClassifier-${item}`);
+    model.compile({
+      optimizer: optimizer,
+      loss: 'categoricalCrossentropy',
+      metrics: ['accuracy'],
+    });
+  } else {
+    alert('No previous models saved!');
+  }
+}
+
 
 function setup() {
 load();
