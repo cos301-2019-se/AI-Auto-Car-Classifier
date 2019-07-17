@@ -17,6 +17,9 @@ app.use(bodyParser.json({limit: '25mb'}));
 //Prevent CORS violation
 app.use(cors());
 
+app.use(express.static(__dirname + '/frontend')); // so all frontend files can be served
+app.use('/images/', express.static('./images')); // so uploaded images can be served
+
 app.use('/classify', classifyRoute);
 app.use('/notify', notifyRoute);
 app.use('/log', logRoute);
