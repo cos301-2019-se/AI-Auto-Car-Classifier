@@ -1,6 +1,8 @@
-import * as tf from '@tensorflow/tfjs';
+//import * as tf from '@tensorflow/tfjs' //vanilla js but slower and smaller in size
+//require('@tensorflow/tfjs-node');
+//const tf = require('@tensorflow/tfjs');
+//import * as tf from '@tensorflow/tfjs';
 
-require('@tensorflow/tfjs-node');
 
 let data; //date loaded here from json file
 let model;
@@ -8,10 +10,10 @@ let xs, ys; ; //xs => input, ys => outputs
 let rSlider, gSlider, bSlider;
 let labelP;
 let lossP;
-var lossCal;
+var lossCal; 
 var ctx;
 
-let ind = 20;
+let ind =3;
 var i = 0;
 
 var red, green, blue, alpha;
@@ -29,10 +31,7 @@ let labelList = [
   'grey-ish'
 ]
 
-function preload() {
-    data = loadJSON('colorData.json');    //load json data into data variable.
-   
-}
+////////////////////////////////////////////////////
 
 async function loadMd() {
   console.log("Load");
@@ -40,20 +39,54 @@ async function loadMd() {
     const LEARNING_RATE = 0.25;
     const optimizer = tf.train.sgd(LEARNING_RATE);
     let item = Number(localStorage.getItem('saveNo'));
-    model = await tf.loadModel('downloads://my-model-1');
+    model = await tf.loadLayersModel(`indexeddb://colorClassifier-${item}`);
     model.compile({
       optimizer: optimizer,
       loss: 'categoricalCrossentropy',
       metrics: ['accuracy'],
     });
+    console.log('Loading------->>>>>>>>');
+    console.log(model);
   } else {
     alert('No previous models saved!');
   }
 }
 
+async function saveModel() {
+  console.log("Save");
+  if (localStorage.length > 0) {
+    let item = Number(localStorage.getItem('saveNo'));
+    await model.save(`indexeddb://colorClassifier-${item + 1}`);
+    localStorage.setItem('saveNo', item + 1);
+
+    console.log('here one ---  ' + item +1);
+  } else {
+    await model.save(`indexeddb://colorClassifier-1`);
+    localStorage.setItem('saveNo', 1);
+    console.log('here two');
+  }
+  console.log('here');
+}
+
+//////////////////////////////////////////////////
+
+function preload() {
+    data = loadJSON('colorData.json');    //load json data into data variable.
+   const localmodel = load();
+   console.log(model);
+}
+
+
+async function load()
+{
+  const LOCAL_MODEL_URL = 'downloads://my-model-1';
+ // const modelNew = 
+}
+
+
+
 
 function setup() {
-load();
   console.log("data entries: " + data.entries.length);
   // Crude interface
   labelP = createP('label');
@@ -104,6 +137,9 @@ async function train() {
     validationSplit: 0.1,
     epochs: ind,                                    //number of times to iterate over the training data
     callbacks: {                                    //callbacks called during training
+      onEpochStart: (epoch, logs) => {
+        loadMd();
+        },
       onEpochEnd: (epoch, logs) => {
         lossCal = logs.loss;
         console.log(epoch+ ' Loss: ' + logs.loss );
@@ -113,15 +149,8 @@ async function train() {
         await tf.nextFrame();
       },
       onTrainEnd: () => {
-        ind = 20;
-        saver(model);
-        console.log(model);
-      console.log('finished');
-
-      if(lossCal > .05)
-      {
-        train();
-      }
+        saveModel();
+        console.log('finished');
       },
       shuffle:true
     },
@@ -130,12 +159,24 @@ async function train() {
 
 async function saver(model)
 {
+  /*
   try {
-    saveResult = await model.save('downloads://my-model-1' );
+    saveResult = await model.save('downloads://my-model-1');
     console.log(model);
+    const model = await tf.loadLayersModel('downloads://my-model-1');
+    
   }catch(anL){
     console.log(anL);
   }
+  */
+ 
+ console.log('------------------------------------');
+ const saveResults = await model.save('downloads://my-model-1');
+console.log('saved ');
+console.log(saveResults);
+console.log('------------------------------------');
+const loadedModel = await tf.loadLayersModel('http://downloads//my-model-1').json;
+console.log(loadedModel);
 }
 
 
