@@ -6,7 +6,6 @@ const path = require('path');
 const { spawn } = require('child_process');
 const multer = require('multer');
 const fs = require('fs-extra');
-var nj = require('numjs');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
