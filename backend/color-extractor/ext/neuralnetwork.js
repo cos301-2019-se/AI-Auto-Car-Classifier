@@ -76,16 +76,6 @@ function preload() {
    console.log(model);
 }
 
-
-async function load()
-{
-  const LOCAL_MODEL_URL = 'downloads://my-model-1';
- // const modelNew = 
-}
-
-
-
-
 function setup() {
   console.log("data entries: " + data.entries.length);
   // Crude interface
@@ -212,25 +202,24 @@ function getImgData()
     blue = imgData.data[2];
     alpha = imgData.data[3];
 }
-    function coordinates(canvasIn, coord)
-    {
-      var imgData  = canvasIn.getImageData(coord.x,coord.y,canvasIn.width, canvasIn,height);
-      var can = canvasIn;
-      if(can !== undefined)
-      {
-
-        red = imgData.data[0];
-        green = imgData.data[1];
-        blue = imgData.data[2];
-        alpha = imgData.data[3];
-        return;
-      }
-      imgData = ctx.getImageData(20,20,150,100);
-      red = imgData.data[0];
-      green = imgData.data[1];
-      blue = imgData.data[2];
-      alpha = imgData.data[3];
-    }
+function coordinates(canvasIn, coord)
+{
+  var imgData  = canvasIn.getImageData(coord.x,coord.y,canvasIn.width, canvasIn,height);
+  var can = canvasIn;
+  if(can !== undefined)
+  {
+    red = imgData.data[0];
+    green = imgData.data[1];
+    blue = imgData.data[2];
+    alpha = imgData.data[3];
+    return;
+  }
+  imgData = ctx.getImageData(20,20,150,100);
+  red = imgData.data[0];
+  green = imgData.data[1];
+  blue = imgData.data[2];
+  alpha = imgData.data[3];
+}
 
 function draw() {
 
@@ -268,6 +257,7 @@ function aveColor()
     var pix = imgd.data;
     console.log("imgd " + imdg);
 
+    var r,g,b;
     for(var i = 0,  n = pix.length; i < n ; i++)
     {
       console.log("Pixels: " + pix);
@@ -275,23 +265,24 @@ function aveColor()
       pix[i  ] = 255 - pix[i  ]; // red
       pix[i+1] = 255 - pix[i+1]; // green
       pix[i+2] = 255 - pix[i+2]; // blue
-      MediaKeySystemAccess.out.pr
+      
+      tf.tidy(() => {                         //memory clean 
+        const input = tf.tensor2d([
+          [r, g, b]
+        ]);
+        arrPred.push( model.predict(input));
+        let argMax = results.argMax(1);
+        let index = argMax.dataSync()[0];
+        let label = labelList[index];
+        labelP.html(label);
+      });
       // i+3 is alpha (the fourth element)
     }
 
-    tf.tidy(() => {                         //memory clean 
-      const input = tf.tensor2d([
-        [r, g, b]
-      ]);
-      let results = model.predict(input);
-      let argMax = results.argMax(1);
-      let index = argMax.dataSync()[0];
-      let label = labelList[index];
-      labelP.html(label);
-    });
-    
+   
     // sort the frequencies of the color predictions
 
     //sort and sendback most frequent
 }
 
+arrPred =  [];
