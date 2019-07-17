@@ -127,13 +127,16 @@ var newPostKey = firebase.database().ref().child('cars/'+userId).push().set(car)
 
 function ReadUserData(){
  var userId = firebase.auth().currentUser.uid;
-  
+  console.log(userId);
   firebase.database().ref('/cars/'+userId ).once('value').then(function(snapshot) {
   var username = (snapshot.val()) || 'Anonymous';
 document.getElementById("myData").innerHTML= JSON.stringify(username);
 
+var leng= username.length;
 
-  console.log(username);
+
+
+
   // ...
 });
  
@@ -151,7 +154,7 @@ document.getElementById("myData").innerHTML= JSON.stringify(username);
 <script src="scripts/script.js"></script>
 
  <button onclick="mainApp.logOut()">LogOut</button>
-<div id="myData"></div>
+<pre id="myData"></pre>
 
     <script src="firebase.js"></script>
     <script src="main.js"></script>
