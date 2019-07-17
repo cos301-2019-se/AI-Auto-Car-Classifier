@@ -256,7 +256,6 @@ typings/
 
 # End of https://www.gitignore.io/api/node,webstorm,jetbrains
 #uploaded images
-backend/images/
 #cached python files
 backend/car_detection/__pycache__
 backend/color-extractor/__pycache__
@@ -273,3 +272,5 @@ backend/uploads/
 backend/car_detection/custom_layers/__pycache__/
 
 backend/color-extractor/color_extractor/__pycache__/
+
+backend/images/*.jpg

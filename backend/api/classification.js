@@ -30,7 +30,7 @@ router.post('/submit', upload.single('image'), submitImage);
 router.post('/submit_multiple', upload.array('imageMultiple'), submitMultipleImages);
 router.post('/submit64', submitImage64);
 router.post('/color_detector', getImageColor);
-router.post('/color_detector_sample', getImageColor);
+router.post('/color_detector_sample', getImageColorBySample);
 router.post('/car_detector', imageContainsCar);
 router.post('/get_car_details', getMakeAndModel);
 router.post('/number_plate', getNumberPlate);
@@ -112,7 +112,7 @@ function resizeImages(req, res)
 function moveProcessedImages(res)
 {
     console.log("Moving Images");
-    FileSet('**/unprocessedImages/*', '', function (err, files)
+    FileSet('**/unprocessedImages/*.jpg **/unprocessedImages/*.png **/unprocessedImages/*.jpeg **/unprocessedImages/*.JPG', '', function (err, files)
     {
         if (err) return console.error(err);
 
@@ -390,52 +390,7 @@ function getImageColorBySample(req, res)
 
         samples.push(image.getPixelColor(midpointX, midpointY));
 
-        console.log("MidpointX: " + midpointX);
-        console.log("MidpointY: " + midpointY);
-        //    Jimp.intToRGBA(hex)
-        console.log("Colour: " + Jimp.intToRGBA(image.getPixelColor(midpointX, midpointY)));
-
-        var x = midpointX;
-        var y = midpointY;
-
-        //right
-        for (var i = 0; i < 10; i++)
-        {
-            x += 10;
-            samples.push(image.getPixelColor(x, midpointY));
-        }
-        //left
-        x = midpointX;
-        for (var i = 0; i < 10; i++)
-        {
-            x -= 10;
-            samples.push(image.getPixelColor(x, midpointY));
-        }
-        //up
-        for (var i = 0; i < 10; i++)
-        {
-            y -= 10;
-            samples.push(image.getPixelColor(midpointX, y));
-        }
-
-        //Diagonal left
-        x = midpointX;
-        y = midpointY;
-        for (var i = 0; i < 10; i++)
-        {
-            y -= 10;
-            x -= 10
-            samples.push(image.getPixelColor(x, y));
-        }
-        //Diagonal Right
-        x = midpointX;
-        y = midpointY;
-        for (var i = 0; i < 10; i++)
-        {
-            y -= 10;
-            x += 10
-            samples.push(image.getPixelColor(x, y));
-        }
+        getRegion(midpointX - 100,midpointY - 100,200,200,image,samples); //Midpoint box
 
         var colourCount = [];
 
@@ -461,6 +416,8 @@ function getImageColorBySample(req, res)
 
         }
 
+        console.log(colourCount);
+
         var keys = Object.keys(colourCount);
         var max = -1;
         var matchedColour = "";
@@ -483,6 +440,18 @@ function getImageColorBySample(req, res)
     });
 
 
+}
+
+function getRegion(startX,startY, width, height, image, samples)
+{
+
+    for(let i = startY ; i < (height+startY); i+=5)
+    {
+        for(let k = startX ; k < (width+startX); k+=5)
+        {
+            samples.push(image.getPixelColor(k,i));
+        }
+    }
 }
 
 function getImageColorMock(req, res)
