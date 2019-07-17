@@ -11,6 +11,10 @@
     <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css"/>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  
 </head>
 <body>
 <div class="wrapper">
@@ -33,7 +37,8 @@
                         <li id="plateItem" class="listElement">&nbsp; </li> </ul>
                     </li>
                 </ul>
-                <button id="reportBtn" type="button" class="btn btn-danger btn-sm">Report Incorrect Details</button>
+                <button id="reportBtn" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal" onclick="defaultValue()">Report Incorrect Details</button>
+		
                <!-- <button id="classifyBtn" type="button" class="btn btn-success btn-lg">Classify</button> -->
             </div>
 
@@ -43,6 +48,40 @@
            <label class="uploadLabel"><input type="file" class="btn btn-primary" name="imageMultiple" multiple></label>
             <button type="submit" class="btn btn-default">Submit</button>
         </form> -->
+		<div class="modal fade" id="myModal" role="dialog">
+	    <div class="modal-dialog modal-lg">
+	      <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title" align="centre">Verify car details</h4>
+		</div>
+		<div class="modal-body">
+		
+			  <div class="md-form mb-4">
+			  <i class="fas fa-lock prefix grey-text"></i>
+			  <label data-error="wrong" data-success="right" for="defaultForm-pass">Vehicle color</label>
+			  <input type="text" id="modal-color" class="form-control validate">
+			</div>
+			
+			<div class="md-form mb-4">
+			  <i class="fas fa-lock prefix grey-text"></i>
+			  <label data-error="wrong" data-success="right" for="defaultForm-pass">Make</label>
+			  <input type="text" id="modal-make" class="form-control validate">
+			</div>
+			
+			<div class="md-form mb-4">
+			  <i class="fas fa-lock prefix grey-text"></i>
+			  <label data-error="wrong" data-success="right" for="defaultForm-pass">Number Plate</label>
+			  <input type="text" id="modal-numberplate" class="form-control validate">
+			</div>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="writeUserData()">Submit to inventory</button>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
 
 
             <form class="uploadForm" action="http://localhost:3000/classify/submit_multiple"  enctype="multipart/form-data" method="POST">
@@ -56,21 +95,6 @@
 	</form>
 	
 	<div>
-	
-	  Color<br>
-  <input id="color"  type="text" name="color">
-  <br>
-  Make<br>
-  <input id="make" type="text" name="make">
-  <br>
-    Number Plate<br>
-  <input id="numberPlate" type="text" name="numberplate">
-  <br>
-
-  <button class="submitToInventory" onclick="writeUserData()">
-                Submit to inventory
-</button>
-
 <button class="viewInventory" onclick="ReadUserData()">
                 View inventory
 </button>
@@ -105,12 +129,12 @@ apiKey: "AIzaSyCB24cefzF7l0aGN2NIjGQkozZ3fA0Jx0k",
 
  function writeUserData() {
   
- var col= document.getElementById('color');
- var mak= document.getElementById('make');
- var numberPlate = document.getElementById('numberPlate');
-// console.log(col.value);
- //console.log(mak.value);
- //console.log(numberPlate.value);
+ var col= document.getElementById('modal-color');
+ var mak= document.getElementById('modal-make');
+ var numberPlate = document.getElementById('modal-numberplate');
+console.log(col.value);
+ console.log(mak.value);
+ console.log(numberPlate.value);
  
  var userId = firebase.auth().currentUser.uid;
   console.log(userId);
@@ -140,6 +164,16 @@ var leng= username.length;
   // ...
 });
  
+}
+
+function defaultValue()
+{
+	var defcol= document.getElementById("coloritem");
+	var defmake= document.getElementById("makeitem");
+	var defplate=document.getElementById("plateitem");
+	document.getElementById("modal-color").defaultValue = defcol;
+	document.getElementById("modal-make").defaultValue = defmake;
+	document.getElementById("modal-numberplate").defaultValue = defplate;
 }
 
 
