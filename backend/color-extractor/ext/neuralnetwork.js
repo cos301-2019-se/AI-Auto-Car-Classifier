@@ -1,5 +1,7 @@
 import * as tf from '@tensorflow/tfjs';
 
+require('@tensorflow/tfjs-node');
+
 let data; //date loaded here from json file
 let model;
 let xs, ys; ; //xs => input, ys => outputs
@@ -29,17 +31,7 @@ let labelList = [
 
 function preload() {
     data = loadJSON('colorData.json');    //load json data into data variable.
-   // console.log("data in here: " + typeof(data[0]));
-  
-    if(data === undefined)
-    {
-     return true;
-    }
-    else
-    {
-      return false;
-    }
-  console.log("data after loading: " )
+   
 }
 
 async function loadMd() {
@@ -48,7 +40,7 @@ async function loadMd() {
     const LEARNING_RATE = 0.25;
     const optimizer = tf.train.sgd(LEARNING_RATE);
     let item = Number(localStorage.getItem('saveNo'));
-    model = await tf.loadModel(`indexeddb://colorClassifier-${item}`);
+    model = await tf.loadModel('downloads://my-model-1');
     model.compile({
       optimizer: optimizer,
       loss: 'categoricalCrossentropy',
@@ -66,10 +58,7 @@ load();
   // Crude interface
   labelP = createP('label');
   lossP = createP('loss');
- // rSlider = createSlider(0, 255, 255);
-  //gSlider = createSlider(0, 255, 0);
-  //bSlider = createSlider(0, 255, 255);
-
+ 
   let colors = [];
   let labels = [];
   for (let record of data.entries) {
@@ -137,22 +126,6 @@ async function train() {
       shuffle:true
     },
   });//////////////////////THIS FUNCTION RETURNS A PROMISE////////////
-}
-
-async function load()
-{
-  try{
-    if(!model)
-    {
-      console.log("Loading module");
-      model =  await tf.loadLayersModel('downloads://my-model-1');
-      console.log("Loading model");
-      console.log(model);
-    }
-  }catch(anyL)
-  {
-    console.log("Error loading");
-  }
 }
 
 async function saver(model)
@@ -243,14 +216,14 @@ function draw() {
 var recW = 25;
 var recH = 25;
 
-function aveColor(imgEl)
+function aveColor()
 {
     //create a box, can be coorinates or 
     var boxWidthStart, boxWidthEnd;
     var boxHeightStart, boxHeightEnd;
 
     //get a color incremement the color associated
-    var imgd = context.getImageData(x,y,recW, recH);
+    var imgd = context.getImageData(boxWidthStart,boxHeightStart,recW, recH);
     var pix = imgd.data;
     console.log("imgd " + imdg);
 
@@ -281,24 +254,3 @@ function aveColor(imgEl)
     //sort and sendback most frequent
 }
 
-
-class colorDet{0
-  //           
-  constructor()
-  {
-    this.col = ['red','blue','green','yellow','orange','black','purple','pink','',''];
-    this.count = [0,0,0,0,0,0,0,0,0,0];
-    this.largestIn = -1;
-    this.choice = -1;
-  }
-
-  incre(color)
-  {
-    if('red' == color)
-    {
-      count[red]++;
-    }
-  }
-
-
-}
