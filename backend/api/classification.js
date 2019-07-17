@@ -10,6 +10,7 @@ const Jimp = require('jimp');
 const glob = require('glob');
 const FileSet = require('fileset');
 const colour = require('color-namer');
+var nj = require('numjs');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb)
