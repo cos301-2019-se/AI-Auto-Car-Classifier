@@ -31,6 +31,7 @@ router.post('/submit', upload.single('image'), submitImage);
 router.post('/submit_multiple', upload.array('imageMultiple'), submitMultipleImages);
 router.post('/submit64', submitImage64);
 router.post('/color_detector', getImageColor);
+router.post('/color_detector_sample', getImageColor);
 router.post('/car_detector', imageContainsCar);
 router.post('/get_car_details', getMakeAndModel);
 router.post('/number_plate', getNumberPlate);
@@ -372,7 +373,21 @@ const sendColor = (res) => (data) =>
     })
 };
 
-function getImageColor(req, res)
+function getImageColor(req, response)
+{
+    const process = spawn('python', ['color-extractor/getColor', 'color-extractor/color_names.npz', `images/${req.body.imageID}`]);
+    process.stdout.on(
+        'data',
+        sendColor(response)
+    );
+
+    process.stderr.on(
+        'data',
+        sendColor(response)
+    );
+}
+
+function getImageColorBySample(req, res)
 {
     var imagePath = './images/' + req.body.imageID;
 
@@ -473,7 +488,7 @@ function getImageColor(req, res)
 
         res.status(200).json({
             status: "success",
-            colour: matchedColour
+            color: matchedColour
         });
     });
 
