@@ -72,8 +72,7 @@ async function saveModel() {
 
 function preload() {
     data = loadJSON('colorData.json');    //load json data into data variable.
-   const localmodel = load();
-   console.log(model);
+   
 }
 
 function setup() {
@@ -180,14 +179,6 @@ let colorRGB = [[255,0,0],
 [165,42,42],
 [128,128,128]];
 
-function check(arr)
-{
-  for(record in colorRGB)
-  {
-    console.log(colorRGB[record][0]);
-  }
-  i++;
-}
 function init()
 {
   var c = document.getElementById("myCanvas");
@@ -202,6 +193,7 @@ function getImgData()
     blue = imgData.data[2];
     alpha = imgData.data[3];
 }
+
 function coordinates(canvasIn, coord)
 {
   var imgData  = canvasIn.getImageData(coord.x,coord.y,canvasIn.width, canvasIn,height);
