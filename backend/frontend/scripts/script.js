@@ -135,9 +135,16 @@ function detectCar(imageID, callback)
             console.log("Error in detect Car: " + jqXHR.status);
             console.log(textStatus);
             console.log(exception);
+            displayError('Unable to classify Car: ' + textStatus);
             return -1;
         }
     });
+}
+
+function displayError(message)
+{
+    // bootbox.alert(message).find('.modal-content').css({'background-color': '#f99', 'font-weight' : 'bold', color: '#F00', 'font-size': '2em'} );
+    bootbox.alert(message);
 }
 
 function getColour(imageID)
