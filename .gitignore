@@ -274,3 +274,5 @@ backend/car_detection/custom_layers/__pycache__/
 backend/color-extractor/color_extractor/__pycache__/
 
 backend/images/*.jpg
+
+\.idea/
