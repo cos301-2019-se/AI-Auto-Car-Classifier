@@ -258,7 +258,12 @@ const writeToFile = (response) => (error) => {
 
 function countFiles(dir)
 {
-    var files = fs.readdirSync(dir);
+    var files;
+    try{
+        files = fs.readdirSync(dir);
+    } catch(exception){
+        return -1;
+    }
     return files.length;
 }
 
@@ -554,4 +559,10 @@ function sendMakeAndModel(res, data)
         confidence: confidence
     })
 };
+
+let UtilityFunctions = {
+    sendMakeAndModel,
+    getNumWords,
+    countFiles
+}
 module.exports = router;
