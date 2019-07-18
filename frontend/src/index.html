@@ -2,6 +2,25 @@
 <html lang="en">
 <head>
 <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script>
+	
+	<!--===========================Files for the table====================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+
+
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -38,11 +57,24 @@
                     </li>
                 </ul>
                 <button id="reportBtn" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal" onclick="defaultValue()">Report Incorrect Details</button>
-		
+		<div>
+		<button id="viewInventory" class="btn btn-primary active" onclick="ReadUserData()">
+                View inventory
+		</button>
                <!-- <button id="classifyBtn" type="button" class="btn btn-success btn-lg">Classify</button> -->
-            </div>
+		</div>
+		<div>
+		<button id="submitToInventory" class="btn btn-success active" onclick="writeUserData()">
+			Submit details
+		</button>
+               <!-- <button id="classifyBtn" type="button" class="btn btn-success btn-lg">Classify</button> -->
+		</div>
+	    </div>
 
         </div>
+	
+
+
 
       <!--  <form action="http://localhost:3000/classify/submit_multiple"  enctype="multipart/form-data" method="POST">
            <label class="uploadLabel"><input type="file" class="btn btn-primary" name="imageMultiple" multiple></label>
@@ -94,24 +126,39 @@
 	</div>
 	</form>
 	
-	<div>
-<button class="viewInventory" onclick="ReadUserData()">
-                View inventory
-</button>
-</div>
+	
 
     </div>
     
     <h1>Gallery</h1>
-    <div class="container gallery">
-
-
-
+    <div class="containergallery">
     </div>
 
-    <div id="footer"> </div>
+	
+	<div class="limiter" id="myDiv" >
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100">
+					<table>
+						<thead>
+							<tr class="table100-head">
+								<th class="column1">Make</th>
+								<th class="column2">Color</th>
+								<th class="column3">Number Plate</th>
+							</tr>
+						</thead>
+						<tbody id="tablebody">
+								
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 
-</div>
+
+
+    
 <script>
 	  var config = {
 apiKey: "AIzaSyCB24cefzF7l0aGN2NIjGQkozZ3fA0Jx0k",
@@ -150,13 +197,34 @@ var newPostKey = firebase.database().ref().child('cars/'+userId).push().set(car)
 }
 
 function ReadUserData(){
+
+    document.getElementById("myDiv").style.display = "block";
+    
  var userId = firebase.auth().currentUser.uid;
   console.log(userId);
   firebase.database().ref('/cars/'+userId ).once('value').then(function(snapshot) {
   var username = (snapshot.val()) || 'Anonymous';
-document.getElementById("myData").innerHTML= JSON.stringify(username);
+  
+//~ document.getElementById("myData").innerHTML= JSON.stringify(username);
+var length= Object.keys(username).length;
+//~ console.log(Object.keys(username).length);
+//~ console.log(username);
+	var tableRow = "";
+	for(prop in username)
+	{ 
+		tableRow += "<tr><td>"+username[prop].Company+ "</td><td>"+ username[prop].color + "</td><td>" + username[prop].NumberPlate + "</td></tr>" ;
+	}
+	
+	document.getElementById("tablebody").innerHTML = tableRow;
+    
+//~ for(prop in username)
+//~ {
+//~ 	var div = document.createElement("div");
+//~ 	console.log('Make: ' + username[prop].Company +'Color: ' + ' ' + username[prop].color + 'Number plate: ' +username[prop].NumberPlate);
+//~     tab.appendChild(div);
+//~ }
 
-var leng= username.length;
+
 
 
 
@@ -185,11 +253,21 @@ function defaultValue()
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="http://malsup.github.com/jquery.form.js"></script>
+
 <script src="scripts/script.js"></script>
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
 
- <button onclick="mainApp.logOut()">LogOut</button>
+
 <pre id="myData"></pre>
-
+<div id= "tab"></div>
     <script src="firebase.js"></script>
     <script src="main.js"></script>
     <script src="login.js"></script>
