@@ -4,11 +4,13 @@
 
 
 **Project description**
-* AI Auto Car Classifier is a progressive web app that can be used to take images of vehicles, cars to be specific, and classify them according to make, model and year.
+* AI Auto Car Classifier is a web app that can be used to take images of vehicles, cars to be specific, and classify them according to make, model and year.
 
 **HOW TO RUN THE PROJECT**
-* The project is hosted on azure web apps for development purposes and can be found here [AI Auto Car Classifier](https://autocarclassifier.azurewebsites.net) 
-
+* Install `nodejs v10.14` and `Microsoft Visual C++ >=2015`
+* Pull the master respository, navigate to the `backend` directory
+* Run `npm install` to install packages, then `npm start` to start the project
+* Visit `localhost:3000` 
 
 ## **[Documentation](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/SRS_DEMO2.pdf)**
 * [Demo 1 SRS](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/Demo1_SRS.pdf)
