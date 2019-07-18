@@ -1,6 +1,6 @@
-# Git profile
+# AI-Auto Car Classifier
 
-## **Control Alt Elite - Auto Car Classifier**
+## **ControlAltElite**
 
 
 **Project description**
@@ -17,6 +17,8 @@
 - [Coding standards document]()
 - [Testing Policy Document]()
 - [User Manual](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/refactorBackend/documents/User_Manual.pdf)
+
+The overleaf account on which all the above documents reside can be found [here](https://www.overleaf.com/1441367113ygzmrzsfjhkj)
 
 ## **Members**
 
