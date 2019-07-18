@@ -61,17 +61,18 @@ describe('Validate that we can retreive the make and model of a specific car', f
           .send({imageID: 'Image1.jpg'})
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(200, done);
+          .expect(200);
           done();
   });
 
-  it('It return a 500 because the image is not found', function (done) {
+  it('It should return a 500 because the image is not found', function (done) {
     request(app)
         .post('/classify/get_car_details')
         .send({imageID: 'Image2.jpg'})
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(500, done);
+        .expect(500);
+        done();
   });
 
   it('It should return a 500 because the image body does not exist', function (done) {
@@ -90,7 +91,8 @@ describe('Validate that we can retreive the make and model of a specific car', f
       .send({imageId: 'Image1.jpg'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(500, done);
+      .expect(500);
+      done();
   });
 
   it('It should fail with a NotFoundError because the protocol is post, not get', function (done) {
@@ -100,6 +102,7 @@ describe('Validate that we can retreive the make and model of a specific car', f
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200, done);
+      done();
   });
 });
 
