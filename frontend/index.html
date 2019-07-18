@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Auto Car Classifier</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="wrapper">
+
+    <div class="container">
+    <h1> Auto Car Classifier</h1>
+        <img id="loadingImage" class="img-fluid" src="resources/loading%20screen%20colour.gif">
+        <div id="mainDiv" class="row pictureArea">
+            <div class="col-md-9  picture"> <h3>Image</h3> <img id="mainImage" src="resources/placeholderGrey.jpg" class="img-fluid" alt="Responsive image"> </div>
+            <div class="col-md-3  picInfo">
+               <h3>Details</h3>
+                <ul class="list-unstyled">
+                    <li class="heading"> Vehicle Colour <ul class="list-unstyled">
+                        <li id="colourItem" class="listElement"> &nbsp;</li> </ul>
+                    </li>
+                    <li class="heading">Vehicle Make <ul class="list-unstyled">
+                        <li id="makeItem" class="listElement"> &nbsp;</li> </ul>
+                    </li>
+                    <li id="plateTitle" class="heading" title="Plate Region" data-toggle="popover" data-placement="bottom" data-trigger="hover">License Plate <ul class="list-unstyled">
+                        <li id="plateItem" class="listElement">&nbsp; </li> </ul>
+                    </li>
+                </ul>
+                <button id="reportBtn" type="button" class="btn btn-danger btn-sm">Report Incorrect Details</button>
+               <!-- <button id="classifyBtn" type="button" class="btn btn-success btn-lg">Classify</button> -->
+            </div>
+
+        </div>
+
+      <!--  <form action="http://localhost:3000/classify/submit_multiple"  enctype="multipart/form-data" method="POST">
+           <label class="uploadLabel"><input type="file" class="btn btn-primary" name="imageMultiple" multiple></label>
+            <button type="submit" class="btn btn-default">Submit</button>
+        </form> -->
+
+
+            <form class="uploadForm" action="http://localhost:3000/classify/submit_multiple"  enctype="multipart/form-data" method="POST">
+                <div class="input-container">
+            <input type="file" id="real-input" name="imageMultiple" multiple>
+            <button class="browse-btn">
+                Browse Files
+            </button>
+            <span class="file-info">Upload a file</span>
+
+
+        </div>
+            </form>
+
+    </div>
+    <h1>Gallery</h1>
+    <div class="container gallery">
+
+
+
+    </div>
+
+    <div id="footer"> </div>
+
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="http://malsup.github.com/jquery.form.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+<script src="scripts/script.js"></script>
+</body>
+</html>
