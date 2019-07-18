@@ -104,8 +104,8 @@ function resizeImages(images)
 
 function classifyImage(imageID)
 {
-    getColour(imageID);
     getMake(imageID);
+    getColour(imageID);
     getNumberPlate(imageID);
 }
 
