@@ -2,7 +2,7 @@
 
 # dependencies
 frontend/node_modules
-backend/node_modules
+node_modules
 /.pnp
 .pnp.js
 
@@ -257,20 +257,10 @@ typings/
 # End of https://www.gitignore.io/api/node,webstorm,jetbrains
 #uploaded images
 #cached python files
-backend/car_detection/__pycache__
-backend/color-extractor/__pycache__
-backend/__pycache__
-backend/car_detection/models
-
 
 frontend/\.idea/
 
-backend/\.idea/
+\images/*.jpg
+\images/*.JPG
 
-backend/uploads/
-
-backend/car_detection/custom_layers/__pycache__/
-
-backend/color-extractor/color_extractor/__pycache__/
-
-backend/images/*.jpg
+\.idea/
