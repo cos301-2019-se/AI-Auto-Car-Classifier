@@ -12,17 +12,11 @@
 * Run `npm install` to install packages, then `npm start` to start the project
 * Visit `localhost:3000` 
 
-## **[Documentation](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/SRS_DEMO2.pdf)**
-* [Demo 1 SRS](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/Demo1_SRS.pdf)
-
-* [Demo 2 SRS + Architectural Style](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/SRS_DEMO2.pdf)
-
-## Demo 3 
-
-- [Functional & Architectural Design documentation]()
+## **Documentation**
+- [Functional & Architectural Design documentation](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/Requirements_Document.pdf)
 - [Coding standards document]()
 - [Testing Policy Document]()
-- [User Manual](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/User_Manual(3).pdf)
+- [User Manual](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/User_Manual.pdf)
 
 ## **Members**
 
