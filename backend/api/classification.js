@@ -24,7 +24,7 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({storage: storage});
-const MODEL_ENDPOINT = 'http://a5deb1f4-0ca6-433e-bd75-b81b447fdee4.westeurope.azurecontainer.io/score';
+const MODEL_ENDPOINT = 'http://50d215a3-70aa-4839-9220-2a8bc85d3646.westeurope.azurecontainer.io/score';
 const BOOLEAN_MODEL_ENDPOINT = 'http://6da32a8d-2d25-4f29-ad22-fa2351cd85e0.westeurope.azurecontainer.io/score';
 
 router.post('/submit', upload.single('image'), submitImage);
@@ -297,10 +297,12 @@ function getMakeAndModel(req, res)
             },
             json: true,
         }, function (error, response, body){
+            console.log(response.body)
             if (response && response.statusCode == 200){
                 sendMakeAndModel(res, `${response.body.car}-${response.body.confidence}`);
             }
             else{
+                console.log(error)
                 res.status(500).json({
                     error: 'Car classifier returned an error trying to classify the image. Please try again'
                 });
@@ -331,19 +333,24 @@ function imageContainsCar(req, res)
             },
             json: true,
             }, function(error, response, body){
+                console.log(response.body)
                 if( response && response.statusCode == 200){
                     res.status(200).json({
                         ...response.body
                     })
                 } else {
+                    console.log(response.body);
+                    console.log(response.statusCode);
                     res.status(500).json({
-                        error: 'Boolean classifier returned an error trying to classify the image. Please try again'
+                        message: 'Boolean classifier returned an error trying to classify the image. Please try again',
+                        error: error
                     });
                 }
         });
-    } catch(exception){
+    } catch(error){
         res.status(500).json({
-            error: 'An error occured trying to classify the image, please try again'
+            message: 'An error occured trying to classify the image, please try again',
+            error: error 
         });
     }
 
@@ -461,7 +468,7 @@ function getImageColorMock(req, res)
     console.log("Get Colour Mock Function");
     res.status(200).json({
         color: "black"
-    })
+    });
 }
 
 /**The functions below get the numberplate from an image of a car */
@@ -529,41 +536,51 @@ function getNumberPlate(req, res)
 
 const getNumWords = (word) =>
 {
-    return word.split(' ').length;
+    try{
+        return word.split(' ').length;
+    } catch(exception){
+        return -1;
+    }
 }
 
 function sendMakeAndModel(res, data)
 {
-    const numWords = getNumWords(data.toString());
-    let extendedModel;
-    data = data.toString();
-    const make = data.substr(0, data.indexOf(' '));
-    data = data.replace(make + ' ', '');
-    let model = data.substr(0, data.indexOf(' '));
-    data = data.replace(model + ' ', '');
-    if (numWords > 4)
-    {
-        extendedModel = data.substr(0, data.indexOf(' '));
-        data = data.replace(extendedModel + ' ', '');
-        model = model + ' ' + extendedModel;
+    try{
+        const numWords = getNumWords(data.toString());
+        if(numWords <= 0){
+            throw 'There is only one word in the annotation of the car';
+        }
+        let extendedModel;
+        data = data.toString();
+        const make = data.substr(0, data.indexOf(' '));
+        data = data.replace(make + ' ', '');
+        let model = data.substr(0, data.indexOf(' '));
+        data = data.replace(model + ' ', '');
+        if (numWords > 4)
+        {
+            extendedModel = data.substr(0, data.indexOf(' '));
+            data = data.replace(extendedModel + ' ', '');
+            model = model + ' ' + extendedModel;
+        }
+        const bodyStyle = data.substr(0, data.indexOf(' '));
+        data = data.replace(bodyStyle + ' ', '');
+        const year = data.substr(0, data.indexOf('-'));
+        data = data.replace(year + '-', '');
+        const confidence = parseFloat(data);
+        res.status(200).json({
+            make: make,
+            model: model,
+            bodyStyle: bodyStyle,
+            year: year,
+            confidence: confidence
+        });
+    } catch(exception) {
+        console.log(error);
+        res.status(200).json({
+            message: 'Something went wrong decoding the response from classify car',
+            error: exception
+        });
     }
-    const bodyStyle = data.substr(0, data.indexOf(' '));
-    data = data.replace(bodyStyle + ' ', '');
-    const year = data.substr(0, data.indexOf('-'));
-    data = data.replace(year + '-', '');
-    const confidence = parseFloat(data);
-    res.status(200).json({
-        make: make,
-        model: model,
-        bodyStyle: bodyStyle,
-        year: year,
-        confidence: confidence
-    })
 };
 
-let UtilityFunctions = {
-    sendMakeAndModel,
-    getNumWords,
-    countFiles
-}
 module.exports = router;
