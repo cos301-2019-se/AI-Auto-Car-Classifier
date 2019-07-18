@@ -13,10 +13,10 @@
 * Visit `localhost:3000` 
 
 ## **Documentation**
-- [Functional & Architectural Design documentation](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/Requirements_Document.pdf)
+- [Functional & Architectural Design documentation](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/refactorBackend/documents/Requirements_Document.pdf)
 - [Coding standards document]()
 - [Testing Policy Document]()
-- [User Manual](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/User_Manual.pdf)
+- [User Manual](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/refactorBackend/documents/User_Manual.pdf)
 
 ## **Members**
 
