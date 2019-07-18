@@ -1,6 +1,7 @@
 var request = require("supertest");
-var should = require("should");
+var assert = require('assert');
 const app = require("../server.js");
+const classification =  require('../api/classification.js');
 
 let data = {
  imageID: 'Image1.jpg'
@@ -153,7 +154,4 @@ describe('Ensure we can check if an image contains a car or not', function () {
         .expect(200)
         done()
   });
-
 });
-
-

@@ -105,7 +105,6 @@ function resizeImages(req, res)
         {
             console.log('Resizing Done!');
             moveProcessedImages(res);
-
         });
 
 }
@@ -232,7 +231,6 @@ function submitImage64(req, res)
     var mess = "Image Received";
     if (imageBase64 == null || imageBase64.length === 0)
     {
-        statusVal = "fail";
         mess = "No Image Data received";
         res.status(401).json({
             status: statusVal
@@ -241,7 +239,7 @@ function submitImage64(req, res)
     else
     {
         var data = imageBase64.replace(/^data:image\/\w+;base64,/, '');
-        fs.writeFile(fileName, data, {encoding: 'base64'}, writeToFile);
+        fs.writeFile(fileName, data, {encoding: 'base64'}, writeToFile(req));
         mess = 'Image' + (numFiles + 1) + '.jpg';
     }
 
@@ -251,22 +249,23 @@ function submitImage64(req, res)
     });
 }
 
-function writeToFile(err)
-{
-    if (err)
-    {
-        mess = err.message;
-        status = "fail";
+const writeToFile = (response) => (error) => {
+    if (err){
+        response.status(500).json({
+            error: 'Something went wrong with uploading the image, please try again'
+        });
     }
 }
 
 function countFiles(dir)
 {
-    var files = fs.readdirSync(dir);
-
+    var files;
+    try{
+        files = fs.readdirSync(dir);
+    } catch(exception){
+        return -1;
+    }
     return files.length;
-
-
 }
 
 const sendProbability = (res) => (data) =>
@@ -283,68 +282,70 @@ const logErrors = (label) => (data) =>
 
 function getMakeAndModel(req, res)
 {
+    try{
+        //read image as numpy array, turn it into numpy list and send an api call to the model
+        let numpyArray = nj.images.read(`images/${req.body.imageID}`);
+        numpyArray = numpyArray.tolist();
 
-    //read image as numpy array, turn it into numpy list and send an api call to the model
-    let numpyArray = nj.images.read(`images/${req.body.imageID}`);
-    numpyArray = numpyArray.tolist();
-
-    request.post({
-        headers: {
-            'content-type': 'application/json'
-        },
-        url: MODEL_ENDPOINT,
-        body: {
-            data: numpyArray
-        },
-        json: true,
-    }, function (error, response, body)
-    {
-        console.log("Response: " + response.statusCode);
-        if (response && response.statusCode == 200)
-        {
-            sendMakeAndModel(res, `${response.body.car}-${response.body.confidence}`);
-
-        }
-        else
-        {
-            console.log("Error in imageContainsCar Function: " + error);
-            res.status(500).json({
-                error: error
-            });
-        }
-
-    });
+        request.post({
+            headers: {
+                'content-type': 'application/json'
+            },
+            url: MODEL_ENDPOINT,
+            body: {
+                data: numpyArray
+            },
+            json: true,
+        }, function (error, response, body){
+            if (response && response.statusCode == 200){
+                sendMakeAndModel(res, `${response.body.car}-${response.body.confidence}`);
+            }
+            else{
+                res.status(500).json({
+                    error: 'Car classifier returned an error trying to classify the image. Please try again'
+                });
+            }
+        });
+    } catch(exception) {
+        res.status(500).json({
+            error: 'An error occured trying to classify the image, please try again'
+        });
+    }
 
 }
 
 function imageContainsCar(req, res)
 {
+    try{
+        //read image as numpy array, turn it into numpy list and send an api call to the model
+        let numpyArray = nj.images.read(`images/${req.body.imageID}`);
+        numpyArray = numpyArray.tolist();
 
-    //read image as numpy array, turn it into numpy list and send an api call to the model
-    let numpyArray = nj.images.read(`images/${req.body.imageID}`);
-    numpyArray = numpyArray.tolist();
-
-    request.post({
-        headers: {
-            'content-type': 'application/json'
-        },
-        url: BOOLEAN_MODEL_ENDPOINT,
-        body: {
-            data: numpyArray
-        },
-        json: true,
-        }, function(error, response, body){
-            if( response && response.statusCode == 200){
-                res.status(200).json({
-                    ...response.body
-                })
-            } else {
-                res.status(500).json({
-                    error: error
-                });
-            }
-
-    });
+        request.post({
+            headers: {
+                'content-type': 'application/json'
+            },
+            url: BOOLEAN_MODEL_ENDPOINT,
+            body: {
+                data: numpyArray
+            },
+            json: true,
+            }, function(error, response, body){
+                if( response && response.statusCode == 200){
+                    res.status(200).json({
+                        ...response.body
+                    })
+                } else {
+                    res.status(500).json({
+                        error: 'Boolean classifier returned an error trying to classify the image. Please try again'
+                    });
+                }
+        });
+    } catch(exception){
+        res.status(500).json({
+            error: 'An error occured trying to classify the image, please try again'
+        });
+    }
 
 }
 
@@ -559,4 +560,10 @@ function sendMakeAndModel(res, data)
         confidence: confidence
     })
 };
+
+let UtilityFunctions = {
+    sendMakeAndModel,
+    getNumWords,
+    countFiles
+}
 module.exports = router;
