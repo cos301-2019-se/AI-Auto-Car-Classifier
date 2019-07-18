@@ -136,9 +136,18 @@ function detectCar(imageID, callback)
             console.log(textStatus);
             console.log(exception);
             displayError('Unable to classify Car: ' + textStatus);
+            clearLoadingImages();
+
             return -1;
         }
     });
+}
+
+function clearLoadingImages()
+{
+    $('#plateItem').html('&nbsp;');
+    $('#makeItem').html('&nbsp;');
+    $('#colourItem').html('&nbsp;');
 }
 
 function displayError(message)
@@ -152,7 +161,7 @@ function getColour(imageID)
 
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/classify/color_detector_MOCK",
+        url: "http://localhost:3000/classify/color_detector_sample",
         dataType: "json",
         data: {imageID: imageID},
         success: function (res)
@@ -167,7 +176,8 @@ function getColour(imageID)
         error: function (jqXHR, exception)
         {
             console.log("Error in getting Colour: " + jqXHR.status);
-
+            displayError('Unable to Classify Vehicle Colour');
+            $('#colourItem').text('???');
         }
     });
 }
@@ -193,7 +203,9 @@ function getMake(imageID)
         },
         error: function (jqXHR, exception)
         {
-            console.log("Error in getting Colour: " + jqXHR.status);
+            console.log("Error in getting Make: " + jqXHR.status);
+            displayError('Unable to Classify Vehicle Make');
+            $('#makeItem').text('???');
 
         }
     });
@@ -235,7 +247,8 @@ function getNumberPlate(imageID)
         },
         error: function (jqXHR, exception)
         {
-            console.log("Error in getting Colour: " + jqXHR.status);
+            console.log("Error in getting Plate: " + jqXHR.status);
+            displayError('Unable to Classify Vehicle Plate');
 
         }
     });

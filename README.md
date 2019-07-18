@@ -17,7 +17,13 @@
 
 * [Demo 2 SRS + Architectural Style](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/SRS_DEMO2.pdf)
 
-* [User Manual](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/User_Manual(3).pdf)
+## Demo 3 
+
+- [Functional & Architectural Design documentation]()
+- [Coding standards document]()
+- [Testing Policy Document]()
+- [User Manual](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/User_Manual(3).pdf)
+
 ## **Members**
 
  Project Management tool: [ZenHub](https://app.zenhub.com/workspaces/controlaltelite-5cc986490a0d102d91ad7cbf/board?repos=183455866)
