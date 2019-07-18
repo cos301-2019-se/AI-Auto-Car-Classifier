@@ -2,6 +2,10 @@
   "name": "AIAutoCarClassifier",
   "version": "1.0.0",
   "description": "A web application to identify cars in images by make, model, year and body type",
+   "main": "server.js",
+  "scripts": {
+  "start": "node server.js"
+},
   "repository": {
     "type": "git",
     "url": "https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/"
