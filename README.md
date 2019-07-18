@@ -4,18 +4,20 @@
 
 
 **Project description**
-* AI Auto Car Classifier is a progressive web app that can be used to take images of vehicles, cars to be specific, and classify them according to make, model and year.
+* AI Auto Car Classifier is a web app that can be used to take images of vehicles, cars to be specific, and classify them according to make, model and year.
 
 **HOW TO RUN THE PROJECT**
-* The project is hosted on azure web apps for development purposes and can be found here [AI Auto Car Classifier](https://autocarclassifier.azurewebsites.net) 
+* Install `nodejs v10.14` and `Microsoft Visual C++ >=2015`
+* Pull the master respository, navigate to the `backend` directory
+* Run `npm install` to install packages, then `npm start` to start the project
+* Visit `localhost:3000` 
 
+## **Documentation**
+- [Functional & Architectural Design documentation](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/refactorBackend/documents/Requirements_Document.pdf)
+- [Coding standards document]()
+- [Testing Policy Document]()
+- [User Manual](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/refactorBackend/documents/User_Manual.pdf)
 
-## **[Documentation](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/SRS_DEMO2.pdf)**
-* [Demo 1 SRS](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/Demo1_SRS.pdf)
-
-* [Demo 2 SRS + Architectural Style](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/SRS_DEMO2.pdf)
-
-* [User Manual](https://github.com/cos301-2019-se/AutoCarClassifier-Frontend/blob/master/documents/User_Manual(3).pdf)
 ## **Members**
 
  Project Management tool: [ZenHub](https://app.zenhub.com/workspaces/controlaltelite-5cc986490a0d102d91ad7cbf/board?repos=183455866)

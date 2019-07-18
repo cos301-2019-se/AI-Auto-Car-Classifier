@@ -2,7 +2,9 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const fs = require('fs');
+
+
+
 
 const displayPageRoute = require('./api/displayPage');
 const classifyRoute = require('./api/classification');
@@ -14,6 +16,9 @@ app.use(bodyParser.json({limit: '25mb'}));
 
 //Prevent CORS violation
 app.use(cors());
+
+app.use(express.static(__dirname + '/frontend')); // so all frontend files can be served
+app.use('/images/', express.static('./images')); // so uploaded images can be served
 
 app.use('/classify', classifyRoute);
 app.use('/notify', notifyRoute);

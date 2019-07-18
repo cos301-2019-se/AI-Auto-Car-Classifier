@@ -3,17 +3,9 @@ node_js: stable
 sudo: required
 dist: trusty
 before_install:
-  - cd frontend
+  - cd backend
 install:
   - npm install
 script:
   - npm run test
-  - npm run build
-before_deploy:
-  - mv build ../
-  - cd ../build
-deploy:
-  provider: azure_web_apps
-  on: master
-  skip_cleanup: true
-  verbose: true
+
