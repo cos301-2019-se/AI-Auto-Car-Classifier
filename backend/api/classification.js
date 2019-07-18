@@ -238,7 +238,7 @@ function submitImage64(req, res)
     else
     {
         var data = imageBase64.replace(/^data:image\/\w+;base64,/, '');
-        fs.writeFile(fileName, data, {encoding: 'base64'},);
+        fs.writeFile(fileName, data, {encoding: 'base64'}, writeToFile(req));
         mess = 'Image' + (numFiles + 1) + '.jpg';
     }
 
