@@ -15,7 +15,7 @@
 ## **Documentation**
 - [Functional & Architectural Design documentation](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Requirements_Document.pdf)
 
-[New SRS](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/Requirements_Document.pdf)
+- [New Functional & Architectural design documentation](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/Requirements_Document.pdf)
 - [Coding standards document](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Coding%20Standards.pdf)
 - [Testing Policy Document](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Testing%20Policy.pdf)
 - [User Manual](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/User_Manual.pdf)
