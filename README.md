@@ -14,8 +14,8 @@
 
 ## **Documentation**
 - [Functional & Architectural Design documentation](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Requirements_Document.pdf)
-- [Coding standards document]()
-- [Testing Policy Document]()
+- [Coding standards document](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Coding%20Standards.pdf)
+- [Testing Policy Document](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Testing%20Policy.pdf)
 - [User Manual](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/User_Manual.pdf)
 
 The overleaf account on which all the above documents reside can be found [here](https://www.overleaf.com/1441367113ygzmrzsfjhkj)
