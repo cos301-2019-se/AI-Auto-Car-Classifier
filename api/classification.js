@@ -333,14 +333,14 @@ function imageContainsCar(req, res)
             },
             json: true,
             }, function(error, response, body){
-                console.log(response.body)
+              //  console.log(response.body)
                 if( response && response.statusCode == 200){
                     res.status(200).json({
                         ...response.body
                     })
                 } else {
-                    console.log(response.body);
-                    console.log(response.statusCode);
+                  //  console.log(response.body);
+                //    console.log(response.statusCode);
                     res.status(500).json({
                         message: 'Boolean classifier returned an error trying to classify the image. Please try again',
                         error: error
