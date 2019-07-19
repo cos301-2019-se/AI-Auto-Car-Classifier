@@ -121,13 +121,14 @@ function detectCar(imageID, callback)
         {
             var prob = res.confidence;
 
-            if (prob > 0.60)
+            if (prob > 0.20)
             {
                callback(imageID);
             }
             else
             {
-                alert("Image is not a car (" + prob + ")")
+                bootbox.alert("Image is not a car");
+                clearLoadingImages();
             }
         },
         error: function (jqXHR, textStatus, exception)
