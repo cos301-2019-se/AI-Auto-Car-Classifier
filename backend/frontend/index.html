@@ -7,6 +7,36 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
+    
+    
+    <script src="https://www.gstatic.com/firebasejs/5.7.1/firebase.js"></script>
+	 <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css"/>
+    <link rel="stylesheet" href="css/style.css">
+     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+  	
+	
+	<!--===========================Files for the table====================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+
+
+    
 </head>
 <body>
 
@@ -30,16 +60,63 @@
                         <li id="plateItem" class="listElement">&nbsp; </li> </ul>
                     </li>
                 </ul>
-                <button id="reportBtn" type="button" class="btn btn-danger btn-sm">Report Incorrect Details</button>
+              <button id="reportBtn" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal" onclick="defaultValue()">Report Incorrect Details</button>
+		<div>
+		<button id="viewInventory" class="btn btn-primary active" onclick="ReadUserData()">
+                View inventory
+		</button>
                <!-- <button id="classifyBtn" type="button" class="btn btn-success btn-lg">Classify</button> -->
-            </div>
+		</div>
+		<div>
+		<button id="submitToInventory" class="btn btn-success active" onclick="writeUserData()">
+			Submit details
+		</button>
+               <!-- <button id="classifyBtn" type="button" class="btn btn-success btn-lg">Classify</button> -->
+		</div>
+	    </div>
 
         </div>
-
       <!--  <form action="http://localhost:3000/classify/submit_multiple"  enctype="multipart/form-data" method="POST">
            <label class="uploadLabel"><input type="file" class="btn btn-primary" name="imageMultiple" multiple></label>
             <button type="submit" class="btn btn-default">Submit</button>
         </form> -->
+	<div class="modal fade" id="myModal" role="dialog">
+	    <div class="modal-dialog modal-lg">
+	      <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal">&times;</button>
+		  <h4 class="modal-title" align="centre">Verify car details</h4>
+		</div>
+		<div class="modal-body">
+		
+			  <div class="md-form mb-4">
+			  <i class="fas fa-lock prefix grey-text"></i>
+			  <label data-error="wrong" data-success="right" for="defaultForm-pass">Vehicle color</label>
+			  <input type="text" id="modal-color" class="form-control validate">
+			</div>
+			
+			<div class="md-form mb-4">
+			  <i class="fas fa-lock prefix grey-text"></i>
+			  <label data-error="wrong" data-success="right" for="defaultForm-pass">Make</label>
+			  <input type="text" id="modal-make" class="form-control validate">
+			</div>
+			
+			<div class="md-form mb-4">
+			  <i class="fas fa-lock prefix grey-text"></i>
+			  <label data-error="wrong" data-success="right" for="defaultForm-pass">Number Plate</label>
+			  <input type="text" id="modal-numberplate" class="form-control validate">
+			</div>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal" onclick="writeUserData()">Submit to inventory</button>
+		</div>
+	      </div>
+	    </div>
+	  </div>
+	</div>
+
+	
+	
 
 
             <form class="uploadForm" action="http://localhost:3000/classify/submit_multiple"  enctype="multipart/form-data" method="POST">
@@ -49,19 +126,117 @@
                 Browse Files
             </button>
             <span class="file-info">Upload a file</span>
-
-
         </div>
             </form>
 
     </div>
     <h1>Gallery</h1>
     <div class="container gallery">
-
-
-
     </div>
+    
+    
+	
+	<div class="limiter" id="myDiv" >
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100">
+					<table>
+						<thead>
+							<tr class="table100-head">
+								<th class="column1">Make</th>
+								<th class="column2">Color</th>
+								<th class="column3">Number Plate</th>
+							</tr>
+						</thead>
+						<tbody id="tablebody">
+								
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
 
+
+
+    
+<script>
+	  var config = {
+apiKey: "AIzaSyCB24cefzF7l0aGN2NIjGQkozZ3fA0Jx0k",
+    authDomain: "fabled-gist-246121.firebaseapp.com",
+    databaseURL: "https://fabled-gist-246121.firebaseio.com",
+    projectId: "fabled-gist-246121",
+    storageBucket: "",
+    messagingSenderId: "161898052209",
+    appId: "1:161898052209:web:dd313493716149b3"
+  };
+  firebase.initializeApp(config);
+  
+  const db= firebase.database();
+  
+ function writeUserData() {
+  
+ var col= document.getElementById('modal-color');
+ var mak= document.getElementById('modal-make');
+ var numberPlate = document.getElementById('modal-numberplate');
+console.log(col.value);
+ console.log(mak.value);
+ console.log(numberPlate.value);
+ 
+ var userId = firebase.auth().currentUser.uid;
+  console.log(userId);
+ //userID's array 
+ var array= [];
+  var car = {color :col.value, Company: mak.value, NumberPlate: numberPlate.value};
+ array.push(car);
+ 
+ //var userId = firebase.auth().currentUser.uid;
+var newPostKey = firebase.database().ref().child('cars/'+userId).push().set(car);
+ 
+  //firebase.database().ref('cars/' + userId).set(array);
+}
+function ReadUserData(){
+    document.getElementById("myDiv").style.display = "block";
+    
+ var userId = firebase.auth().currentUser.uid;
+  console.log(userId);
+  firebase.database().ref('/cars/'+userId ).once('value').then(function(snapshot) {
+  var username = (snapshot.val()) || 'Anonymous';
+  
+//~ document.getElementById("myData").innerHTML= JSON.stringify(username);
+var length= Object.keys(username).length;
+//~ console.log(Object.keys(username).length);
+//~ console.log(username);
+	var tableRow = "";
+	for(prop in username)
+	{ 
+		tableRow += "<tr><td>"+username[prop].Company+ "</td><td>"+ username[prop].color + "</td><td>" + username[prop].NumberPlate + "</td></tr>" ;
+	}
+	
+	document.getElementById("tablebody").innerHTML = tableRow;
+    
+ for(prop in username)
+ {
+ 	var div = document.createElement("div");
+ 	console.log('Make: ' + username[prop].Company +'Color: ' + ' ' + username[prop].color + 'Number plate: ' +username[prop].NumberPlate);
+    tab.appendChild(div);
+ }
+  
+});
+ 
+}
+function defaultValue()
+{
+	var defcol= document.getElementById("coloritem");
+	var defmake= document.getElementById("makeitem");
+	var defplate=document.getElementById("plateitem");
+	document.getElementById("modal-color").defaultValue = defcol;
+	document.getElementById("modal-make").defaultValue = defmake;
+	document.getElementById("modal-numberplate").defaultValue = defplate;
+}
+  </script>
+
+    
     <div id="footer"> </div>
 
 </div>
@@ -71,9 +246,27 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="http://malsup.github.com/jquery.form.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 <script src="scripts/script.js"></script>
+
+<!--=========FOR THE TABLE======================================================================================-->
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+
+<pre id="myData"></pre>
+<div id= "tab"></div>
+    <script src="firebase.js"></script>
+    <script src="main.js"></script>
+    <script src="login.js"></script>
+
 </body>
 </html>
