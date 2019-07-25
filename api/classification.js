@@ -350,7 +350,7 @@ function imageContainsCar(req, res)
     } catch(error){
         res.status(500).json({
             message: 'An error occured trying to classify the image, please try again',
-            error: error 
+            error: error
         });
     }
 
@@ -386,20 +386,77 @@ function getImageColor(req, response)
     );
 }
 
+class Colour
+{
+    constructor(name)
+    {
+        this.name = name;
+        this.count = 1;
+    }
+    get getName()
+    {
+        return this.name;
+    }
+    get getCount()
+    {
+        return this.count;
+    }
+    addOccurance()
+    {
+        this.count++;
+    }
+}
+
 function getImageColorBySample(req, res)
 {
     var imagePath = './images/' + req.body.imageID;
+    var numberPlateCoordinates = [];
+    var hasPlate = req.body.hasNumberPlate;
+    if( hasPlate === 'true')
+    {
+         numberPlateCoordinates = req.body.coordinates;
+    }
+
 
     Jimp.read(imagePath, function (err, image)
     {
-        var midpointX = image.bitmap.width / 2;
-        var midpointY = image.bitmap.height / 2;
 
+        var startX,startY;
+        var regionWidth, regionHeight;
+        if(hasPlate === 'true')
+        {
+            var upperLeftX = coordinates[0].x;
+            var upperLeftY = coordinates[0].y;
+            var lowerLeftY = coordinates[3].y;
+            var upperRightX = coordinates[1].x;
+
+            var width = upperRightX - upperLeftX + 20;
+            var height = lowerLeftY -  upperLeftY + 20;
+
+
+            var endY = upperLeftY - height;
+
+            startY = endY - 100;
+            startX = upperLeftX - 20;
+
+            regionWidth = 100;
+            regionHeight = 100;
+
+        }
+        else
+        {
+            var midpointX = image.bitmap.width / 2;
+            var midpointY = image.bitmap.height / 2;
+            startX = midpointX - 100;
+            startY = midpointY - 100;
+            regionWidth = 200;
+            regionHeight = 200;
+        }
         var samples = [];
 
-        samples.push(image.getPixelColor(midpointX, midpointY));
 
-        getRegion(midpointX - 100,midpointY - 100,200,200,image,samples); //Midpoint box
+
+        getRegion(startX,startY,regionWidth,regionHeight,image,samples); //Midpoint box
 
         var colourCount = [];
 
@@ -411,36 +468,23 @@ function getImageColorBySample(req, res)
 
             var colourName = names.basic[0].name;
 
+            let existingColour = colourCount.filter( c => c['name'] === colourName );
 
-            if( colourCount[colourName] === undefined)
+            if(existingColour.length === 0)
             {
-
-                colourCount[colourName] = 1;
+                colourCount.push(new Colour(colourName));
             }
             else
             {
-
-                colourCount[colourName]++;
+                existingColour[0].addOccurance();
             }
-
         }
+
+        colourCount.sort(compareColour);
 
         console.log(colourCount);
 
-        var keys = Object.keys(colourCount);
-        var max = -1;
-        var matchedColour = "";
-        for(var key in colourCount)
-        {
-            if(colourCount[key] > max)
-            {
-                max = colourCount[key];
-                matchedColour = key.toString();
-            }
-        }
-
-     console.log("COLOUR IS: " + matchedColour);
-
+        var matchedColour = colourCount[0].name;
 
         res.status(200).json({
             status: "success",
@@ -450,6 +494,25 @@ function getImageColorBySample(req, res)
 
 
 }
+
+function compareColour(a, b)
+{
+
+    const col1 = a.count;
+    const col2 = b.count;
+
+    let comparison = 0;
+    if (col1 > col2)
+    {
+        comparison = 1;
+    } else if (col1 < col2)
+    {
+        comparison = -1;
+    }
+    return comparison * -1; //sort in reverse order
+}
+
+
 
 function getRegion(startX,startY, width, height, image, samples)
 {
@@ -462,6 +525,8 @@ function getRegion(startX,startY, width, height, image, samples)
         }
     }
 }
+
+
 
 function getImageColorMock(req, res)
 {
