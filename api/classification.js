@@ -386,6 +386,20 @@ function getImageColor(req, response)
     );
 }
 
+function commonColourMapper(col)
+{
+    switch(col)
+    {
+        case "pink":
+            return "red";
+        case "teal":
+            return "blue";
+        case "gold":
+            return "yellow";
+        default:
+            return col;
+    }
+}
 class Colour
 {
     constructor(name)
