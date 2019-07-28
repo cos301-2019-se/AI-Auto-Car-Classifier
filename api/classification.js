@@ -400,6 +400,59 @@ function commonColourMapper(col)
             return col;
     }
 }
+
+function testColourAccuracy(req, res)
+{
+    let rawdata = fs.readFileSync('test/imagesWithPlates/carDetails.json');
+
+    let details = JSON.parse(rawdata);
+    var itemsProcessed = 0;
+    var correct = 0;
+    details.forEach(function(car)
+    {
+
+        let file = car.fileName;
+        let colour = car.colour;
+        let coordinates = car.coordinates;
+
+
+       colourTest('test/imagesWithPlates/' + file,coordinates,function (matchedColour)
+       {
+           if(colour.toUpperCase() === matchedColour.toUpperCase())
+           {
+               correct++;
+
+           }
+           else
+           {
+               console.log("Failed: " + file + " -> " + " Expected: " + colour +  " but got " + matchedColour);
+           }
+
+           itemsProcessed++;
+           if(itemsProcessed === details.length)
+           {
+               getAccuracy(correct,details.length);
+           }
+       });
+
+    });
+
+
+    res.status(200).json({
+        status: "success",
+        accuracy: "acc"
+    });
+
+}
+
+function getAccuracy(correct, total)
+{
+        console.log("************** Accuracy **************");
+        console.log("Correct: " + correct);
+        console.log("Total: " + total);
+        let acc = correct / total * 100;
+        console.log(acc + "%");
+}
 class Colour
 {
     constructor(name)
@@ -419,6 +472,92 @@ class Colour
     {
         this.count++;
     }
+}
+
+function colourTest(imagePath,coordinates,cb)
+{
+    let hasPlate = 'true';
+
+    Jimp.read(imagePath, function (err, image)
+    {
+
+        var startX,startY;
+        var regionWidth, regionHeight;
+        if(hasPlate === 'true')
+        {
+            var upperLeftX = coordinates[0].x;
+            var upperLeftY = coordinates[0].y;
+            var lowerLeftY = coordinates[3].y;
+            var upperRightX = coordinates[1].x;
+
+            var width = upperRightX - upperLeftX + 20;
+            var height = lowerLeftY -  upperLeftY;
+
+            height *= 2;
+
+            var endY = upperLeftY - height;
+
+            startY = endY - 100;
+            startX = upperLeftX - 20;
+
+            regionWidth = 100;
+            regionHeight = 100;
+
+        }
+        else
+        {
+            var midpointX = image.bitmap.width / 2;
+            var midpointY = image.bitmap.height / 2;
+            startX = midpointX - 100;
+            startY = midpointY - 100;
+            regionWidth = 200;
+            regionHeight = 200;
+        }
+        var samples = [];
+
+
+
+        getRegion(startX,startY,regionWidth,regionHeight,image,samples); //Midpoint box
+
+        var colourCount = [];
+
+        for (var i = 0; i < samples.length; i++)
+        {
+            var rgba = Jimp.intToRGBA(samples[i]);
+            var rgbString = "rgb(" + rgba.r + "," + rgba.g + "," + rgba.b + ")";
+            var names = colour(rgbString, {pick: ['basic']});
+
+            var colourName = names.basic[0].name;
+
+            let existingColour = colourCount.filter( c => c['name'] === colourName );
+
+            if(existingColour.length === 0)
+            {
+                colourCount.push(new Colour(colourName));
+            }
+            else
+            {
+                existingColour[0].addOccurance();
+            }
+        }
+
+        colourCount.sort(compareColour);
+
+   //     console.log(colourCount);
+        var col = colourCount[0].name;
+        if(col === 'gray' || col === 'silver' || col === 'black' )
+        {
+            if(colourCount[0].count - colourCount[1].count < 50 )
+            {
+                col = colourCount[1].name;
+            }
+        }
+
+       var c =  commonColourMapper(col);
+      cb(c);
+
+
+    });
 }
 
 function getImageColorBySample(req, res)
