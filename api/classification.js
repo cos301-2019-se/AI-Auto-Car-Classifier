@@ -584,7 +584,9 @@ function getImageColorBySample(req, res)
             var upperRightX = coordinates[1].x;
 
             var width = upperRightX - upperLeftX + 20;
-            var height = lowerLeftY -  upperLeftY + 20;
+            var height = lowerLeftY -  upperLeftY;
+
+            height *= 2;
 
 
             var endY = upperLeftY - height;
@@ -635,9 +637,20 @@ function getImageColorBySample(req, res)
 
         colourCount.sort(compareColour);
 
-        console.log(colourCount);
+        var col = colourCount[0].name;
+        if(col === 'gray' || col === 'silver' || col === 'black' ) // Decreases likelihood of grill/windscreen match
+        {
+            if(colourCount[0].count - colourCount[1].count < 50 )
+            {
+                col = colourCount[1].name;
+            }
+        }
 
-        var matchedColour = colourCount[0].name;
+        var matchedColour =  commonColourMapper(col); // Change name to more common colour
+
+     //   console.log(colourCount);
+
+
 
         res.status(200).json({
             status: "success",
