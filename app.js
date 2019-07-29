@@ -10,6 +10,7 @@ const displayPageRoute = require('./api/displayPage');
 const classifyRoute = require('./api/classification');
 const notifyRoute = require('./api/notification');
 const logRoute = require('./api/logging');
+const authentication = require('./api/authentication');
 
 app.use(bodyParser.urlencoded({extended: true, limit: '25mb'}));
 app.use(bodyParser.json({limit: '25mb'}));
@@ -24,7 +25,7 @@ app.use('/classify', classifyRoute);
 app.use('/notify', notifyRoute);
 app.use('/log', logRoute);
 app.use('/', displayPageRoute);
-
+app.use('/auth', authentication);
 
 //Error handling when url doesn't exist
 app.use((req, res, next) =>
