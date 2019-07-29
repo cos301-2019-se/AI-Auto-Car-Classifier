@@ -11,6 +11,12 @@ module.exports = {
       make: {
         type: Sequelize.STRING
       },
+      color: {
+        type: Sequelize.STRING
+      },
+      year: {
+        type: Sequelize.STRING
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
