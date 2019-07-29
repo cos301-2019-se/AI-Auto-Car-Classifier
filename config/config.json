@@ -1,11 +1,16 @@
 {
   "development": {
-    "username": "controlaltelite11@controlaltelite",
+    "username": "controlaltelite11@controlaltelite.database.windows.net",
     "password": "Lekhuleni3296!",
     "database": "controlaltelite",
     "host": "controlaltelite.database.windows.net",
-    "dialect": "mysql",
-    "operatorsAliases": false
+    "port": 1433,
+    "dialect": "mssql",
+    "dialectOptions": {
+      "options": {
+          "encrypt": true
+      }
+  }
   },
   "test": {
     "username": "root",
