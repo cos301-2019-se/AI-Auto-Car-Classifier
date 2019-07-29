@@ -30,8 +30,7 @@ const BOOLEAN_MODEL_ENDPOINT = 'http://1555dd9c-4d3c-4003-bda8-aa7634e9e9a8.west
 router.post('/submit', upload.single('image'), submitImage);
 router.post('/submit_multiple', upload.array('imageMultiple'), submitMultipleImages);
 router.post('/submit64', submitImage64);
-router.post('/color_detector', getImageColor);
-router.post('/color_detector_sample', getImageColorBySample);
+router.post('/color_detector', getImageColorBySample);
 router.post('/car_detector', imageContainsCar);
 router.post('/get_car_details', getMakeAndModel);
 router.post('/number_plate', getNumberPlate);
@@ -363,27 +362,6 @@ function imageContainsCarMock(req, res)
     res.status(200).json({
         probability: "0.9216358"
     });
-}
-
-const sendColor = (res) => (data) =>
-{
-    res.status(200).json({
-        color: data.toString()
-    })
-};
-
-function getImageColor(req, response)
-{
-    const process = spawn('python', ['color-extractor/getColor', 'color-extractor/color_names.npz', `images/${req.body.imageID}`]);
-    process.stdout.on(
-        'data',
-        sendColor(response)
-    );
-
-    process.stderr.on(
-        'data',
-        sendColor(response)
-    );
 }
 
 function commonColourMapper(col)
