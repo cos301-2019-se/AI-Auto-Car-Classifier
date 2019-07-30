@@ -1,9 +1,24 @@
 //import { resolve } from "path";
 
+
+let axios = require('axios');
 function onSignIn(googleUser) {
 	var profile = googleUser.getBasicProfile();
-	console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-	console.log('Name: ' + profile.getName());
-	console.log('Image URL: ' + profile.getImageUrl());
-	console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+	$.ajax({
+        method: "POST",
+        url: "http://localhost:3000/auth/login",
+        dataType: "json",
+        data: {
+			name: profile.getName(),
+			email: profile.getEmail()
+		},
+        success: function (res) {
+            window.location = '/index.html';
+        },
+        error: function (jqXHR, textStatus, exception){
+			console.log('something went wrong!');
+			console.log(`${exception}`);
+			return false;
+        }
+    });
 }

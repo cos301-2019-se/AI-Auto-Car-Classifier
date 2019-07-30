@@ -25,14 +25,16 @@ router.post('/login', async function(req, res, next) {
                 console.log(newUser.email);
                 let payload = { id: newUser.id };
                 let token = jwt.sign(payload, jwtOptions.secretOrKey);
-                res.json({ id: newUser.id, token: token });
+                res.setHeader('Set-Cookie', `Bearer=${token}; HttpOnly`);
+                res.json({ success: 'logged in' });
             } else {
                 if (user.email === email) {
                     // from now on we'll identify the user by the id and the id is the 
                     // only personalized value that goes into our token
                     let payload = { id: user.id };
                     let token = jwt.sign(payload, jwtOptions.secretOrKey);
-                    res.json({ id: user.id, token: token });
+                    res.setHeader('Set-Cookie', `Bearer=${token}; HttpOnly`);
+                    res.json({ success: 'logged in' });
                 } else {
                     res.status(401).json({ message: 'Could not get credentials' });
                 }
