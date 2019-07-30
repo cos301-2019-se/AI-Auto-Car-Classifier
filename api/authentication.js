@@ -4,27 +4,32 @@ const request = require("request");
 const express = require('express');
 const jwt = require('jsonwebtoken');
 const { secret } = require('../config/jwtConfig');
-const UserModel = require('../models/user');
+const db = require('../models/index');
+const User = db.sequelize.models.User;
 
 const router = express.Router();
 
 router.post('/register', async (req, res) => {
-    const { name, surname, email } = req.body;
+    const { name, email } = req.body;
   
     // authentication will take approximately 13 seconds
     // https://pthree.org/wp-content/uploads/2016/06/bcrypt.png
     const hashCost = 10;
-  
+    
     try {
       //const passwordHash = await bcrypt.hash(password, hashCost);
-      const userDocument = new UserModel({ name, surname, email });
-      await userDocument.save();
+      let newUser;
+      console.warn(req.body);
+      await User.create({ name, email }).then(user => {
+        newUser = user;
+      });
       
-      res.status(200).send({ username });
+      res.status(200).send({ name: newUser.name });
       
-    } catch (error) {
+     } catch (error) {
       res.status(400).send({
         error: 'req body should take the form { name, surname, email }',
+        exception: error
       });
     }
   });

@@ -2,7 +2,7 @@
   "development": {
     "username": "controlaltelite11@controlaltelite.database.windows.net",
     "password": "Lekhuleni3296!",
-    "database": "controlaltelite",
+    "database": "autocarclassifier",
     "host": "controlaltelite.database.windows.net",
     "port": 1433,
     "dialect": "mssql",
