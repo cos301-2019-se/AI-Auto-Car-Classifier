@@ -5,5 +5,5 @@ dist: trusty
 install:
   - npm install
 script:
-  - npm run test
+  - npm test
 
