@@ -1,7 +1,5 @@
 //import { resolve } from "path";
 
-
-let axios = require('axios');
 function onSignIn(googleUser) {
 	var profile = googleUser.getBasicProfile();
 	$.ajax({
