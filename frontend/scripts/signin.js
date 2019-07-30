@@ -14,6 +14,9 @@ function onSignIn(googleUser) {
             window.location = '/index.html';
         },
         error: function (jqXHR, textStatus, exception){
+            /**
+             * Tell the user we could not log them in. Do not redirect them to index
+             */
 			console.log('something went wrong!');
 			console.log(`${exception}`);
 			return false;
