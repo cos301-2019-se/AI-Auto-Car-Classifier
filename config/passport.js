@@ -12,9 +12,12 @@ let jwtOptions = {};
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.secretOrKey = secret;
 
+const db = require('../models/index');
+const User = db.sequelize.models.User;
+
 let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
   console.log('payload received', jwt_payload);
-  let user = getUser({ id: jwt_payload.id });
+  let user = User.findOne({ where: {id: jwt_payload.id} });
 
   if (user) {
     next(null, user);

@@ -11,6 +11,7 @@ const glob = require('glob');
 const FileSet = require('fileset');
 const colour = require('color-namer');
 var nj = require('numjs');
+let passport = require('../config/passport');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb)
@@ -27,16 +28,16 @@ var upload = multer({storage: storage});
 const MODEL_ENDPOINT = 'http://50d215a3-70aa-4839-9220-2a8bc85d3646.westeurope.azurecontainer.io/score';
 const BOOLEAN_MODEL_ENDPOINT = 'http://1555dd9c-4d3c-4003-bda8-aa7634e9e9a8.westeurope.azurecontainer.io/score';
 
-router.post('/submit', upload.single('image'), submitImage);
-router.post('/submit_multiple', upload.array('imageMultiple'), submitMultipleImages);
-router.post('/submit64', submitImage64);
-router.post('/color_detector', getImageColor);
-router.post('/color_detector_sample', getImageColorBySample);
-router.post('/car_detector', imageContainsCar);
-router.post('/get_car_details', getMakeAndModel);
-router.post('/number_plate', getNumberPlate);
+router.post('/submit', passport.authenticate('jwt', { session: false }), upload.single('image'), submitImage);
+router.post('/submit_multiple', passport.authenticate('jwt', { session: false }), upload.array('imageMultiple'), submitMultipleImages);
+router.post('/submit64', passport.authenticate('jwt', { session: false }), submitImage64);
+router.post('/color_detector', passport.authenticate('jwt', { session: false }), getImageColor);
+router.post('/color_detector_sample', passport.authenticate('jwt', { session: false }), getImageColorBySample);
+router.post('/car_detector', passport.authenticate('jwt', { session: false }), imageContainsCar);
+router.post('/get_car_details', passport.authenticate('jwt', { session: false }), getMakeAndModel);
+router.post('/number_plate', passport.authenticate('jwt', { session: false }), getNumberPlate);
 router.get('/', serverRunning);
-router.post('/resize_images', resizeImages);
+router.post('/resize_images', passport.authenticate('jwt', { session: false }), resizeImages);
 
 
 function serverRunning(req, res){
