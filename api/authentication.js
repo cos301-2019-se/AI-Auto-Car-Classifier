@@ -26,7 +26,7 @@ router.post('/login', async function(req, res, next) {
                 let payload = { id: newUser.id };
                 let token = jwt.sign(payload, jwtOptions.secretOrKey);
                 res.setHeader('Set-Cookie', `Bearer=${token}; HttpOnly`);
-                res.json({ success: 'logged in' });
+                res.json({ success: 'logged in', token: token });
             } else {
                 if (user.email === email) {
                     // from now on we'll identify the user by the id and the id is the 
