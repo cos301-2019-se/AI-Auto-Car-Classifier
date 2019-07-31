@@ -50,6 +50,9 @@ $(document).ready(function ()
                 console.log(textStatus);
                 console.log(exception);
 
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
             }
         });
         return false;
