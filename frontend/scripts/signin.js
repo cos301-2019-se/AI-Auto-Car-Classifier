@@ -11,8 +11,9 @@ function onSignIn(googleUser) {
 			email: profile.getEmail()
 		},
         success: function (res) {
-            if(res.data.token){
-                localStorage.setItem("authToken", token);
+            console.log(res);
+            if(res.token){
+                localStorage.setItem("authToken", res.token);
                 window.location = '/index.html';
             }
             /**otherwise tell the user something went wring logging them in */

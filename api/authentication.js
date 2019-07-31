@@ -34,7 +34,7 @@ router.post('/login', async function(req, res, next) {
                     let payload = { id: user.id };
                     let token = jwt.sign(payload, jwtOptions.secretOrKey);
                     res.setHeader('Set-Cookie', `Bearer=${token}; HttpOnly`);
-                    res.json({ success: 'logged in' });
+                    res.json({ success: 'logged in', token: token  });
                 } else {
                     res.status(401).json({ message: 'Could not get credentials' });
                 }
