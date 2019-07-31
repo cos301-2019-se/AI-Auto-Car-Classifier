@@ -50,6 +50,9 @@ $(document).ready(function ()
                 console.log(textStatus);
                 console.log(exception);
 
+            },
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
             }
         });
         return false;
@@ -98,6 +101,9 @@ function resizeImages(images)
             console.log(textStatus);
             console.log(exception);
             return -1;
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
     });
 }
@@ -140,6 +146,9 @@ function detectCar(imageID, callback)
             clearLoadingImages();
 
             return -1;
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
     });
 }
@@ -179,6 +188,9 @@ function getColour(imageID)
             console.log("Error in getting Colour: " + jqXHR.status);
             displayError('Unable to Classify Vehicle Colour');
             $('#colourItem').text('???');
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
     });
 }
@@ -208,6 +220,9 @@ function getMake(imageID)
             displayError('Unable to Classify Vehicle Make');
             $('#makeItem').text('???');
 
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
     });
 }
@@ -251,6 +266,9 @@ function getNumberPlate(imageID)
             console.log("Error in getting Plate: " + jqXHR.status);
             displayError('Unable to Classify Vehicle Plate');
 
+        },
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
     });
 }

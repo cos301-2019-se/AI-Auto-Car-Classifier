@@ -11,7 +11,12 @@ function onSignIn(googleUser) {
 			email: profile.getEmail()
 		},
         success: function (res) {
-            window.location = '/index.html';
+            console.log(res);
+            if(res.token){
+                localStorage.setItem("authToken", res.token);
+                window.location = '/index.html';
+            }
+            /**otherwise tell the user something went wring logging them in */
         },
         error: function (jqXHR, textStatus, exception){
             /**
