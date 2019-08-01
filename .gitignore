@@ -262,5 +262,7 @@ frontend/\.idea/
 
 \images/*.jpg
 \images/*.JPG
+\test/*.jpg
+\test/imagesWithPlates/*.jpg
 
 \.idea/
