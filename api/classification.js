@@ -26,7 +26,16 @@ var storage = multer.diskStorage({
 var upload = multer({storage: storage});
 const MODEL_ENDPOINT = 'http://50d215a3-70aa-4839-9220-2a8bc85d3646.westeurope.azurecontainer.io/score';
 const BOOLEAN_MODEL_ENDPOINT = 'http://1555dd9c-4d3c-4003-bda8-aa7634e9e9a8.westeurope.azurecontainer.io/score';
-
+/*
+Route definition takes the following structure:
+    app.METHOD(PATH, HANDLER)
+Where:
+    app is an instance of express.
+    METHOD is an HTTP request method, in lowercase.
+    PATH is a path on the server.
+    HANDLER is the function executed when the route is matched.
+NB: multiple funnction may be used. 
+*/
 router.post('/submit', upload.single('image'), submitImage);
 router.post('/submit_multiple', upload.array('imageMultiple'), submitMultipleImages);
 router.post('/submit64', submitImage64);
