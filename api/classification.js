@@ -297,7 +297,6 @@ async function getMakeAndModel(req, res)
                     console.log(error); //Exepection error....
                 }
             );
-        console.log(bas64Image);
         request.post({
             headers: {
                 'content-type': 'application/json'
