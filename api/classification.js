@@ -2,7 +2,7 @@ var express = require('express');
 const router = express.Router();
 const request = require("request");
 const path = require('path');
-
+const image2base64 = require('image-to-base64');
 const {spawn} = require('child_process');
 const multer = require('multer');
 const fs = require('fs-extra');
@@ -25,7 +25,7 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({storage: storage});
-const MODEL_ENDPOINT = 'http://54f6ac19-eceb-43cc-9e11-f44f7733621f.westeurope.azurecontainer.io/score';
+const MODEL_ENDPOINT = 'http://fa58d627-948b-47e0-9f79-16bf04d3d271.westeurope.azurecontainer.io/score';
 const BOOLEAN_MODEL_ENDPOINT = 'http://7b0640a1-4862-484f-aaef-cdcfe8fb98d3.westeurope.azurecontainer.io/score';
 
 router.post('/submit', passport.authenticate('jwt', { session: false }), upload.single('image'), submitImage);
@@ -280,20 +280,30 @@ const logErrors = (label) => (data) =>
     console.log(`${label} ${data}`);
 };
 
-function getMakeAndModel(req, res)
+async function getMakeAndModel(req, res)
 {
+    let bas64Image = null;
     try{
         //read image as numpy array, turn it into numpy list and send an api call to the model
-        let numpyArray = nj.images.read(`images/${req.body.imageID}`);
-        numpyArray = numpyArray.tolist();
-
+        await image2base64(`images/${req.body.imageID}`) // you can also to use url
+            .then(
+                (response) => {
+                    bas64Image = response;
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log(error); //Exepection error....
+                }
+            );
+        console.log(bas64Image);
         request.post({
             headers: {
                 'content-type': 'application/json'
             },
             url: MODEL_ENDPOINT,
             body: {
-                data: numpyArray
+                data: bas64Image
             },
             json: true,
         }, function (error, response, body){
