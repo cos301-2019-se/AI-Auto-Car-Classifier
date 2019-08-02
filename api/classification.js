@@ -31,8 +31,7 @@ const BOOLEAN_MODEL_ENDPOINT = 'http://7b0640a1-4862-484f-aaef-cdcfe8fb98d3.west
 router.post('/submit', passport.authenticate('jwt', { session: false }), upload.single('image'), submitImage);
 router.post('/submit_multiple', passport.authenticate('jwt', { session: false }), upload.array('imageMultiple'), submitMultipleImages);
 router.post('/submit64', passport.authenticate('jwt', { session: false }), submitImage64);
-router.post('/color_detector', passport.authenticate('jwt', { session: false }), getImageColor);
-router.post('/color_detector_sample', passport.authenticate('jwt', { session: false }), getImageColorBySample);
+router.post('/color_detector', passport.authenticate('jwt', { session: false }), getImageColorBySample);
 router.post('/car_detector', passport.authenticate('jwt', { session: false }), imageContainsCar);
 router.post('/get_car_details', passport.authenticate('jwt', { session: false }), getMakeAndModel);
 router.post('/number_plate', passport.authenticate('jwt', { session: false }), getNumberPlate);
