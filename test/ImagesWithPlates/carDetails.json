@@ -1,0 +1,14 @@
+[
+	{"fileName":"1.jpg","make":"Audi","colour":"gray","coordinates":[{"x":368,"y":398},{"x":538,"y":398},{"x":538,"y":442},{"x":368,"y":442}]},
+	{"fileName":"2.jpg","make":"Ford","colour":"red","coordinates":[{"x":344,"y":323},{"x":468,"y":323},{"x":468,"y":353},{"x":344,"y":353}]},
+	{"fileName":"3.jpg","make":"Audi","colour":"red","coordinates":[{"x":393,"y":411},{"x":523,"y":412},{"x":522,"y":453},{"x":391,"y":450}]},
+	{"fileName":"4.jpg","make":"Mercedes-Benz","colour":"white","coordinates":[{"x":327,"y":437},{"x":472,"y":437},{"x":472,"y":471},{"x":327,"y":471}]},
+	{"fileName":"5.jpg","make":"Toyota","colour":"silver","coordinates":[{"x":374,"y":401},{"x":529,"y":401},{"x":529,"y":441},{"x":374,"y":441}]},
+	{"fileName":"7.jpg","make":"BMW","colour":"white","coordinates":[{"x":368,"y":425},{"x":532,"y":425},{"x":532,"y":465},{"x":368,"y":465}]},
+	{"fileName":"8.jpg","make":"Fiat","colour":"yellow","coordinates":[{"x":326,"y":440},{"x":564,"y":440},{"x":564,"y":490},{"x":326,"y":490}]},
+	{"fileName":"9.jpg","make":"Mini","colour":"blue","coordinates":[{"x":344,"y":454},{"x":547,"y":454},{"x":547,"y":499},{"x":344,"y":499}]},
+	{"fileName":"10.jpg","make":"Nissan","colour":"white","coordinates":[{"x":385,"y":444},{"x":550,"y":444},{"x":550,"y":481},{"x":385,"y":481}]},
+	{"fileName":"11.jpg","make":"Hyundai","colour":"gray","coordinates":[{"x":405,"y":402},{"x":590,"y":402},{"x":590,"y":443},{"x":405,"y":443}]},
+	{"fileName":"12.jpg","make":"Fiat","colour":"yellow",   "coordinates":[{"x":322,"y":381},{"x":480,"y":366},{"x":484,"y":411},{"x":326,"y":426}]}
+	
+]

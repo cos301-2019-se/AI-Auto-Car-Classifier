@@ -111,8 +111,11 @@ function resizeImages(images)
 function classifyImage(imageID)
 {
     getMake(imageID);
-    getColour(imageID);
-    getNumberPlate(imageID);
+
+    getNumberPlate(imageID,function(hasPlate,coords)
+    {
+        getColour(imageID,hasPlate,coords);
+    });
 }
 
 function detectCar(imageID, callback)
@@ -166,22 +169,25 @@ function displayError(message)
     bootbox.alert(message);
 }
 
-function getColour(imageID)
+function getColour(imageID,hasPlate,coords)
 {
 
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/classify/color_detector_sample",
+        url: "http://localhost:3000/classify/color_detector",
         dataType: "json",
-        data: {imageID: imageID},
+        data:
+            {
+                imageID: imageID,
+                hasNumberPlate: hasPlate,
+                coordinates: coords
+            },
         success: function (res)
         {
             var colour = res.color;
             console.log("Car Colour: " + colour);
 
             $('#colourItem').text(colour);
-
-
         },
         error: function (jqXHR, exception)
         {
@@ -227,7 +233,7 @@ function getMake(imageID)
     });
 }
 
-function getNumberPlate(imageID)
+function getNumberPlate(imageID,cb)
 {
     $.ajax({
         method: "POST",
@@ -238,7 +244,7 @@ function getNumberPlate(imageID)
             if (res.status === "success")
             {
                 var plate = res.numberPlate;
-                var coordinates = res.coordinates; // Upper left, Upper Right, Lower Right, Lower Left
+                var coordinates = res.coordinates; // Upper left [0], Upper Right [1], Lower Right [2], Lower Left [3]
                 var upperLeftX = coordinates[0].x;
                 var upperLeftY = coordinates[0].y;
                 var lowerLeftY = coordinates[3].y;
@@ -252,12 +258,13 @@ function getNumberPlate(imageID)
                 $('#plateItem').text(plate);
 
                 createPlatePopover(imageID,width,height,upperLeftX - 10,upperLeftY - 10);
-
+                cb('true',coordinates);
             }
             else
             {
                 console.log("Car Plate FAILED");
                 $('#plateItem').text("???");
+                cb('false',null);
             }
 
         },
