@@ -686,10 +686,17 @@ function getImageColorMock(req, res)
 function getNumberPlate(req, res)
 {
     var imageID = req.body.imageID;
-    var file = ".\\images\\" + imageID;
+ //   var imageUrl = req.body.imageUrl;
+    var fileName = 'image' + '-' + Date.now() + '.jpg';
+    download(imageID, fileName, function (err, filepath)
+    {
+        if (err) throw err;
+
+        console.log('Download finished:', filepath);
+        var file = filepath;
+
     if (fs.existsSync(file))
     {
-
         var image = fs.readFileSync(file);
 
         const {exec} = require('child_process');
