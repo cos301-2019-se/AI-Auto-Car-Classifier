@@ -702,86 +702,97 @@ function getImageColorMock(req, res)
 function getNumberPlate(req, res)
 {
     var imageID = req.body.imageID;
- //   var imageUrl = req.body.imageUrl;
+    //   var imageUrl = req.body.imageUrl;
     var fileName = 'image' + '-' + Date.now() + '.jpg';
-    download(imageID, fileName, function (err, filepath)
+    download(imageID, './images/' + fileName, function (err, filepath)
     {
         if (err) throw err;
 
         console.log('Download finished:', filepath);
         var file = filepath;
 
-    if (fs.existsSync(file))
-    {
-        var image = fs.readFileSync(file);
-
-        const {exec} = require('child_process');
-        var command = '.\\openalpr_64\\alpr -c eu -d -j -n 1 ' + file;
-        exec(command, (err, stdout, stderr) =>
+        if (fs.existsSync(file))
         {
-            if (err)
+            var image = fs.readFileSync(file);
+
+            const {exec} = require('child_process');
+            var command = '.\\openalpr_64\\alpr -c eu -d -j -n 1 ' + file;
+            exec(command, (err, stdout, stderr) =>
             {
+                if (err)
+                {
+                    res.status(200).json({
+                        status: "failed",
+                        imageID: fileName
+                    });
+
+                    return;
+                }
+
+                var object = JSON.parse(stdout);
+
+                var results = object.results;
+                if (results.length <= 0)
+                {
+                    console.log("Unable to determine number plate");
+                    res.status(200).json({
+                        status: "failed",
+                        imageID: fileName
+                    });
+
+                    return;
+                }
+                var plate = results[0].plate;
+
+                var coords = results[0].coordinates;
+
                 res.status(200).json({
-                    status: "failed",
+                    status: "success",
+                    numberPlate: plate,
+                    coordinates: coords,
+                    imageID: fileName
                 });
 
-                return;
-            }
 
-            var object = JSON.parse(stdout);
-
-            var results = object.results;
-            if (results.length <= 0)
-            {
-                console.log("Unable to determine number plate");
-                res.status(200).json({
-                    status: "failed",
-                });
-
-                return;
-            }
-            var plate = results[0].plate;
-
-            var coords = results[0].coordinates;
-
-            res.status(200).json({
-                status: "success",
-                numberPlate: plate,
-                coordinates: coords
             });
 
 
-        });
+        }
+        else
+        {
+            res.status(200).json({
+
+                status: "fail",
+                message: "Image Not Found"
+
+            });
+        }
 
 
-    }
-    else
-    {
-        res.status(200).json({
-
-            status: "fail",
-            message: "Image Not Found"
-
-        });
-    }
+    });
 }
 
 /**The below functions get the car make and model */
 
 const getNumWords = (word) =>
 {
-    try{
+    try
+    {
         return word.split(' ').length;
-    } catch(exception){
+    }
+    catch (exception)
+    {
         return -1;
     }
 }
 
 function sendMakeAndModel(res, data)
 {
-    try{
+    try
+    {
         const numWords = getNumWords(data.toString());
-        if(numWords <= 0){
+        if (numWords <= 0)
+        {
             throw 'There is only one word in the annotation of the car';
         }
         let extendedModel;
