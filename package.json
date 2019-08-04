@@ -17,6 +17,7 @@
     "body-parser": "^1.19.0",
     "color-namer": "^1.3.0",
     "cors": "^2.8.5",
+    "deasync": "^0.1.15",
     "express": "^4.17.1",
     "fileset": "^2.0.3",
     "fs-extra": "^8.1.0",
@@ -32,7 +33,8 @@
     "passport-jwt": "^4.0.0",
     "path": "^0.12.7",
     "request": "^2.88.0",
-    "sequelize": "^5.11.0"
+    "sequelize": "^5.11.0",
+    "sharp": "^0.23.0"
   },
   "devDependencies": {
     "mocha": "^6.1.4",

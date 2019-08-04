@@ -158,3 +158,54 @@ describe('Ensure we can check if an image contains a car or not', function () {
         done()
   });
 });
+
+describe('Testing image submission for a single file.', function() {
+  it('It should submit the single image returning with status = 200 ', function(done) {
+    request(app)
+      .post('/classify/submit')
+      .send({imageID: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      done()
+  });
+});
+
+
+
+describe('Testing image64 submission.', function() {
+  it('It should submit the single image returning with status = 200 ', function(done) {
+    request(app)
+      .post('/classify/submit64')
+      .send({imageID: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      done()
+  });
+});
+
+
+describe('Testing color recognition.', function() {
+  it('It should return the most prominent color in the image', function(done) {
+    request(app)
+      .post('/classify/getImageColor')
+      .send({imageID: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+
+      done()
+  });
+});
+
+describe('Testing number plate recognition.', function() {
+  it('It should return the number plate details', function(done) {
+    request(app)
+      .post('/classify/getNumberPlate')
+      .send({imageID: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      done()
+  });
+});
