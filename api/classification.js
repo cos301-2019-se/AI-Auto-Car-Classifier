@@ -543,11 +543,11 @@ function colourTest(imagePath,coordinates,cb)
 function getImageColorBySample(req, res)
 {
     var imagePath = './images/' + req.body.imageID;
-    var numberPlateCoordinates = [];
+    var coordinates = [];
     var hasPlate = req.body.hasNumberPlate;
     if( hasPlate === 'true')
     {
-         numberPlateCoordinates = req.body.coordinates;
+         coordinates = req.body.coordinates;
     }
 
 
