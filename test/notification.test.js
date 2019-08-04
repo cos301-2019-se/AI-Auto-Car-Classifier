@@ -1,6 +1,10 @@
-const not = require('../api/notification');
+const notification = require('../api/notification');
 
+var request = require("supertest");
 var assert = require('assert');
+const app = require("../server.js");
+const classification =  require('../api/classification.js');
+
 
 
 describe('Testing email notification .', function() {

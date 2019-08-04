@@ -1,6 +1,15 @@
-const res = require('../api/logging');
+const log = require('../api/logging');
 
+var request = require("supertest");
 var assert = require('assert');
+const app = require("../server.js");
+const classification =  require('../api/classification.js');
+
+
+
+let data = {
+  imageID: 'Image1.jpg'
+ }
 
 
 describe('Testing log sign in.', function() {
