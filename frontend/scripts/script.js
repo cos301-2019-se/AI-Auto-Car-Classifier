@@ -73,12 +73,13 @@ function resizeImages(images)
     });
 }
 
-function classifyImage(imageID)
+function classifyImage(imageUrl)
 {
-    getMake(imageID);
 
-    getNumberPlate(imageID,function(hasPlate,coords)
+
+    getNumberPlate(imageUrl,function(hasPlate,coords,imageID)
     {
+        getMake(imageID);
         getColour(imageID,hasPlate,coords);
     });
 }
@@ -206,6 +207,7 @@ function getNumberPlate(imageID,cb)
         data: {imageID: imageID},
         success: function (res)
         {
+            var imageID = res.imageID;
             if (res.status === "success")
             {
                 var plate = res.numberPlate;
@@ -218,18 +220,19 @@ function getNumberPlate(imageID,cb)
                 var width = upperRightX - upperLeftX + 10;
                 var height = lowerLeftY -  upperLeftY + 20;
 
+
                 console.log("Car Plate: " + plate);
 
                 $('#plateItem').text(plate);
 
                 createPlatePopover(imageID,width,height,upperLeftX - 10,upperLeftY - 10);
-                cb('true',coordinates);
+                cb('true',coordinates,imageID);
             }
             else
             {
                 console.log("Car Plate FAILED");
                 $('#plateItem').text("???");
-                cb('false',null);
+                cb('false',null,imageID);
             }
 
         },
@@ -323,7 +326,16 @@ function displayImage(image)
     $('.listElement').html(loadingGif);
 
     var imagePath = IMAGE_PATH + image;
-    $("#mainImage").attr("src", imagePath);
+
+    if(image.includes("https://"))
+    {
+        $("#mainImage").attr("src", image);
+    }
+    else
+    {
+        $("#mainImage").attr("src", imagePath);
+    }
+
 
 
 }
