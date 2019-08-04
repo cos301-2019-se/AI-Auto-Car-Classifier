@@ -11,52 +11,17 @@ $(document).ready(function ()
 
     uploadButton.addEventListener('click', (e) =>
     {
-        realInput.click();
+        cloudinary.openUploadWidget({cloud_name: 'dso2wjxjj', upload_preset: 'zfowrq1z'},
+            function (error, result)
+            {
+                //console.log(error, result)
+                var imageUrl = result[0].secure_url;
+
+                displayImage(imageUrl);
+                classifyImage(imageUrl);
+            });
     });
 
-    realInput.addEventListener('change', () =>
-    {
-        const name = realInput.value.split(/\\|\//).pop();
-        const truncated = name.length > 20
-            ? name.substr(name.length - 20)
-            : name;
-
-        fileInfo.innerHTML = truncated;
-
-
-        var title = $('#title').val();
-
-        /************** Upload Images ***************/
-
-        $('.uploadForm').ajaxSubmit({
-            data: {title: title},
-            contentType: 'multipart/form-data',
-            success: function (res)
-            {
-                $("#loadingImage").css('visibility','visible');
-                console.log('Response: ' + res.status);
-                var images = res.imagePaths;
-                console.log("Images: " + images);
-
-                var path = './imagesResized/';
-
-                resizeImages(images);
-
-
-            },
-            error: function (jqXHR, textStatus, exception)
-            {
-                console.log("Error in Upload: " + jqXHR.status);
-                console.log(textStatus);
-                console.log(exception);
-
-            },
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
-            }
-        });
-        return false;
-    });
 
 
     $('.uploadForm').submit(function (e)
