@@ -27,7 +27,7 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({storage: storage});
-const MODEL_ENDPOINT = 'http://54f6ac19-eceb-43cc-9e11-f44f7733621f.westeurope.azurecontainer.io/score';
+const MODEL_ENDPOINT = 'http://fa58d627-948b-47e0-9f79-16bf04d3d271.westeurope.azurecontainer.io/score';
 const BOOLEAN_MODEL_ENDPOINT = 'http://7b0640a1-4862-484f-aaef-cdcfe8fb98d3.westeurope.azurecontainer.io/score';
 
 router.post('/submit', upload.single('image'), submitImage);
