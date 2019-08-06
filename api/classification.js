@@ -12,6 +12,8 @@ const FileSet = require('fileset');
 const colour = require('color-namer');
 var nj = require('numjs');
 let passport = require('../config/passport');
+var cloudinary = require('../config/cloudinaryConfig');
+var download = require('download-to-file');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb)
@@ -28,24 +30,41 @@ var upload = multer({storage: storage});
 const MODEL_ENDPOINT = 'http://fa58d627-948b-47e0-9f79-16bf04d3d271.westeurope.azurecontainer.io/score';
 const BOOLEAN_MODEL_ENDPOINT = 'http://7b0640a1-4862-484f-aaef-cdcfe8fb98d3.westeurope.azurecontainer.io/score';
 
-router.post('/submit',  upload.single('image'), submitImage);
+router.post('/submit', upload.single('image'), submitImage);
 router.post('/submit_multiple', upload.array('imageMultiple'), submitMultipleImages);
 router.post('/submit64', submitImage64);
+
 router.post('/color_detector', getImageColorBySample);
 router.post('/car_detector', imageContainsCar);
 router.post('/get_car_details', getMakeAndModel);
 router.post('/number_plate', getNumberPlate);
 router.get('/', serverRunning);
 router.post('/resize_images', resizeImages);
+router.post('/upload_image', uploadImage);
 
 
-function serverRunning(req, res){
+function serverRunning(req, res)
+{
     res.status(200).json({
         message: 'server running'
     });
 }
 
-function submitImage(req,res)
+function uploadImage(req, res)
+{
+    cloudinary.uploader.upload(req.body.imagePath, function (error, result)
+    {
+        console.log(result, error);
+
+        res.status(200).json({
+            message: result
+        });
+    });
+
+
+}
+
+function submitImage(req, res)
 {
     var statusVal = "success";
     var mess = "Image Received";
@@ -83,6 +102,7 @@ function submitMultipleImages(req, res)
         for (var i = 0; i < files.length; i++)
         {
             paths.push(files[i].filename);
+
         }
 
         data = paths;
@@ -249,8 +269,10 @@ function submitImage64(req, res)
     });
 }
 
-const writeToFile = (response) => (error) => {
-    if (err){
+const writeToFile = (response) => (error) =>
+{
+    if (err)
+    {
         response.status(500).json({
             error: 'Something went wrong with uploading the image, please try again'
         });
@@ -260,9 +282,12 @@ const writeToFile = (response) => (error) => {
 function countFiles(dir)
 {
     var files;
-    try{
+    try
+    {
         files = fs.readdirSync(dir);
-    } catch(exception){
+    }
+    catch (exception)
+    {
         return -1;
     }
     return files.length;
@@ -306,19 +331,24 @@ async function getMakeAndModel(req, res)
                 data: bas64Image
             },
             json: true,
-        }, function (error, response, body){
-            console.log(response.body)
-            if (response && response.statusCode == 200){
+        }, function (error, response, body)
+        {
+
+            if (response && response.statusCode == 200)
+            {
                 sendMakeAndModel(res, `${response.body.car}-${response.body.confidence}`);
             }
-            else{
+            else
+            {
                 console.log(error)
                 res.status(500).json({
                     error: 'Car classifier returned an error trying to classify the image. Please try again'
                 });
             }
         });
-    } catch(exception) {
+    }
+    catch (exception)
+    {
         res.status(500).json({
             error: 'An error occured trying to classify the image, please try again'
         });
@@ -328,7 +358,8 @@ async function getMakeAndModel(req, res)
 
 function imageContainsCar(req, res)
 {
-    try{
+    try
+    {
         //read image as numpy array, turn it into numpy list and send an api call to the model
         let numpyArray = nj.images.read(`images/${req.body.imageID}`);
         numpyArray = numpyArray.tolist();
@@ -342,22 +373,28 @@ function imageContainsCar(req, res)
                 data: numpyArray
             },
             json: true,
-            }, function(error, response, body){
-              //  console.log(response.body)
-                if( response && response.statusCode == 200){
-                    res.status(200).json({
-                        ...response.body
-                    })
-                } else {
-                  //  console.log(response.body);
+        }, function (error, response, body)
+        {
+            //  console.log(response.body)
+            if (response && response.statusCode == 200)
+            {
+                res.status(200).json({
+                    ...response.body
+                })
+            }
+            else
+            {
+                //  console.log(response.body);
                 //    console.log(response.statusCode);
-                    res.status(500).json({
-                        message: 'Boolean classifier returned an error trying to classify the image. Please try again',
-                        error: error
-                    });
-                }
+                res.status(500).json({
+                    message: 'Boolean classifier returned an error trying to classify the image. Please try again',
+                    error: error
+                });
+            }
         });
-    } catch(error){
+    }
+    catch (error)
+    {
         res.status(500).json({
             message: 'An error occured trying to classify the image, please try again',
             error: error
@@ -377,7 +414,7 @@ function imageContainsCarMock(req, res)
 
 function commonColourMapper(col)
 {
-    switch(col)
+    switch (col)
     {
         case "pink":
             return "red";
@@ -397,7 +434,7 @@ function testColourAccuracy(req, res)
     let details = JSON.parse(rawdata);
     var itemsProcessed = 0;
     var correct = 0;
-    details.forEach(function(car)
+    details.forEach(function (car)
     {
 
         let file = car.fileName;
@@ -405,24 +442,24 @@ function testColourAccuracy(req, res)
         let coordinates = car.coordinates;
 
 
-       colourTest('test/imagesWithPlates/' + file,coordinates,function (matchedColour)
-       {
-           if(colour.toUpperCase() === matchedColour.toUpperCase())
-           {
-               correct++;
+        colourTest('test/imagesWithPlates/' + file, coordinates, function (matchedColour)
+        {
+            if (colour.toUpperCase() === matchedColour.toUpperCase())
+            {
+                correct++;
 
-           }
-           else
-           {
-               console.log("Failed: " + file + " -> " + " Expected: " + colour +  " but got " + matchedColour);
-           }
+            }
+            else
+            {
+                console.log("Failed: " + file + " -> " + " Expected: " + colour + " but got " + matchedColour);
+            }
 
-           itemsProcessed++;
-           if(itemsProcessed === details.length)
-           {
-               getAccuracy(correct,details.length);
-           }
-       });
+            itemsProcessed++;
+            if (itemsProcessed === details.length)
+            {
+                getAccuracy(correct, details.length);
+            }
+        });
 
     });
 
@@ -436,12 +473,13 @@ function testColourAccuracy(req, res)
 
 function getAccuracy(correct, total)
 {
-        console.log("************** Accuracy **************");
-        console.log("Correct: " + correct);
-        console.log("Total: " + total);
-        let acc = correct / total * 100;
-        console.log(acc + "%");
+    console.log("************** Accuracy **************");
+    console.log("Correct: " + correct);
+    console.log("Total: " + total);
+    let acc = correct / total * 100;
+    console.log(acc + "%");
 }
+
 class Colour
 {
     constructor(name)
@@ -449,30 +487,33 @@ class Colour
         this.name = name;
         this.count = 1;
     }
+
     get getName()
     {
         return this.name;
     }
+
     get getCount()
     {
         return this.count;
     }
+
     addOccurance()
     {
         this.count++;
     }
 }
 
-function colourTest(imagePath,coordinates,cb)
+function colourTest(imagePath, coordinates, cb)
 {
     let hasPlate = 'true';
 
     Jimp.read(imagePath, function (err, image)
     {
 
-        var startX,startY;
+        var startX, startY;
         var regionWidth, regionHeight;
-        if(hasPlate === 'true')
+        if (hasPlate === 'true')
         {
             var upperLeftX = coordinates[0].x;
             var upperLeftY = coordinates[0].y;
@@ -480,7 +521,7 @@ function colourTest(imagePath,coordinates,cb)
             var upperRightX = coordinates[1].x;
 
             var width = upperRightX - upperLeftX + 20;
-            var height = lowerLeftY -  upperLeftY;
+            var height = lowerLeftY - upperLeftY;
 
             height *= 2;
 
@@ -505,8 +546,7 @@ function colourTest(imagePath,coordinates,cb)
         var samples = [];
 
 
-
-        getRegion(startX,startY,regionWidth,regionHeight,image,samples); //Midpoint box
+        getRegion(startX, startY, regionWidth, regionHeight, image, samples); //Midpoint box
 
         var colourCount = [];
 
@@ -518,9 +558,9 @@ function colourTest(imagePath,coordinates,cb)
 
             var colourName = names.basic[0].name;
 
-            let existingColour = colourCount.filter( c => c['name'] === colourName );
+            let existingColour = colourCount.filter(c => c['name'] === colourName);
 
-            if(existingColour.length === 0)
+            if (existingColour.length === 0)
             {
                 colourCount.push(new Colour(colourName));
             }
@@ -532,18 +572,18 @@ function colourTest(imagePath,coordinates,cb)
 
         colourCount.sort(compareColour);
 
-   //     console.log(colourCount);
+        //     console.log(colourCount);
         var col = colourCount[0].name;
-        if(col === 'gray' || col === 'silver' || col === 'black' )
+        if (col === 'gray' || col === 'silver' || col === 'black')
         {
-            if(colourCount[0].count - colourCount[1].count < 50 )
+            if (colourCount[0].count - colourCount[1].count < 50)
             {
                 col = colourCount[1].name;
             }
         }
 
-       var c =  commonColourMapper(col);
-      cb(c);
+        var c = commonColourMapper(col);
+        cb(c);
 
 
     });
@@ -554,18 +594,18 @@ function getImageColorBySample(req, res)
     var imagePath = './images/' + req.body.imageID;
     var coordinates = [];
     var hasPlate = req.body.hasNumberPlate;
-    if( hasPlate === 'true')
+
+    if (hasPlate === 'true')
     {
         coordinates = req.body.coordinates;
     }
 
-
     Jimp.read(imagePath, function (err, image)
     {
-
-        var startX,startY;
+        var startX, startY;
         var regionWidth, regionHeight;
-        if(hasPlate === 'true')
+
+        if (hasPlate === 'true')
         {
             var upperLeftX = coordinates[0].x;
             var upperLeftY = coordinates[0].y;
@@ -573,10 +613,9 @@ function getImageColorBySample(req, res)
             var upperRightX = coordinates[1].x;
 
             var width = upperRightX - upperLeftX + 20;
-            var height = lowerLeftY -  upperLeftY;
+            var height = lowerLeftY - upperLeftY;
 
             height *= 2;
-
 
             var endY = upperLeftY - height;
 
@@ -599,8 +638,7 @@ function getImageColorBySample(req, res)
         var samples = [];
 
 
-
-        getRegion(startX,startY,regionWidth,regionHeight,image,samples); //Midpoint box
+        getRegion(startX, startY, regionWidth, regionHeight, image, samples); //Midpoint box
 
         var colourCount = [];
 
@@ -612,9 +650,9 @@ function getImageColorBySample(req, res)
 
             var colourName = names.basic[0].name;
 
-            let existingColour = colourCount.filter( c => c['name'] === colourName );
+            let existingColour = colourCount.filter(c => c['name'] === colourName);
 
-            if(existingColour.length === 0)
+            if (existingColour.length === 0)
             {
                 colourCount.push(new Colour(colourName));
             }
@@ -627,18 +665,17 @@ function getImageColorBySample(req, res)
         colourCount.sort(compareColour);
 
         var col = colourCount[0].name;
-        if(col === 'gray' || col === 'silver' || col === 'black' ) // Decreases likelihood of grill/windscreen match
+        if (col === 'gray' || col === 'silver' || col === 'black') // Decreases likelihood of grill/windscreen match
         {
-            if(colourCount[0].count - colourCount[1].count < 50 )
+            if (colourCount[0].count - colourCount[1].count < 50)
             {
                 col = colourCount[1].name;
             }
         }
 
-        var matchedColour =  commonColourMapper(col); // Change name to more common colour
+        var matchedColour = commonColourMapper(col); // Change name to more common colour
 
-     //   console.log(colourCount);
-
+        //   console.log(colourCount);
 
 
         res.status(200).json({
@@ -660,7 +697,8 @@ function compareColour(a, b)
     if (col1 > col2)
     {
         comparison = 1;
-    } else if (col1 < col2)
+    }
+    else if (col1 < col2)
     {
         comparison = -1;
     }
@@ -668,19 +706,17 @@ function compareColour(a, b)
 }
 
 
-
-function getRegion(startX,startY, width, height, image, samples)
+function getRegion(startX, startY, width, height, image, samples)
 {
 
-    for(let i = startY ; i < (height+startY); i+=5)
+    for (let i = startY; i < (height + startY); i += 5)
     {
-        for(let k = startX ; k < (width+startX); k+=5)
+        for (let k = startX; k < (width + startX); k += 5)
         {
-            samples.push(image.getPixelColor(k,i));
+            samples.push(image.getPixelColor(k, i));
         }
     }
 }
-
 
 
 function getImageColorMock(req, res)
@@ -691,83 +727,102 @@ function getImageColorMock(req, res)
     });
 }
 
+
 /**The functions below get the numberplate from an image of a car */
 function getNumberPlate(req, res)
 {
     var imageID = req.body.imageID;
-    var file = ".\\images\\" + imageID;
-    if (fs.existsSync(file))
+    //   var imageUrl = req.body.imageUrl;
+    var fileName = 'image' + '-' + Date.now() + '.jpg';
+    download(imageID, './images/' + fileName, function (err, filepath)
     {
+        if (err) throw err;
 
-        var image = fs.readFileSync(file);
+        console.log('Download finished:', filepath);
+        var file = filepath;
 
-        const {exec} = require('child_process');
-        var command = '.\\openalpr_64\\alpr -c eu -d -j -n 1 ' + file;
-        exec(command, (err, stdout, stderr) =>
+        if (fs.existsSync(file))
         {
-            if (err)
+            var image = fs.readFileSync(file);
+
+            const {exec} = require('child_process');
+            var command = '.\\openalpr_64\\alpr -c eu -d -j -n 1 ' + file;
+            exec(command, (err, stdout, stderr) =>
             {
+                if (err)
+                {
+                    res.status(200).json({
+                        status: "failed",
+                        imageID: fileName
+                    });
+
+                    return;
+                }
+
+                var object = JSON.parse(stdout);
+
+                var results = object.results;
+                if (results.length <= 0)
+                {
+                    console.log("Unable to determine number plate");
+                    res.status(200).json({
+                        status: "failed",
+                        imageID: fileName
+                    });
+
+                    return;
+                }
+                var plate = results[0].plate;
+
+                var coords = results[0].coordinates;
+
                 res.status(200).json({
-                    status: "failed",
+                    status: "success",
+                    numberPlate: plate,
+                    coordinates: coords,
+                    imageID: fileName
                 });
 
-                return;
-            }
 
-            var object = JSON.parse(stdout);
-
-            var results = object.results;
-            if (results.length <= 0)
-            {
-                console.log("Unable to determine number plate");
-                res.status(200).json({
-                    status: "failed",
-                });
-
-                return;
-            }
-            var plate = results[0].plate;
-
-            var coords = results[0].coordinates;
-
-            res.status(200).json({
-                status: "success",
-                numberPlate: plate,
-                coordinates: coords
             });
 
 
-        });
+        }
+        else
+        {
+            res.status(200).json({
+
+                status: "fail",
+                message: "Image Not Found"
+
+            });
+        }
 
 
-    }
-    else
-    {
-        res.status(200).json({
-
-            status: "fail",
-            message: "Image Not Found"
-
-        });
-    }
+    });
 }
 
 /**The below functions get the car make and model */
 
 const getNumWords = (word) =>
 {
-    try{
+    try
+    {
         return word.split(' ').length;
-    } catch(exception){
+    }
+    catch (exception)
+    {
         return -1;
     }
 }
 
 function sendMakeAndModel(res, data)
 {
-    try{
+    try
+    {
         const numWords = getNumWords(data.toString());
-        if(numWords <= 0){
+        if (numWords <= 0)
+        {
             throw 'There is only one word in the annotation of the car';
         }
         let extendedModel;
@@ -794,7 +849,9 @@ function sendMakeAndModel(res, data)
             year: year,
             confidence: confidence
         });
-    } catch(exception) {
+    }
+    catch (exception)
+    {
         console.log(error);
         res.status(200).json({
             message: 'Something went wrong decoding the response from classify car',
