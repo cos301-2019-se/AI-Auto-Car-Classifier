@@ -3,32 +3,34 @@ var IMAGE_PATH = './images/';
 $(document).ready(function ()
 {
     $("#loadingImage").css('visibility','hidden');
-    /****************** Create Upload Form **********************/
+
 
     const uploadButton = document.querySelector('.browse-btn');
-    const fileInfo = document.querySelector('.file-info');
-    const realInput = document.getElementById('real-input');
 
     uploadButton.addEventListener('click', (e) =>
     {
         cloudinary.openUploadWidget({cloud_name: 'dso2wjxjj', upload_preset: 'zfowrq1z'},
-            function (error, result)
+            function (error, results)
             {
                 //console.log(error, result)
-                var imageUrl = result[0].secure_url;
+                if (typeof results !== 'undefined')
+                {
+                    var imageUrl = results[0].secure_url;
 
-                displayImage(imageUrl);
-                classifyImage(imageUrl);
+                    displayImage(imageUrl);
+                    classifyImage(imageUrl);
+                    var imageUrls = [];
+
+                    for(let i = 0 ; i < results.length ; i++)
+                    {
+                        imageUrls.push(results[i].secure_url);
+                    }
+
+                    generateGallery(imageUrls);
+;                }
+
             });
     });
-
-
-
-    $('.uploadForm').submit(function (e)
-    {
-        e.preventDefault();
-    });
-
 
     /****************** Gallery Image Clicked *******************/
 
@@ -45,33 +47,6 @@ $(document).ready(function ()
     });
 
 });
-
-function resizeImages(images)
-{
-    console.log("Resizing images AJAX Call");
-    $.ajax({
-        method: "POST",
-        url: "http://localhost:3000/classify/resize_images",
-        dataType: "json",
-        data: {images: images},
-        success: function (res)
-        {
-            displayImage(images[0]);
-            generateGallery(images);
-            detectCar(images[0],classifyImage);
-        },
-        error: function (jqXHR, textStatus, exception)
-        {
-            console.log("Error in Resize Image: " + jqXHR.status);
-            console.log(textStatus);
-            console.log(exception);
-            return -1;
-        },
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
-        }
-    });
-}
 
 function classifyImage(imageUrl)
 {
