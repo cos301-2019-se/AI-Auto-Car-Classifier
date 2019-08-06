@@ -16,6 +16,9 @@ body, html {
     min-height: 50vh;
 
 }
+.galHeading{
+    padding: 20px;
+}
 #loadingImage{
   top:0;
     padding-top: 0;
@@ -95,7 +98,19 @@ input[type='file'] {
     font-size: 0.9em;
 }
 
+.topContainer{
+    padding-bottom: 20px;
+}
+
+.btnSpan{
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+}
+
 .browse-btn {
+    display: block;
+    margin: 0 auto;
     background: #03A595;
     color: #fff;
     min-height: 35px;
