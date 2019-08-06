@@ -258,37 +258,42 @@ function getImagePortion(imgObj, newWidth, newHeight, startX, startY, ratio)
     return tnCanvas.toDataURL();
 }
 
+var numImagesOnRow = 0;
 
 function generateGallery(imagePaths)
 {
     var i;
     var gallery = $('.gallery');
-    var html = '<div class="row">';
 
+    var lastRow = $('.gallery div.row:last');
+    var galleryEmpty = false;
+    if(lastRow.length === 0)
+    {
+        galleryEmpty = true;
+    }
 
-    var numImagesOnRow = 0;
     for (i = 0; i < imagePaths.length; ++i)
     {
         var imageHtml = generateImageHTML(imagePaths[i]);
-        html += imageHtml;
+
+
+        lastRow.append(imageHtml);
 
         numImagesOnRow++;
         if (numImagesOnRow === 3)
         {
-            html += '</div>';
-            html += '<div class="row">';
+           gallery.append('<div class="row"> </div>');
+
+            lastRow = $('.gallery div.row:last');
             numImagesOnRow = 0;
         }
 
     }
-
-    html += '</div>';
-    gallery.append(html);
 }
 
 function generateImageHTML(image)
 {
-    var path = IMAGE_PATH + image;
+    var path = image;
     var html = '<div class="col-md-4"> <div class="thumbnail"> <img id="' + image + '" src="' + path + '" alt="" style="width:100%"> </div> </div>';
 
     return html;
