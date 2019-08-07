@@ -184,7 +184,9 @@ function takeSnapshot() {
     }
 
     getCanvasBlob(canvas).then(function(blob) {
-
+        console.log('loading');
+        var dataURL = canvas.toDataURL();
+        console.log(dataURL);
     });
 
 }

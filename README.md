@@ -41,7 +41,7 @@ The overleaf account on which all the above documents reside can be found [here]
 |Git profile |[vmmsoweto](https://github.com/vmmsoweto)|
 |**Overview**|My goal is to assist people to achieve their technology oriented goals and grow my own understanding of the Information Technology Industry.|
 |**Position** |Software Developer|
-|**Interests** | Programming is my world |
+|**Interests** | Video games, Programming challenges, Calisthenics, Calinery Arts, Practical Science Applications |
 |**Skills**|Javascript,Java, HTML, Jquery, VueJS, C++, Assembly, SQL, PHP, VB .Net|
 
 |Member | Details | 
