@@ -100,8 +100,8 @@ describe('Validate that we can retreive the make and model of a specific car', f
       .post('/classify/get_car_details')
       .send({imageId: 'Image1.jpg'})
       .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200, done);
+      .expect( /json/)
+      .expect(404, done);
       done();
   });
 
@@ -111,8 +111,8 @@ describe('Validate that we can retreive the make and model of a specific car', f
       .send({imageId: 'Image1.jpg'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(200, done);
-      done();
+      .expect(404, done);
+      
   });
 
   it('It should get the make and model of the car', function (done) {
@@ -121,8 +121,8 @@ describe('Validate that we can retreive the make and model of a specific car', f
       .send({imageId: 'Image1.jpg'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(200, done);
-      done();
+      .expect(404, done);
+      
   });
 
 });
@@ -135,8 +135,8 @@ describe('Ensure we can check if an image contains a car or not', function () {
           .send({imageID: 'Image1.jpg'})
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(200)
-          done()
+          .expect(200);
+          done();
   });
 
   it('It should return a 404 because the endpoint has a typo', function (done) {
@@ -145,8 +145,8 @@ describe('Ensure we can check if an image contains a car or not', function () {
         .send({imageID: 'Image1.jpg'})
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(404)
-        done()  
+        .expect(404);
+        done();  
   });
 
   it('It should return a 500 because the property name is incorrect', function (done) {
@@ -176,7 +176,7 @@ describe('Ensure we can check if an image contains a car or not', function () {
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
-        done()
+        done();
   });
 });
 
@@ -202,7 +202,7 @@ describe('Testing image64 submission.', function() {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
-      done()
+      done();
   });
 });
 
