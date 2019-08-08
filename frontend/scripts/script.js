@@ -3,67 +3,34 @@ var IMAGE_PATH = './images/';
 $(document).ready(function ()
 {
     $("#loadingImage").css('visibility','hidden');
-    /****************** Create Upload Form **********************/
+
 
     const uploadButton = document.querySelector('.browse-btn');
-    const fileInfo = document.querySelector('.file-info');
-    const realInput = document.getElementById('real-input');
 
     uploadButton.addEventListener('click', (e) =>
     {
-        realInput.click();
-    });
-
-    realInput.addEventListener('change', () =>
-    {
-        const name = realInput.value.split(/\\|\//).pop();
-        const truncated = name.length > 20
-            ? name.substr(name.length - 20)
-            : name;
-
-        fileInfo.innerHTML = truncated;
-
-
-        var title = $('#title').val();
-
-        /************** Upload Images ***************/
-
-        $('.uploadForm').ajaxSubmit({
-            data: {title: title},
-            contentType: 'multipart/form-data',
-            success: function (res)
+        cloudinary.openUploadWidget({cloud_name: 'dso2wjxjj', upload_preset: 'zfowrq1z'},
+            function (error, results)
             {
-                $("#loadingImage").css('visibility','visible');
-                console.log('Response: ' + res.status);
-                var images = res.imagePaths;
-                console.log("Images: " + images);
+                //console.log(error, result)
+                if (typeof results !== 'undefined')
+                {
+                    var imageUrl = results[0].secure_url;
 
-                var path = './imagesResized/';
+                    displayImage(imageUrl);
+                    classifyImage(imageUrl);
+                    var imageUrls = [];
 
-                resizeImages(images);
+                    for(let i = 0 ; i < results.length ; i++)
+                    {
+                        imageUrls.push(results[i].secure_url);
+                    }
 
+                    generateGallery(imageUrls);
+;                }
 
-            },
-            error: function (jqXHR, textStatus, exception)
-            {
-                console.log("Error in Upload: " + jqXHR.status);
-                console.log(textStatus);
-                console.log(exception);
-
-            },
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
-            }
-        });
-        return false;
+            });
     });
-
-
-    $('.uploadForm').submit(function (e)
-    {
-        e.preventDefault();
-    });
-
 
     /****************** Gallery Image Clicked *******************/
 
@@ -81,39 +48,13 @@ $(document).ready(function ()
 
 });
 
-function resizeImages(images)
+function classifyImage(imageUrl)
 {
-    console.log("Resizing images AJAX Call");
-    $.ajax({
-        method: "POST",
-        url: "http://localhost:3000/classify/resize_images",
-        dataType: "json",
-        data: {images: images},
-        success: function (res)
-        {
-            displayImage(images[0]);
-            generateGallery(images);
-            detectCar(images[0],classifyImage);
-        },
-        error: function (jqXHR, textStatus, exception)
-        {
-            console.log("Error in Resize Image: " + jqXHR.status);
-            console.log(textStatus);
-            console.log(exception);
-            return -1;
-        },
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
-        }
-    });
-}
 
-function classifyImage(imageID)
-{
-    getMake(imageID);
 
-    getNumberPlate(imageID,function(hasPlate,coords)
+    getNumberPlate(imageUrl,function(hasPlate,coords,imageID)
     {
+        getMake(imageID);
         getColour(imageID,hasPlate,coords);
     });
 }
@@ -241,6 +182,7 @@ function getNumberPlate(imageID,cb)
         data: {imageID: imageID},
         success: function (res)
         {
+            var imageID = res.imageID;
             if (res.status === "success")
             {
                 var plate = res.numberPlate;
@@ -253,18 +195,19 @@ function getNumberPlate(imageID,cb)
                 var width = upperRightX - upperLeftX + 10;
                 var height = lowerLeftY -  upperLeftY + 20;
 
+
                 console.log("Car Plate: " + plate);
 
                 $('#plateItem').text(plate);
 
                 createPlatePopover(imageID,width,height,upperLeftX - 10,upperLeftY - 10);
-                cb('true',coordinates);
+                cb('true',coordinates,imageID);
             }
             else
             {
                 console.log("Car Plate FAILED");
                 $('#plateItem').text("???");
-                cb('false',null);
+                cb('false',null,imageID);
             }
 
         },
@@ -315,37 +258,42 @@ function getImagePortion(imgObj, newWidth, newHeight, startX, startY, ratio)
     return tnCanvas.toDataURL();
 }
 
+var numImagesOnRow = 0;
 
 function generateGallery(imagePaths)
 {
     var i;
     var gallery = $('.gallery');
-    var html = '<div class="row">';
 
+    var lastRow = $('.gallery div.row:last');
+    var galleryEmpty = false;
+    if(lastRow.length === 0)
+    {
+        galleryEmpty = true;
+    }
 
-    var numImagesOnRow = 0;
     for (i = 0; i < imagePaths.length; ++i)
     {
         var imageHtml = generateImageHTML(imagePaths[i]);
-        html += imageHtml;
+
+
+        lastRow.append(imageHtml);
 
         numImagesOnRow++;
         if (numImagesOnRow === 3)
         {
-            html += '</div>';
-            html += '<div class="row">';
+           gallery.append('<div class="row"> </div>');
+
+            lastRow = $('.gallery div.row:last');
             numImagesOnRow = 0;
         }
 
     }
-
-    html += '</div>';
-    gallery.append(html);
 }
 
 function generateImageHTML(image)
 {
-    var path = IMAGE_PATH + image;
+    var path = image;
     var html = '<div class="col-md-4"> <div class="thumbnail"> <img id="' + image + '" src="' + path + '" alt="" style="width:100%"> </div> </div>';
 
     return html;
@@ -358,7 +306,16 @@ function displayImage(image)
     $('.listElement').html(loadingGif);
 
     var imagePath = IMAGE_PATH + image;
-    $("#mainImage").attr("src", imagePath);
+
+    if(image.includes("https://"))
+    {
+        $("#mainImage").attr("src", image);
+    }
+    else
+    {
+        $("#mainImage").attr("src", imagePath);
+    }
+
 
 
 }
