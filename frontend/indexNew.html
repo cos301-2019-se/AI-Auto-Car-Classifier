@@ -16,6 +16,7 @@
     <link href="./assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet" />
     <!-- CSS Files -->
     <link href="./assets/css/argon-dashboard.css?v=1.1.0" rel="stylesheet" />
+    <link href="./css/style.css" rel="stylesheet" />
 </head>
 
 <body class="">
@@ -76,8 +77,6 @@
             </ul>
             <!-- Divider -->
             <hr class="my-3">
-
-
         </div>
     </div>
 </nav>
@@ -193,11 +192,13 @@
                         <!-- Chart -->
                         <div class="chart">
 
-                            <img src="">
+                            <img id="mainImage" class="img-fluid" src="./resources/1x1Pixel.png" alt=" ">
 
                         </div>
                     </div>
+
                 </div>
+                <button id="uploadBtn" type="button" class="btn btn-primary btn-lg btn-block">Upload Images</button>
             </div>
 
 
@@ -239,7 +240,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Model</th>
-                                <td>Carolla</td>
+                                <td>Corolla</td>
                                 <td>
                                     <div class="d-flex align-items-center">
                                         <span class="mr-2">80%</span>
