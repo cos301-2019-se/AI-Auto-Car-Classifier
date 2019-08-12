@@ -2,10 +2,10 @@ var IMAGE_PATH = './images/';
 
 $(document).ready(function ()
 {
-    $("#loadingImage").css('visibility','hidden');
+    $("#loadingImage").css('visibility', 'hidden');
 
 
-    const uploadButton = document.querySelector('.browse-btn');
+    const uploadButton = document.querySelector('#uploadBtn');
 
     uploadButton.addEventListener('click', (e) =>
     {
@@ -18,16 +18,16 @@ $(document).ready(function ()
                     var imageUrl = results[0].secure_url;
 
                     displayImage(imageUrl);
-                    classifyImage(imageUrl);
+                      classifyImage(imageUrl);
                     var imageUrls = [];
 
-                    for(let i = 0 ; i < results.length ; i++)
+                    for (let i = 0; i < results.length; i++)
                     {
                         imageUrls.push(results[i].secure_url);
                     }
 
                     generateGallery(imageUrls);
-;                }
+                }
 
             });
     });
@@ -50,12 +50,10 @@ $(document).ready(function ()
 
 function classifyImage(imageUrl)
 {
-
-
-    getNumberPlate(imageUrl,function(hasPlate,coords,imageID)
+    getNumberPlate(imageUrl, function (hasPlate, coords, imageID)
     {
-        getMake(imageID);
-        getColour(imageID,hasPlate,coords);
+     //   getMake(imageID);
+        getColour(imageID, hasPlate, coords);
     });
 }
 
@@ -73,7 +71,7 @@ function detectCar(imageID, callback)
 
             if (prob > 0.20)
             {
-               callback(imageID);
+                callback(imageID);
             }
             else
             {
@@ -91,8 +89,9 @@ function detectCar(imageID, callback)
 
             return -1;
         },
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
+        beforeSend: function (xhr)
+        {
+            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
     });
 }
@@ -101,6 +100,7 @@ function clearLoadingImages()
 {
     $('#plateItem').html('&nbsp;');
     $('#makeItem').html('&nbsp;');
+    $('#modelItem').html('&nbsp;');
     $('#colourItem').html('&nbsp;');
 }
 
@@ -110,7 +110,7 @@ function displayError(message)
     bootbox.alert(message);
 }
 
-function getColour(imageID,hasPlate,coords)
+function getColour(imageID, hasPlate, coords)
 {
 
     $.ajax({
@@ -136,8 +136,9 @@ function getColour(imageID,hasPlate,coords)
             displayError('Unable to Classify Vehicle Colour');
             $('#colourItem').text('???');
         },
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
+        beforeSend: function (xhr)
+        {
+            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
     });
 }
@@ -153,11 +154,14 @@ function getMake(imageID)
         {
             var make = res.make;
             var confidence = parseFloat(res.confidence) * 100;
-            confidence = Math.round(confidence * 100) / 100;
+            confidence = Math.round(confidence);
             console.log("Car Make: " + make);
-            console.log("Confidence: " + res.confidence);
+            console.log("Confidence: " + confidence);
 
-            $('#makeItem').text(make + " (" + confidence + "%)");
+            $('#makeItem').text(make);
+
+            $('#makeProgress').addClass(getProgressBarColour(confidence));
+            $('#makeProgress').css('width',confidence);
 
 
         },
@@ -168,13 +172,14 @@ function getMake(imageID)
             $('#makeItem').text('???');
 
         },
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
+        beforeSend: function (xhr)
+        {
+            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
     });
 }
 
-function getNumberPlate(imageID,cb)
+function getNumberPlate(imageID, cb)
 {
     $.ajax({
         method: "POST",
@@ -186,6 +191,7 @@ function getNumberPlate(imageID,cb)
             if (res.status === "success")
             {
                 var plate = res.numberPlate;
+                var confidence = res.confidence;
                 var coordinates = res.coordinates; // Upper left [0], Upper Right [1], Lower Right [2], Lower Left [3]
                 var upperLeftX = coordinates[0].x;
                 var upperLeftY = coordinates[0].y;
@@ -193,21 +199,27 @@ function getNumberPlate(imageID,cb)
                 var upperRightX = coordinates[1].x;
 
                 var width = upperRightX - upperLeftX + 10;
-                var height = lowerLeftY -  upperLeftY + 20;
+                var height = lowerLeftY - upperLeftY + 20;
 
 
                 console.log("Car Plate: " + plate);
 
+                let progressWidth = Math.round(confidence);
+
                 $('#plateItem').text(plate);
 
-                createPlatePopover(imageID,width,height,upperLeftX - 10,upperLeftY - 10);
-                cb('true',coordinates,imageID);
+                $('#plateProgress').addClass(getProgressBarColour(progressWidth));
+                $('#plateProgress').css('width',progressWidth);
+                $('#plateAccuracy').text(progressWidth + '%');
+
+                //     createPlatePopover(imageID,width,height,upperLeftX - 10,upperLeftY - 10);
+                cb('true', coordinates, imageID);
             }
             else
             {
                 console.log("Car Plate FAILED");
                 $('#plateItem').text("???");
-                cb('false',null,imageID);
+                cb('false', null, imageID);
             }
 
         },
@@ -217,13 +229,29 @@ function getNumberPlate(imageID,cb)
             displayError('Unable to Classify Vehicle Plate');
 
         },
-        beforeSend: function (xhr) {
-            xhr.setRequestHeader ("Authorization", "Bearer " + localStorage.getItem("authToken"));
+        beforeSend: function (xhr)
+        {
+            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
     });
 }
 
-function createPlatePopover(imageID,width,height,x,y)
+function getProgressBarColour(value)
+{
+    if(value < 51)
+    {
+        return "bg-gradient-danger"
+    }
+    else if(value < 70)
+    {
+        return "bg-gradient-warning";
+    }
+    else
+    {
+        return "bg-gradient-success";
+    }
+}
+function createPlatePopover(imageID, width, height, x, y)
 {
     var imgObject = new Image();
     imgObject.crossOrigin = null;
@@ -233,7 +261,12 @@ function createPlatePopover(imageID,width,height,x,y)
     {
         var newImg = getImagePortion(imgObject, width, height, x, y, 1);
         var imageHTML = '<img src="' + newImg + '"">';
-        $('[data-toggle="popover"]').popover({title: 'Plate Region', content: imageHTML, html: true,placement: 'right'});
+        $('[data-toggle="popover"]').popover({
+            title: 'Plate Region',
+            content: imageHTML,
+            html: true,
+            placement: 'right'
+        });
     }
 }
 
@@ -266,11 +299,6 @@ function generateGallery(imagePaths)
     var gallery = $('.gallery');
 
     var lastRow = $('.gallery div.row:last');
-    var galleryEmpty = false;
-    if(lastRow.length === 0)
-    {
-        galleryEmpty = true;
-    }
 
     for (i = 0; i < imagePaths.length; ++i)
     {
@@ -282,7 +310,7 @@ function generateGallery(imagePaths)
         numImagesOnRow++;
         if (numImagesOnRow === 3)
         {
-           gallery.append('<div class="row"> </div>');
+            gallery.append('<div class="row"> </div>');
 
             lastRow = $('.gallery div.row:last');
             numImagesOnRow = 0;
@@ -301,23 +329,10 @@ function generateImageHTML(image)
 
 function displayImage(image)
 {
-    $("#loadingImage").css('visibility','hidden');
     var loadingGif = '<img src="./resources/loading%20screen%20colour.gif" height="50px" width="50px">';
-    $('.listElement').html(loadingGif);
+    $('.classification').html(loadingGif);
 
-    var imagePath = IMAGE_PATH + image;
-
-    if(image.includes("https://"))
-    {
-        $("#mainImage").attr("src", image);
-    }
-    else
-    {
-        $("#mainImage").attr("src", imagePath);
-    }
-
-
-
+    $("#mainImage").attr("src", image);
 }
 
 function onSignIn(googleUser)

@@ -28,8 +28,8 @@
             <span class="navbar-toggler-icon"> </span>
         </button>
         <!-- Brand -->
-        <a class="navbar-brand pt-0" href="./index.html">
-            <img src="./assets/img/brand/blue.png" class="navbar-brand-img" alt="...">
+        <a class="navbar-brand pt-0" href="indexOld.html">
+            <img src="./assets/img/brand/301LogoDraft.png" class="navbar-brand-img" alt="...">
         </a>
 
         <!-- Collapse -->
@@ -38,16 +38,16 @@
             <div class="navbar-collapse-header d-md-none">
                 <div class="row">
                     <div class="col-6 collapse-brand">
-                        <a href="./index.html">
-                            <img src="./assets/img/brand/blue.png">
+                        <a href="index.html">
+                            <img src="./assets/img/brand/301LogoDraft.png">
                         </a>
                     </div>
                     <div class="col-6 collapse-close">
                         <button type="button" class="navbar-toggler" data-toggle="collapse"
                                 data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false"
                                 aria-label="Toggle sidenav">
-                            <span></span>
-                            <span></span>
+                            <span> </span>
+                            <span> </span>
                         </button>
                     </div>
                 </div>
@@ -228,14 +228,13 @@
                             <tbody>
                             <tr>
                                 <th scope="row">Make</th>
-                                <td id="makeItem" class="classification">Toyota</td>
+                                <td id="makeItem" class="classification"> </td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <span class="mr-2">70%</span>
+                                        <span id="makeAccuracy" class="mr-2 accuracy"> </span>
                                         <div>
                                             <div class="progress">
-                                                <div class="progress-bar bg-gradient-success" role="progressbar"
-                                                     style="width: 70%;"></div>
+                                                <div id="makeProgress" class="progress-bar" role="progressbar" style="width: 0;"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -243,14 +242,14 @@
                             </tr>
                             <tr>
                                 <th scope="row">Model</th>
-                                <td id="modelItem" class="classification">Corolla</td>
+                                <td id="modelItem" class="classification"> </td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <span class="mr-2">80%</span>
+                                        <span id="modelAccuracy" class="mr-2 accuracy"> </span>
                                         <div>
                                             <div class="progress">
-                                                <div class="progress-bar bg-gradient-primary" role="progressbar"
-                                                     style="width: 80%;"></div>
+                                                <div id="modelProgress" class="progress-bar" role="progressbar"
+                                                     style="width: 0;"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -258,15 +257,13 @@
                             </tr>
                             <tr>
                                 <th scope="row">Number Plate</th>
-                                <td id="plateItem" class="classification">Silver</td>
+                                <td id="plateItem" class="classification"> </td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        <span class="mr-2">75%</span>
+                                        <span id="plateAccuracy" class="mr-2 accuracy"> </span>
                                         <div>
                                             <div class="progress">
-                                                <div class="progress-bar bg-gradient-info" role="progressbar"
-                                                     aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"
-                                                     style="width: 75%;"></div>
+                                                <div id="plateProgress" class="progress-bar" role="progressbar" style="width: 0;"></div>
                                             </div>
                                         </div>
                                     </div>
@@ -274,7 +271,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">Colour</th>
-                                <td id="colourItem" class="classification">LCP 357 GP</td>
+                                <td id="colourItem" class="classification"> </td>
 
                             </tr>
                             </tbody>
@@ -282,7 +279,6 @@
                     </div>
                 </div>
             </div>
-
 
         </div>
 
@@ -338,6 +334,13 @@
                                 <td>Red</td>
                                 <td> JK42QY GP</td>
                             </tr>
+
+                            <tr>
+                                <th scope="row">BMW</th>
+                                <td>M4</td>
+                                <td>White</td>
+                                <td> LVF397 GP</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
@@ -365,7 +368,7 @@
                                 Us</a>
                         </li>
                         <li class="nav-item">
-                            <a href="http://blog.creative-tim.com" class="nav-link" target="_blank">Github</a>
+                            <a href="https://github.com/cos301-2019-se/AI-Auto-Car-Classifier" class="nav-link" target="_blank">Github</a>
                         </li>
 
                     </ul>
@@ -375,10 +378,15 @@
 
     </div>
 </div>
-<!--   Core   -->
+<!--   Core
 <script src="./assets/js/plugins/jquery/dist/jquery.min.js"></script>
-<script src="./assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="./assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
 
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <!--   Argon JS   -->
 <script src="./assets/js/argon-dashboard.min.js?v=1.1.0"></script>
 
