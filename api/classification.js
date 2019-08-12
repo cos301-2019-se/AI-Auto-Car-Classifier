@@ -358,48 +358,56 @@ async function getMakeAndModel(req, res)
 
 function imageContainsCar(req, res)
 {
-    try
-    {
-        //read image as numpy array, turn it into numpy list and send an api call to the model
-        let numpyArray = nj.images.read(`images/${req.body.imageID}`);
-        numpyArray = numpyArray.tolist();
 
-        request.post({
-            headers: {
-                'content-type': 'application/json'
-            },
-            url: BOOLEAN_MODEL_ENDPOINT,
-            body: {
-                data: numpyArray
-            },
-            json: true,
-        }, function (error, response, body)
-        {
-            //  console.log(response.body)
-            if (response && response.statusCode == 200)
-            {
-                res.status(200).json({
-                    ...response.body
-                })
-            }
-            else
-            {
-                //  console.log(response.body);
-                //    console.log(response.statusCode);
-                res.status(500).json({
-                    message: 'Boolean classifier returned an error trying to classify the image. Please try again',
-                    error: error
-                });
-            }
-        });
-    }
-    catch (error)
+    var imageID = req.body.imageID;
+
+    var fileName = 'image' + '-' + Date.now() + '.jpg';
+    download(imageID, './images/' + fileName, function (err, filepath)
     {
-        res.status(500).json({
-            message: 'An error occured trying to classify the image, please try again',
-            error: error
-        });
-    }
+        try
+        {
+            //read image as numpy array, turn it into numpy list and send an api call to the model
+            let numpyArray = nj.images.read(`images/${fileName}`);
+            numpyArray = numpyArray.tolist();
+
+            request.post({
+                headers: {
+                    'content-type': 'application/json'
+                },
+                url: BOOLEAN_MODEL_ENDPOINT,
+                body: {
+                    data: numpyArray
+                },
+                json: true,
+            }, function (error, response, body)
+            {
+                //  console.log(response.body)
+                if (response && response.statusCode == 200)
+                {
+                    res.status(200).json({
+                        ...response.body
+                    })
+                }
+                else
+                {
+                    //  console.log(response.body);
+                    //    console.log(response.statusCode);
+                    res.status(500).json({
+                        message: 'Boolean classifier returned an error trying to classify the image. Please try again',
+                        error: error
+                    });
+                }
+            });
+        }
+        catch (error)
+        {
+            res.status(500).json({
+                message: 'An error occured trying to classify the image, please try again',
+                error: error
+            });
+        }
+    });
+
 
 }
 
@@ -732,7 +740,7 @@ function getImageColorMock(req, res)
 function getNumberPlate(req, res)
 {
     var imageID = req.body.imageID;
-    //   var imageUrl = req.body.imageUrl;
+
     var fileName = 'image' + '-' + Date.now() + '.jpg';
     download(imageID, './images/' + fileName, function (err, filepath)
     {

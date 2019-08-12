@@ -50,9 +50,10 @@ $(document).ready(function ()
 
 function classifyImage(imageUrl)
 {
+
     getNumberPlate(imageUrl, function (hasPlate, coords, imageID)
     {
-     //   getMake(imageID);
+        getMake(imageID);
         getColour(imageID, hasPlate, coords);
     });
 }
@@ -153,15 +154,22 @@ function getMake(imageID)
         success: function (res)
         {
             var make = res.make;
+            var model = res.model;
             var confidence = parseFloat(res.confidence) * 100;
             confidence = Math.round(confidence);
             console.log("Car Make: " + make);
+            console.log("Car Model: " + model);
             console.log("Confidence: " + confidence);
 
             $('#makeItem').text(make);
+            $('#modelItem').text(model);
+
 
             $('#makeProgress').addClass(getProgressBarColour(confidence));
             $('#makeProgress').css('width',confidence);
+
+            $('#modelProgress').addClass(getProgressBarColour(confidence));
+            $('#modelProgress').css('width',confidence);
 
 
         },
