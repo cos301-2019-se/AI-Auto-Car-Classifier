@@ -776,11 +776,14 @@ function getNumberPlate(req, res)
 
                 var coords = results[0].coordinates;
 
+                var con = results[0].confidence;
+
                 res.status(200).json({
                     status: "success",
                     numberPlate: plate,
                     coordinates: coords,
-                    imageID: fileName
+                    imageID: fileName,
+                    confidence: con
                 });
 
 
