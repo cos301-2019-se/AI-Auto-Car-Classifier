@@ -358,7 +358,11 @@ async function getMakeAndModel(req, res)
 
 async function imageContainsCar(req, res)
 {
-    try
+
+    var imageID = req.body.imageID;
+
+    var fileName = 'image' + '-' + Date.now() + '.jpg';
+    download(imageID, './images/' + fileName, function (err, filepath)
     {
        //read image as numpy array, turn it into numpy list and send an api call to the model
         await image2base64(`images/${req.body.imageID}`) // you can also to use url
@@ -384,31 +388,13 @@ async function imageContainsCar(req, res)
             json: true,
         }, function (error, response, body)
         {
-            //  console.log(response.body)
-            if (response && response.statusCode == 200)
-            {
-                res.status(200).json({
-                    ...response.body
-                })
-            }
-            else
-            {
-                //  console.log(response.body);
-                //    console.log(response.statusCode);
-                res.status(500).json({
-                    message: 'Boolean classifier returned an error trying to classify the image. Please try again',
-                    error: error
-                });
-            }
-        });
-    }
-    catch (error)
-    {
-        res.status(500).json({
-            message: 'An error occured trying to classify the image, please try again',
-            error: error
-        });
-    }
+            res.status(500).json({
+                message: 'An error occured trying to classify the image, please try again',
+                error: error
+            });
+        }
+    });
+
 
 }
 
@@ -741,7 +727,7 @@ function getImageColorMock(req, res)
 function getNumberPlate(req, res)
 {
     var imageID = req.body.imageID;
-    //   var imageUrl = req.body.imageUrl;
+
     var fileName = 'image' + '-' + Date.now() + '.jpg';
     download(imageID, './images/' + fileName, function (err, filepath)
     {
@@ -785,11 +771,14 @@ function getNumberPlate(req, res)
 
                 var coords = results[0].coordinates;
 
+                var con = results[0].confidence;
+
                 res.status(200).json({
                     status: "success",
                     numberPlate: plate,
                     coordinates: coords,
-                    imageID: fileName
+                    imageID: fileName,
+                    confidence: con
                 });
 
 

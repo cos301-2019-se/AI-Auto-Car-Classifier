@@ -1,141 +1,22 @@
-@font-face {
-    font-family: Poppins-Regular, sans-serif;
-    src: url('../login/fonts/poppins/Poppins-Regular.ttf');
-}
-
-@font-face {
-    font-family: Poppins-Medium;
-    src: url('../login/fonts/poppins/Poppins-Medium.ttf');
-}
-
-body, html {
-    font-family: Poppins-Regular, sans-serif;
-}
-.pictureArea {
-    width: 100%;
-    min-height: 50vh;
-
-}
-.galHeading{
-    padding: 20px;
-}
-#loadingImage{
-  top:0;
-    padding-top: 0;
-    padding-bottom: 0;
-    display:block;
-    margin:auto;
-    max-height: 100px;
-}
-
-h1, h2, h3{
-    font-family: Poppins-Medium, sans-serif;
-}
-
 
 .gallery {
     padding-bottom: 20px;
     padding-top: 20px;
     width: 100%;
     min-height: 50vh;
-    background: #d7d7d7;
+   /* background: #d7d7d7;*/
     max-height: 70vh;
     overflow-y: scroll;
 }
 
-#footer {
-    padding: 20px;
-}
-
-.wrapper {
-    width: 100%;
-    margin: 0 auto;
-
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 0;
-    padding-top: 10px;
-}
-
-
-.picture {
-    background: #d7d7d7;
-}
-
-.picInfo {
-    padding: 1%;
-    background: #d7d7d7;
-}
-
-.heading {
-    font-family: Poppins-Medium, sans-serif;
-    font-weight: bold;
-}
-
-.listElement {
-    font-weight: normal;
-    padding-left: 15px;
-}
-
-
-/* Upload Button */
-
-.input-container {
-    margin: 2em auto;
-    max-width: 300px;
-    background-color: #EDEDED;
-    border: 1px solid #DFDFDF;
-    border-radius: 5px;
-}
-
-input[type='file'] {
-    display: none;
-}
-
-.file-info {
-    font-size: 0.9em;
-}
-
-.topContainer{
-    padding-bottom: 20px;
-}
-
-.btnSpan{
-    width: 100%;
-    text-align: center;
+.uploadBtn {
     margin-top: 20px;
 }
 
-.browse-btn {
-    display: block;
-    margin: 0 auto;
-    background: #03A595;
-    color: #fff;
-    min-height: 35px;
-    padding: 10px;
-    border: none;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
+#mainImage {
+    height: 100%;
+    width: 100%;
+    object-fit: contain
 }
-
-.browse-btn:hover {
-    background: #4ec0b4;
-}
-
-@media (max-width: 300px) {
-    button {
-        width: 100%;
-        border-top-right-radius: 5px;
-        border-bottom-left-radius: 0;
-    }
-
-    .file-info {
-        display: block;
-        margin: 10px 5px;
-    }
-}
-
 
 
