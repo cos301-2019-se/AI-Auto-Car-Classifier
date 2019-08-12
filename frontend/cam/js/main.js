@@ -51,7 +51,8 @@ function initCameraUI() {
     switchCameraButton = document.getElementById('switchCameraButton');
     takePhotoButton.addEventListener("click", function() {
         takeSnapshotUI();
-        takeSnapshot();        
+        takeSnapshot();
+        window.open("../index.html");                     //GO BACK TO PREVIOS PAGE AFTER IMAGE SUBMISSION;
     });
 
     function fullScreenChange() {

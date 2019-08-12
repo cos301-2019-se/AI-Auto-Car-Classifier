@@ -6,7 +6,11 @@
     <title>Auto Car Classifier</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
+    <script src="scripts/camera.js"></script>
 </head>
 <body>
 
@@ -14,9 +18,11 @@
 
     <div class="container">
     <h1> Auto Car Classifier</h1>
+       
         <img id="loadingImage" class="img-fluid" src="resources/loading%20screen%20colour.gif">
         <div id="mainDiv" class="row pictureArea">
-            <div class="col-md-9  picture"> <h3>Image</h3> <img id="mainImage" src="resources/placeholderGrey.jpg" class="img-fluid" alt="Responsive image"> </div>
+            <div class="col-md-9  picture"> <h3>Image</h3>
+                <img id="mainImage" src="resources/placeholderGrey.jpg" class="img-fluid" alt="Responsive image"> </div>
             <div class="col-md-3  picInfo">
                <h3>Details</h3>
                 <ul class="list-unstyled">
@@ -45,6 +51,11 @@
             <form class="uploadForm" action="http://localhost:3000/classify/submit_multiple"  enctype="multipart/form-data" method="POST">
                 <div class="input-container">
             <input type="file" id="real-input" name="imageMultiple" multiple>
+            
+            <a href="cam/index.html" class="btn btn-success btn-lg">
+                <span class="glyphicon glyphicon-camera"></span> Cam 
+              </a>
+            </button>
             <button class="browse-btn">
                 Browse Files
             </button>
