@@ -27,8 +27,8 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({storage: storage});
-const MODEL_ENDPOINT = 'http://fa58d627-948b-47e0-9f79-16bf04d3d271.westeurope.azurecontainer.io/score';
-const BOOLEAN_MODEL_ENDPOINT = 'http://7b0640a1-4862-484f-aaef-cdcfe8fb98d3.westeurope.azurecontainer.io/score';
+const MODEL_ENDPOINT = 'http://21616aee-bf95-4402-bf1b-284eb0739dcf.westeurope.azurecontainer.io/score';
+const BOOLEAN_MODEL_ENDPOINT = 'http://be246d86-0b32-47ca-80ff-d37034c869a9.westeurope.azurecontainer.io/score';
 
 router.post('/submit', upload.single('image'), submitImage);
 router.post('/submit_multiple', upload.array('imageMultiple'), submitMultipleImages);
@@ -321,7 +321,7 @@ async function getMakeAndModel(req, res)
                     console.log(error); //Exepection error....
                 }
             );
-        console.log(bas64Image);
+
         request.post({
             headers: {
                 'content-type': 'application/json'
@@ -356,13 +356,22 @@ async function getMakeAndModel(req, res)
 
 }
 
-function imageContainsCar(req, res)
+async function imageContainsCar(req, res)
 {
     try
     {
-        //read image as numpy array, turn it into numpy list and send an api call to the model
-        let numpyArray = nj.images.read(`images/${req.body.imageID}`);
-        numpyArray = numpyArray.tolist();
+       //read image as numpy array, turn it into numpy list and send an api call to the model
+        await image2base64(`images/${req.body.imageID}`) // you can also to use url
+            .then(
+                (response) => {
+                    bas64Image = response;
+                }
+            )
+            .catch(
+                (error) => {
+                    console.log(error); //Exepection error....
+                }
+            );
 
         request.post({
             headers: {
@@ -370,7 +379,7 @@ function imageContainsCar(req, res)
             },
             url: BOOLEAN_MODEL_ENDPOINT,
             body: {
-                data: numpyArray
+                data: bas64Image
             },
             json: true,
         }, function (error, response, body)

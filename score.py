@@ -228,7 +228,7 @@
 
 #     model = Model(img_input, x_fc)
 
-#     weights_path = azure_model.Model.get_model_path('car_classifier_model')
+#     weights_path = azure_model.Model.get_model_path('car-classifier-model')
 
 #     model.load_weights(weights_path, by_name=True)
 
@@ -250,8 +250,8 @@
 # def init():
 #     global model, class_names
 #     model = resnet152_model(224, 224, 3, 196)
-#     model.load_weights(azure_model.Model.get_model_path('car_classifier_model'), by_name=True)
-#     ws = Workspace(workspace_name='controlaltelite',subscription_id='fe1878c3-9717-4812-a0ba-6b917af5fc05',resource_group='controlaltelite11')
+#     model.load_weights(azure_model.Model.get_model_path('car-classifier-model'), by_name=True)
+#     ws = Workspace(workspace_name='controlaltelite',subscription_id='217d2697-2f39-4d62-b2e5-47332395fb15',resource_group='controlaltelite11')
 #     ds = ws.get_default_datastore()
 #     ds.download(target_path='.', prefix='cars_meta', show_progress=True)
 #     cars_meta = scipy.io.loadmat('cars_meta')
@@ -277,6 +277,7 @@
 #     except Exception as e:
 #         result = str(e)
 #         return {"error": result}
+
 
 
 
