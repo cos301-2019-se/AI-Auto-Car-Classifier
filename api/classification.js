@@ -12,7 +12,6 @@ const FileSet = require('fileset');
 const colour = require('color-namer');
 var nj = require('numjs');
 let passport = require('../config/passport');
-var cloudinary = require('../config/cloudinaryConfig');
 var download = require('download-to-file');
 
 var storage = multer.diskStorage({
