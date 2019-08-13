@@ -50,12 +50,16 @@ $(document).ready(function ()
 
 function classifyImage(imageUrl)
 {
-
-    getNumberPlate(imageUrl, function (hasPlate, coords, imageID)
+    detectCar(imageUrl,function (imageUrl)
     {
-        getMake(imageID);
-        getColour(imageID, hasPlate, coords);
+        getMake(imageUrl);
+        getNumberPlate(imageUrl, function (hasPlate, coords, imageID)
+        {
+
+            getColour(imageID, hasPlate, coords);
+        });
     });
+
 }
 
 function detectCar(imageID, callback)
@@ -70,7 +74,7 @@ function detectCar(imageID, callback)
         {
             var prob = res.confidence;
 
-            if (prob > 0.20)
+            if (prob > 0.30)
             {
                 callback(imageID);
             }
@@ -167,9 +171,11 @@ function getMake(imageID)
 
             $('#makeProgress').addClass(getProgressBarColour(confidence));
             $('#makeProgress').css('width',confidence);
+            $('#makeAccuracy').text(confidence + '%');
 
             $('#modelProgress').addClass(getProgressBarColour(confidence));
             $('#modelProgress').css('width',confidence);
+            $('#modelAccuracy').text(confidence + '%');
 
 
         },
