@@ -50,6 +50,8 @@ $(document).ready(function ()
 
 function classifyImage(imageUrl)
 {
+    clearProgress();
+
     detectCar(imageUrl,function (imageUrl)
     {
         getMake(imageUrl);
@@ -146,6 +148,29 @@ function getColour(imageID, hasPlate, coords)
             xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
     });
+}
+
+function clearProgress()
+{
+    $('#makeProgress').css('width',0);
+
+    $('#makeProgress').removeClass();
+    $('#makeProgress').addClass('progress-bar');
+
+    $('#makeAccuracy').text('');
+
+
+    $('#modelProgress').css('width',0);
+    $('#modelProgress').removeClass();
+    $('#modelProgress').addClass('progress-bar');
+    $('#modelAccuracy').text('');
+
+    $('#plateProgress').css('width',0);
+    $('#plateProgress').removeClass();
+    $('#plateProgress').addClass('progress-bar');
+    $('#plateAccuracy').text('');
+
+
 }
 
 function getMake(imageID)
