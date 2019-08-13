@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<meta name="google-signin-client_id" content="249070052268-r1i5vcn6s3h6dbqk07g02prbs805s077.apps.googleusercontent.com">
+	<meta name="google-signin-client_id" content="717734531816-trque55lst5ijeodo66p97j3b6kg129r.apps.googleusercontent.com">
 	<script src="https://apis.google.com/js/platform.js" async defer></script>
 	<link rel="icon" type="image/png" href="login/images/icons/favicon.ico"/>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
@@ -18,27 +18,56 @@
 
 	<link rel="stylesheet" type="text/css" href="login/css/util.css">
 	<link rel="stylesheet" type="text/css" href="login/css/main.css">
+	<script>
+		/*window.fbAsyncInit = function() {
+			FB.init({
+				appId      : '2422889254471415',
+				cookie     : true,
+				xfbml      : true,
+				version    : 'v3.3'
+			});
+			FB.AppEvents.logPageView();
+			checkLoginState();
+		}
+
+		function checkLoginState() {
+			console.log('Hello')
+			FB.getLoginStatus(function(response) {
+				//statusChangeCallback(response);
+				console.log(response);
+			});
+			FB.logout();
+		}
+
+		(function(d, s, id){
+			var js, fjs = d.getElementsByTagName(s)[0];
+			if (d.getElementById(id)) {return;}
+			js = d.createElement(s); js.id = id;
+			js.src = "https://connect.facebook.net/en_US/sdk.js";
+			fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));*/
+	</script>
 </head>
 <body>
 	
 	<div class="limiter">
 		<div class="container-login100" >
 			<span class="login100-form-title p-b-53 heading">
-						Auto Car Classifier
-					</span>
+				Auto Car Classifier
+			</span>
 			<div class="wrap-login100 p-l-110 p-r-110 p-t-62 p-b-33">
 
-				<form class="login100-form validate-form flex-sb flex-w" action="index.html">
+				<form class="login100-form validate-form flex-sb flex-w" action="indexOld.html">
 					<span class="login100-form-title p-b-53">
 						Sign In With
 					</span>
 
-					<a href="#" class="btn-face m-b-20">
+					<a href="#" class="btn-face " onclick="checkLoginState()">
 						<i class="fa fa-facebook-official"></i>
 						Facebook
 					</a>
 
-					<a href="#" class="g-signin2 btn-google m-b-20" data-onsuccess="onSignIn">
+					<a class="g-signin2 btn-google m-b-20" data-onsuccess="onSignIn">
 						<img src="login/images/icons/icon-google.png" alt="GOOGLE">
 						Google
 					</a>
@@ -59,7 +88,7 @@
 						</span>
 
 						<a href="#" class="txt2 bo1 m-l-5">
-							Forgot?
+							Forgot Password ?
 						</a>
 					</div>
 					<div class="wrap-input100 validate-input" data-validate = "Password is required">
@@ -95,11 +124,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/i18n/en.js"></script>
-<!--
-	<script src="login/vendor/daterangepicker/moment.min.js"></script>
-	<script src="login/vendor/daterangepicker/daterangepicker.js"></script>
-	<script src="login/vendor/countdowntime/countdowntime.js"></script>
-	<script src="login/js/main.js"></script> -->
-
+	<script src="scripts/signin.js"></script>
 </body>
 </html>
