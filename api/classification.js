@@ -310,7 +310,7 @@ async function getMakeAndModel(req, res)
     let bas64Image = null;
     try{
         //read image as numpy array, turn it into numpy list and send an api call to the model
-        await image2base64(`images/${req.body.imageID}`) // you can also to use url
+        await image2base64(req.body.imageID) // you can also to use url
             .then(
                 (response) => {
                     bas64Image = response;
@@ -359,15 +359,15 @@ async function getMakeAndModel(req, res)
 async function imageContainsCar(req, res)
 {
 
-    var imageID = req.body.imageID;
+    var imageUrl = req.body.imageID;
 
-    var fileName = 'image' + '-' + Date.now() + '.jpg';
-    download(imageID, './images/' + fileName, function (err, filepath)
-    {
+    console.log("Image: " + imageUrl);
+
        //read image as numpy array, turn it into numpy list and send an api call to the model
-        await image2base64(`images/${req.body.imageID}`) // you can also to use url
+        await image2base64(imageUrl) // you can also to use url
             .then(
                 (response) => {
+
                     bas64Image = response;
                 }
             )
@@ -388,12 +388,22 @@ async function imageContainsCar(req, res)
             json: true,
         }, function (error, response, body)
         {
-            res.status(500).json({
-                message: 'An error occured trying to classify the image, please try again',
-                error: error
-            });
-        }
-    });
+            if(response && response.statusCode == 200)
+            {
+                res.status(200).json(
+                    {
+                        ...response.body
+                    });
+            }
+            else
+            {
+                res.status(500).json({
+                    message: 'An error occurred trying to classify the image, please try again',
+                    error: error
+                });
+            }
+
+        });
 
 
 }
