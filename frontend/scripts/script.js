@@ -69,7 +69,7 @@ function detectCar(imageID, callback)
 
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/classify/car_detector",
+        url: "/classify/car_detector",
         dataType: "json",
         data: {imageID: imageID},
         success: function (res)
@@ -122,7 +122,7 @@ function getColour(imageID, hasPlate, coords)
 
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/classify/color_detector",
+        url: "/classify/color_detector",
         dataType: "json",
         data:
             {
@@ -177,7 +177,7 @@ function getMake(imageID)
 {
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/classify/get_car_details",
+        url: "/classify/get_car_details",
         dataType: "json",
         data: {imageID: imageID},
         success: function (res)
@@ -222,7 +222,7 @@ function getNumberPlate(imageID, cb)
 {
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/classify/number_plate",
+        url: "/classify/number_plate",
         data: {imageID: imageID},
         success: function (res)
         {
