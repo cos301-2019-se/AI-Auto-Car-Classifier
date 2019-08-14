@@ -1,81 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Auto Car Classifier</title>
-
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>
+        Auto Car Classifier
+    </title>
+    <!-- Favicon -->
+    <link href="./assets/img/brand/favicon.png" rel="icon" type="image/png">
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
+    <!-- Icons -->
+    <link href="./assets/js/plugins/nucleo/css/nucleo.css" rel="stylesheet"/>
+    <link href="./assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet"/>
+    <!-- CSS Files -->
+    <link href="./assets/css/argon-dashboard.css?v=1.1.0" rel="stylesheet"/>
+    <link href="./css/style.css" rel="stylesheet"/>
 </head>
-<body>
 
-<div class="wrapper">
+<body class="">
+<nav class="navbar navbar-expand-md navbar-light bg-white" id="sidenav-main">
+    <div class="container-fluid">
+        <!-- Toggler -->
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#sidenav-collapse-main"
+                aria-controls="sidenav-main" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"> </span>
+        </button>
+        <!-- Brand -->
+        <a class="navbar-brand pt-0" href="indexOld.html">
+            <img src="./assets/img/brand/301LogoDraft.png" class="navbar-brand-img" alt="...">
+        </a>
 
-    <div class="container topContainer">
-        <h1> Auto Car Classifier</h1>
-        <img id="loadingImage" class="img-fluid" src="resources/loading%20screen%20colour.gif">
-        <div id="mainDiv" class="row pictureArea">
-            <div class="col-md-9  picture"><h3>Image</h3> <img id="mainImage" src="resources/placeholderGrey.jpg"
-                                                               class="img-fluid" alt="Responsive image"></div>
-            <div class="col-md-3  picInfo">
-                <h3>Details</h3>
-                <ul class="list-unstyled">
-                    <li class="heading"> Vehicle Colour
-                        <ul class="list-unstyled">
-                            <li id="colourItem" class="listElement"> &nbsp;</li>
-                        </ul>
-                    </li>
-                    <li class="heading">Vehicle Make
-                        <ul class="list-unstyled">
-                            <li id="makeItem" class="listElement"> &nbsp;</li>
-                        </ul>
-                    </li>
-                    <li id="plateTitle" class="heading" title="Plate Region" data-toggle="popover"
-                        data-placement="bottom" data-trigger="hover">License Plate
-                        <ul class="list-unstyled">
-                            <li id="plateItem" class="listElement">&nbsp;</li>
-                        </ul>
-                    </li>
-                </ul>
-                <button id="reportBtn" type="button" class="btn btn-danger btn-sm">Report Incorrect Details</button>
-                <!-- <button id="classifyBtn" type="button" class="btn btn-success btn-lg">Classify</button> -->
+        <!-- Collapse -->
+        <div class="collapse navbar-collapse" id="sidenav-collapse-main">
+            <!-- Collapse header -->
+            <div class="navbar-collapse-header d-md-none">
+                <div class="row">
+                    <div class="col-6 collapse-brand">
+                        <a href="index.html">
+                            <img src="./assets/img/brand/301LogoDraft.png">
+                        </a>
+                    </div>
+                    <div class="col-6 collapse-close">
+                        <button type="button" class="navbar-toggler" data-toggle="collapse"
+                                data-target="#sidenav-collapse-main" aria-controls="sidenav-main" aria-expanded="false"
+                                aria-label="Toggle sidenav">
+                            <span> </span>
+                            <span> </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="ni ni-spaceship"> </i> Getting started
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link " href="./examples/profile.html">
+                        <i class="ni ni-single-02 text-yellow"> </i> User profile
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="#">
+                        <i class="ni ni-key-25 text-info"> </i> Logout
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./examples/register.html">
+                        <i class="ni ni-circle-08 text-pink"> </i> Register
+                    </a>
+                </li>
+            </ul>
+            <!-- Divider -->
+            <hr class="my-3">
+        </div>
+    </div>
+</nav>
+<div class="main-content">
+
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+        <div class="container-fluid">
+            <div class="header-body">
+                <!-- Card stats -->
+                <div class="row">
+                    <div class="col-xl-3 col-lg-6">
+                        <div class="card card-stats mb-4 mb-xl-0">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Total Classifications</h5>
+                                        <span class="h2 font-weight-bold mb-0">2659</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-danger text-white rounded-circle shadow">
+                                            <i class="fas fa-chart-bar"> </i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span>&nbsp;</span>
+                                    <span>&nbsp;</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6">
+                        <div class="card card-stats mb-4 mb-xl-0">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Unique Makes
+                                            Classified</h5>
+                                        <span class="h2 font-weight-bold mb-0">34</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-warning text-white rounded-circle shadow">
+                                            <i class="fas fa-chart-pie"> </i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span>&nbsp;</span>
+                                    <span>&nbsp;</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6">
+                        <div class="card card-stats mb-4 mb-xl-0">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Average Speed</h5>
+                                        <span class="h2 font-weight-bold mb-0">30 seconds</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-yellow text-white rounded-circle shadow">
+                                            <i class="fas fa-users"> </i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"> </i>12%</span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6">
+                        <div class="card card-stats mb-4 mb-xl-0">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Average Accuracy</h5>
+                                        <span class="h2 font-weight-bold mb-0">71%</span>
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-info text-white rounded-circle shadow">
+                                            <i class="fas fa-percent"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p class="mt-3 mb-0 text-muted text-sm">
+                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"> </i> 7%</span>
+                                    <span class="text-nowrap">Since last month</span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid mt--7">
+        <div class="row">
+            <div class="col-xl-8 mb-5 mb-xl-0">
+                <div class="card bg-gradient-default shadow">
+                    <div class="card-header bg-transparent">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h6 class="text-uppercase text-light ls-1 mb-1">Image</h6>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!----------- MAIN IMAGE AREA  -------------------------->
+                        <div class="chart">
+                            <img id="mainImage" class="img-fluid" src="./resources/1x1Pixel.png" alt=" ">
+                        </div>
+                    </div>
+
+                </div>
+                <button id="uploadBtn" type="button" class="btn btn-primary btn-lg btn-block">Upload Images</button>
+            </div>
+
+            <div class="col-xl-4">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Classification</h3>
+                            </div>
+                            <div class="col text-right">
+                                <a href="#" class="btn btn-sm btn-danger">Incorrect</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col"> </th>
+                                <th scope="col"> </th>
+                                <th scope="col"> </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">Make</th>
+                                <td id="makeItem" class="classification"> </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span id="makeAccuracy" class="mr-2 accuracy"> </span>
+                                        <div>
+                                            <div class="progress">
+                                                <div id="makeProgress" class="progress-bar" role="progressbar" style="width: 0;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Model</th>
+                                <td id="modelItem" class="classification"> </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span id="modelAccuracy" class="mr-2 accuracy"> </span>
+                                        <div>
+                                            <div class="progress">
+                                                <div id="modelProgress" class="progress-bar" role="progressbar"
+                                                     style="width: 0;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Number Plate</th>
+                                <td id="plateItem" class="classification"> </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <span id="plateAccuracy" class="mr-2 accuracy"> </span>
+                                        <div>
+                                            <div class="progress">
+                                                <div id="plateProgress" class="progress-bar" role="progressbar" style="width: 0;"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Colour</th>
+                                <td id="colourItem" class="classification"> </td>
+
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-xl-8 mb-5 mb-xl-0">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">Gallery</h3>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="container gallery">
+                        <div class="row"></div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-xl-8 mb-5 mb-xl-0">
+                <div class="card shadow">
+                    <div class="card-header border-0">
+                        <div class="row align-items-center">
+                            <div class="col">
+                                <h3 class="mb-0">History</h3>
+                            </div>
+                            <div class="col text-right">
+                                <a href="#" class="btn btn-sm btn-primary">See all</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <!-- Projects table -->
+                        <table class="table align-items-center table-flush">
+                            <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Make</th>
+                                <th scope="col">Model</th>
+                                <th scope="col">Colour</th>
+                                <th scope="col">Number Plate</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">Audi</th>
+                                <td>RS4</td>
+                                <td>Red</td>
+                                <td> JK42QY GP</td>
+                            </tr>
+
+                            <tr>
+                                <th scope="row">BMW</th>
+                                <td>M4</td>
+                                <td>White</td>
+                                <td> LVF397 GP</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
 
 
         </div>
 
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="row align-items-center justify-content-xl-between">
+                <div class="col-xl-6">
+                    <div class="copyright text-center text-xl-left text-muted">
+                        &copy; 2019 <a href="#" class="font-weight-bold ml-1" target="_blank">Ctrl-Alt-Elite</a>
+                    </div>
+                </div>
+                <div class="col-xl-6">
+                    <ul class="nav nav-footer justify-content-center justify-content-xl-end">
+                        <li class="nav-item">
+                            <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Ctrl-Alt-Elite</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About
+                                Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="https://github.com/cos301-2019-se/AI-Auto-Car-Classifier" class="nav-link" target="_blank">Github</a>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </footer>
 
     </div>
-
-    <span class="btnSpan">
-        <button class="browse-btn btn btn-success btn-lg"> Upload Image </button>
-    </span>
-
-
-    <h1 class="galHeading">Gallery</h1>
-    <div class="container gallery">
-    <div class="row"></div>
-
-    </div>
-
-    <div id="footer"></div>
-
 </div>
+<!--   Core
+<script src="./assets/js/plugins/jquery/dist/jquery.min.js"></script>
+<script src="./assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/umd/popper.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="./resources/malsup.js"></script>
+<!--   Argon JS   -->
+<script src="./assets/js/argon-dashboard.min.js?v=1.1.0"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
-<script src="scripts/script.js"></script>
 
 <script type="text/javascript" src="./scripts/cloudinary/jquery.ui.widget.js"></script>
 <script type="text/javascript" src="./scripts/cloudinary/jquery.iframe-transport.js"></script>
 <script type="text/javascript" src="./scripts/cloudinary/jquery.fileupload.js"></script>
 <script type="text/javascript" src="./scripts/cloudinary/jquery.cloudinary.js"></script>
 <script src="//widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+
+<script src="scripts/script.js"></script>
+
+
 </body>
+
 </html>
