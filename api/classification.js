@@ -752,7 +752,7 @@ function getNumberPlate(req, res)
             var image = fs.readFileSync(file);
 
             const {exec} = require('child_process');
-            var command = 'alpr -c eu -d -j -n 1 ' + file;
+            var command = '.\\openalpr_64\\alpr -c eu -d -j -n 1 ' + file;
             exec(command, (err, stdout, stderr) =>
             {
                 if (err)
