@@ -27,7 +27,7 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage: storage});
 const MODEL_ENDPOINT = 'http://21616aee-bf95-4402-bf1b-284eb0739dcf.westeurope.azurecontainer.io/score';
-const BOOLEAN_MODEL_ENDPOINT = 'http://be246d86-0b32-47ca-80ff-d37034c869a9.westeurope.azurecontainer.io/score';
+const BOOLEAN_MODEL_ENDPOINT = 'http://04f7a584-8a70-4b64-9bd6-acc277ed8282.westeurope.azurecontainer.io/score';
 
 router.post('/submit', upload.single('image'), submitImage);
 router.post('/submit_multiple', upload.array('imageMultiple'), submitMultipleImages);
@@ -514,6 +514,8 @@ function colourTest(imagePath, coordinates, cb)
 
     Jimp.read(imagePath, function (err, image)
     {
+		if(err)
+			console.log(err);
 
         var startX, startY;
         var regionWidth, regionHeight;
