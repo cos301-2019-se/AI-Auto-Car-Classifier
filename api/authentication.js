@@ -40,7 +40,7 @@ router.post('/login', async function(req, res, next) {
                 }
             }
         } catch(error){
-            res.status(401).json({ message: 'Something went user', error: error });
+            res.status(401).json({ message: 'Something went wrong', error: error });
         }
     }
   });

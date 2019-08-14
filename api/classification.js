@@ -14,6 +14,13 @@ var nj = require('numjs');
 let passport = require('../config/passport');
 var download = require('download-to-file');
 
+
+//get models
+const db = require('../models/index');
+const User = db.sequelize.models.User;
+const Car = db.sequelize.models.Car;
+const inventory = db.sequelize.models.Inventory;
+
 var storage = multer.diskStorage({
     destination: function (req, file, cb)
     {
@@ -27,7 +34,7 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage: storage});
 const MODEL_ENDPOINT = 'http://21616aee-bf95-4402-bf1b-284eb0739dcf.westeurope.azurecontainer.io/score';
-const BOOLEAN_MODEL_ENDPOINT = 'http://be246d86-0b32-47ca-80ff-d37034c869a9.westeurope.azurecontainer.io/score';
+const BOOLEAN_MODEL_ENDPOINT = 'http://04f7a584-8a70-4b64-9bd6-acc277ed8282.westeurope.azurecontainer.io/score';
 
 router.post('/submit', upload.single('image'), submitImage);
 router.post('/submit_multiple', upload.array('imageMultiple'), submitMultipleImages);
@@ -61,6 +68,16 @@ function uploadImage(req, res)
     });
 
 
+}
+
+function saveCar(req, res){
+    if(!req.bod.make || req.body.model){
+        res.status(400).json({
+            error: "Make and Model are required for saving car to inventory"
+        });
+    } else {
+        
+    }
 }
 
 function submitImage(req, res)
