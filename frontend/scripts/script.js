@@ -1,5 +1,17 @@
 var IMAGE_PATH = './images/';
 
+
+var hostname = "localhost";
+var username = "root";
+
+var psswd = "";
+
+var con = mysql.createConnection({
+    host: hostname,
+    user:   username,
+    password: ""
+});
+
 $(document).ready(function ()
 {
     $("#loadingImage").css('visibility', 'hidden');
@@ -175,6 +187,8 @@ function clearProgress()
 
 function getMake(imageID)
 {
+    var start = new Date();
+    
     $.ajax({
         method: "POST",
         url: "/classify/get_car_details",
@@ -216,10 +230,15 @@ function getMake(imageID)
             xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
     });
+    var millis = Date.now() - start;
+    console.log('Get Make Time: ' + millis);
 }
 
 function getNumberPlate(imageID, cb)
 {
+    
+    var start = new Date();
+     
     $.ajax({
         method: "POST",
         url: "/classify/number_plate",
@@ -273,6 +292,9 @@ function getNumberPlate(imageID, cb)
             xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
     });
+    ///////
+    var millis = Date.now() - start;
+    console.log('Get Number Plate Time: ' + millis);
 }
 
 function getProgressBarColour(value)

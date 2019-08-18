@@ -14,6 +14,8 @@ var nj = require('numjs');
 let passport = require('../config/passport');
 var download = require('download-to-file');
 
+const mysql = require('mysql');
+
 var storage = multer.diskStorage({
     destination: function (req, file, cb)
     {
