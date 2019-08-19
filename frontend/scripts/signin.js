@@ -14,9 +14,9 @@ function onSignIn(googleUser) {
             console.log(res);
             if(res.token){
                 localStorage.setItem("authToken", res.token);
-                window.location = '/index.html';
+                window.location = '/dashboard.html';
             }
-            /**otherwise tell the user something went wrong logging them in */
+            /**otherwise tell the user something went wring logging them in */
         },
         error: function (jqXHR, textStatus, exception){
             /**

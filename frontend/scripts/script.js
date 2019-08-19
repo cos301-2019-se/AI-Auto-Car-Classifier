@@ -4,7 +4,6 @@ $(document).ready(function ()
 {
     $("#loadingImage").css('visibility', 'hidden');
 
-
     const uploadButton = document.querySelector('#uploadBtn');
 
     uploadButton.addEventListener('click', (e) =>
@@ -31,6 +30,9 @@ $(document).ready(function ()
 
             });
     });
+
+    /******************Get inventory Items and display them *******/
+    getAndLoadInventory();
 
     /****************** Gallery Image Clicked *******************/
 
@@ -382,3 +384,37 @@ function onSignIn(googleUser)
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
+
+function getAndLoadInventory(){
+    console.log("getting makes")
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:3000/classify/get_inventory",
+        dataType: "json",
+        success: function (res) {
+            console.log(res);
+            let tableBody = document.getElementsByClassName("inventory");
+            let dynamicTable = ``;
+
+            res.allCars.forEach(car => {
+                dynamicTable += `<tr>
+                <th scope="row">${car.make}</th>
+                <td>${car.model}</td>
+                <td>${car.color}</td>
+                <td> ${car.plates}</td>
+            </tr>`;
+            });
+            tableBody[0].innerHTML = dynamicTable;
+        },
+        error: function (jqXHR, textStatus, exception){
+			console.log('something went wrong!');
+			console.log(`${exception}`);
+			return false;
+        },
+        beforeSend: function (xhr)
+        {
+            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("authToken"));
+        }
+    });
+}
+
