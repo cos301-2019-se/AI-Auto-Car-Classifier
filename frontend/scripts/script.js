@@ -3,8 +3,6 @@ var IMAGE_PATH = './images/';
 $(document).ready(function ()
 {
     $("#loadingImage").css('visibility', 'hidden');
-    console.log("hello")
-    getAndLoadInventory();
 
     const uploadButton = document.querySelector('#uploadBtn');
 
@@ -34,7 +32,7 @@ $(document).ready(function ()
     });
 
     /******************Get inventory Items and display them *******/
-
+    getAndLoadInventory();
 
     /****************** Gallery Image Clicked *******************/
 
@@ -398,7 +396,7 @@ function getAndLoadInventory(){
             let tableBody = document.getElementsByClassName("inventory");
             let dynamicTable = ``;
 
-            res.data.forEach(car => {
+            res.allCars.forEach(car => {
                 dynamicTable += `<tr>
                 <th scope="row">${car.make}</th>
                 <td>${car.model}</td>
@@ -406,12 +404,16 @@ function getAndLoadInventory(){
                 <td> ${car.plates}</td>
             </tr>`;
             });
-            tableBody.innerHTML = dynamicTable;
+            tableBody[0].innerHTML = dynamicTable;
         },
         error: function (jqXHR, textStatus, exception){
 			console.log('something went wrong!');
 			console.log(`${exception}`);
 			return false;
+        },
+        beforeSend: function (xhr)
+        {
+            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
     });
 }

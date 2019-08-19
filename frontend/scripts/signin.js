@@ -16,7 +16,7 @@ function onSignIn(googleUser) {
                 localStorage.setItem("authToken", res.token);
                 window.location = '/index.html';
             }
-            /**otherwise tell the user something went wrong logging them in */
+            /**otherwise tell the user something went wring logging them in */
         },
         error: function (jqXHR, textStatus, exception){
             /**
