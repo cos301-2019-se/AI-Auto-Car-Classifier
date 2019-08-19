@@ -48,7 +48,7 @@ router.get('/', serverRunning);
 router.post('/resize_images', passport.authenticate('jwt',{session:false}), resizeImages);
 router.post('/upload_image', passport.authenticate('jwt',{session:false}), uploadImage);
 
-router.get('/save_car', passport.authenticate('jwt',{session:false}), saveCar);
+router.post('/save_car', passport.authenticate('jwt',{session:false}), saveCar);
 router.get('/get_inventory', passport.authenticate('jwt',{session:false}), getInventory);
 
 
@@ -109,49 +109,50 @@ async function addToInventory(userId, carId){
     }
 }
 
-async function getInventory(req, res){
+async function getUserInventories(userId){
+    let temp = [];
     try{
-        const carIds = []
-        const allCars = [];
         await inventory.findAll({
             where: {
-                userId: req.user.id
+                userId: userId
             }
         })
-        .then(entry => {
-                entry.forEach(obj => {
-/*                    Car.findAll({
-                        where: {
-                            id: obj.carId
-                        }
-                    })
-                    .then(carObj => {
-                        carObj.forEach(vehicle => {
-                            allCars.push({
-                                make: vehicle.make,
-                                model: vehicle.model,
-                                color: vehicle.color
-                            });
-                        })
-                    })*/
-                    carIds.push(obj.carId);
-            });
-            
+        .then(entries => {
+            temp = entries
         });
-        carIds.forEach(async carId => {
-            await Car.findOne({
-                where: {
-                    id: carId
-                }
-            })
-            .then(carObj => {
-                allCars.push({
-                    make: carObj.make,
-                    model: carObj.model,
-                    color: carObj.color
-                });
-            })
+        return temp;
+    } catch(err){
+        console.log("Error fetching inventories", err);
+    }
+}
+
+async function getCar(carId){
+    let temp = {}
+    try{
+        await Car.findOne({
+            where: {
+                id: carId
+            }
         })
+        .then(car => {
+            temp = car
+        })
+        return temp;
+    } catch(err){
+        console.log("Error fetching cars", err);
+    }
+}
+
+async function getInventory(req, res){
+    let inventories = []
+    let allCars = [];
+    let car = null;
+    try{
+        inventories = await getUserInventories(req.user.id);
+        for(c = 0; c < inventories.length; c++) {
+            car = await getCar(inventories[c].carId)
+            allCars.push(car);
+        }
         res.status(200).json({
             allCars
         });

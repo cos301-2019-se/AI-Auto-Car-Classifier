@@ -1,7 +1,7 @@
 {
   "development": {
     "username": "root",
-    "password": "controlaltelite11!",
+    "password": "controlaltelite11!!",
     "database": "autocarclassifier",
     "host": "localhost",
     "dialect": "mysql"
