@@ -9,23 +9,15 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       company: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       userId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'users', // name of Target model
-          key: 'id', // key in Target model that we're referencing
-        }
+        allowNull: false
       },
       carId: {
         type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'cars', // name of Target model
-          key: 'id', // key in Target model that we're referencing
-        }
+        allowNull: false
       },
       createdAt: {
         allowNull: false,

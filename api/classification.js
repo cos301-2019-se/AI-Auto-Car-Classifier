@@ -36,17 +36,20 @@ var upload = multer({storage: storage});
 const MODEL_ENDPOINT = 'http://21616aee-bf95-4402-bf1b-284eb0739dcf.westeurope.azurecontainer.io/score';
 const BOOLEAN_MODEL_ENDPOINT = 'http://04f7a584-8a70-4b64-9bd6-acc277ed8282.westeurope.azurecontainer.io/score';
 
-router.post('/submit', upload.single('image'), submitImage);
-router.post('/submit_multiple', upload.array('imageMultiple'), submitMultipleImages);
-router.post('/submit64', submitImage64);
+router.post('/submit', passport.authenticate('jwt',{session:false}),upload.single('image'), submitImage);
+router.post('/submit_multiple',passport.authenticate('jwt',{session:false}), upload.array('imageMultiple'), submitMultipleImages);
+router.post('/submit64', passport.authenticate('jwt',{session:false}), submitImage64);
 
-router.post('/color_detector', getImageColorBySample);
-router.post('/car_detector', imageContainsCar);
-router.post('/get_car_details', getMakeAndModel);
-router.post('/number_plate', getNumberPlate);
+router.post('/color_detector', passport.authenticate('jwt',{session:false}), getImageColorBySample);
+router.post('/car_detector', passport.authenticate('jwt',{session:false}), imageContainsCar);
+router.post('/get_car_details', passport.authenticate('jwt',{session:false}), getMakeAndModel);
+router.post('/number_plate', passport.authenticate('jwt',{session:false}), getNumberPlate);
 router.get('/', serverRunning);
-router.post('/resize_images', resizeImages);
-router.post('/upload_image', uploadImage);
+router.post('/resize_images', passport.authenticate('jwt',{session:false}), resizeImages);
+router.post('/upload_image', passport.authenticate('jwt',{session:false}), uploadImage);
+
+router.get('/save_car', passport.authenticate('jwt',{session:false}), saveCar);
+router.get('/get_inventory', passport.authenticate('jwt',{session:false}), getInventory);
 
 
 function serverRunning(req, res)
@@ -56,7 +59,7 @@ function serverRunning(req, res)
     });
 }
 
-function uploadImage(req, res)
+function uploadImage(req, res,)
 {
     cloudinary.uploader.upload(req.body.imagePath, function (error, result)
     {
@@ -69,14 +72,93 @@ function uploadImage(req, res)
 
 
 }
-
-function saveCar(req, res){
-    if(!req.bod.make || req.body.model){
+async function saveCar(req, res){
+    if(!req.body.make || !req.body.model){
         res.status(400).json({
-            error: "Make and Model are required for saving car to inventory"
+            error: "The make and model are compulsory"
         });
     } else {
-        
+        let newCar;
+        try{
+            await Car.create({
+                ...req.body
+            })
+            .then(car => {
+                newCar = car;
+            })
+            addToInventory(req.user.id, newCar.id)
+            res.status(200).json({
+                success: "Car added to inventory"
+            });
+        } catch(error){
+            res.status(500).json({
+                error
+            });
+        }
+    }
+}
+async function addToInventory(userId, carId){
+    try{
+        await inventory.create({
+            company: "AI-Cars",
+            userId,
+            carId
+        })
+    } catch(err){
+        throw err;
+    }
+}
+
+async function getInventory(req, res){
+    try{
+        const carIds = []
+        const allCars = [];
+        await inventory.findAll({
+            where: {
+                userId: req.user.id
+            }
+        })
+        .then(entry => {
+                entry.forEach(obj => {
+/*                    Car.findAll({
+                        where: {
+                            id: obj.carId
+                        }
+                    })
+                    .then(carObj => {
+                        carObj.forEach(vehicle => {
+                            allCars.push({
+                                make: vehicle.make,
+                                model: vehicle.model,
+                                color: vehicle.color
+                            });
+                        })
+                    })*/
+                    carIds.push(obj.carId);
+            });
+            
+        });
+        carIds.forEach(async carId => {
+            await Car.findOne({
+                where: {
+                    id: carId
+                }
+            })
+            .then(carObj => {
+                allCars.push({
+                    make: carObj.make,
+                    model: carObj.model,
+                    color: carObj.color
+                });
+            })
+        })
+        res.status(200).json({
+            allCars
+        });
+    } catch(err){
+        res.status(500).json({
+            err
+        });
     }
 }
 
