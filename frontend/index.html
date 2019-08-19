@@ -200,6 +200,7 @@
                     </div>
 
                 </div>
+
                 <button id="uploadBtn" type="button" class="btn btn-primary btn-lg btn-block">Upload Images</button>
             </div>
 
@@ -211,6 +212,7 @@
                                 <h3 class="mb-0">Classification</h3>
                             </div>
                             <div class="col text-right">
+                                <input type="button" id="submit" class ="btn btn-success" value="Submit to inventory">
                                 <a href="#" class="btn btn-sm btn-danger">Incorrect</a>
                             </div>
                         </div>
@@ -276,11 +278,37 @@
                             </tr>
                             </tbody>
                         </table>
+
+
+
                     </div>
-                </div>
+                    </div>
+                <!-- Form for more info -->
+                    <div>
+                        <label for="user">UID</label>
+                        <input type="TEXT" id="user" size="10"><br>
+
+                        <label for="description">Description</label>
+                        <input type="text" id="description" size="30"><br>
+
+                        <label>Sold</label>
+                        <select id="sold" name="sold">
+                            <option value="Yes">Yes</option>
+                            <option value="No">No</option>
+                        </select>
+                        <br>
+                        <label for="Mileage">Mileage</label>
+                        <input type="text" id="Mileage" size="8"><br>
+
+                    </div>
+
+
             </div>
 
         </div>
+
+
+
 
         <div class="row mt-5">
             <div class="col-xl-8 mb-5 mb-xl-0">
