@@ -382,3 +382,51 @@ function onSignIn(googleUser)
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
+
+$(document).ready(function(){
+        var user,pass, sold, mileage, model, make, colour, plate;
+        $("#submit").click(function(){
+          user=$("#user").val();
+          description=$("#description").val();
+          sold=$("#sold").val();
+          mileage=$("#Mileage").val();
+          model= document.getElementById('modelItem');
+          make= document.getElementById('makeItem');
+          colour= document.getElementById('colourItem');
+          plate= document.getElementById('plateItem');
+          console.log(user);
+          console.log(description);
+          console.log(sold);
+          console.log(mileage);
+
+        $.ajax({
+                method: "POST",
+                url: "/log/logger",
+                dataType: "json",
+                data:
+                    {
+                        user: user,
+                        numberPlate: plate,
+                        make: make,
+                        model: model,
+                        colour: colour,
+                        description: description,
+                        mileage: mileage,
+                        sold: sold
+                    },
+                success: function (res)
+                {
+
+                    console.log("Returns from post req: ");
+
+
+                }
+
+               /* beforeSend: function (xhr)
+                {
+                    xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("authToken"));
+                }*/
+            });
+
+        });
+});
