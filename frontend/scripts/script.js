@@ -3,7 +3,8 @@ var IMAGE_PATH = './images/';
 $(document).ready(function ()
 {
     $("#loadingImage").css('visibility', 'hidden');
-
+    console.log("hello")
+    getAndLoadInventory();
 
     const uploadButton = document.querySelector('#uploadBtn');
 
@@ -31,6 +32,9 @@ $(document).ready(function ()
 
             });
     });
+
+    /******************Get inventory Items and display them *******/
+
 
     /****************** Gallery Image Clicked *******************/
 
@@ -382,3 +386,33 @@ function onSignIn(googleUser)
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
+
+function getAndLoadInventory(){
+    console.log("getting makes")
+    $.ajax({
+        method: "GET",
+        url: "http://localhost:3000/classify/get_inventory",
+        dataType: "json",
+        success: function (res) {
+            console.log(res);
+            let tableBody = document.getElementsByClassName("inventory");
+            let dynamicTable = ``;
+
+            res.data.forEach(car => {
+                dynamicTable += `<tr>
+                <th scope="row">${car.make}</th>
+                <td>${car.model}</td>
+                <td>${car.color}</td>
+                <td> ${car.plates}</td>
+            </tr>`;
+            });
+            tableBody.innerHTML = dynamicTable;
+        },
+        error: function (jqXHR, textStatus, exception){
+			console.log('something went wrong!');
+			console.log(`${exception}`);
+			return false;
+        }
+    });
+}
+
