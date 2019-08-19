@@ -15,14 +15,18 @@ jwtOptions.secretOrKey = secret;
 const db = require('../models/index');
 const User = db.sequelize.models.User;
 
-let strategy = new JwtStrategy(jwtOptions, function(jwt_payload, next) {
-  console.log('payload received', jwt_payload);
-  let user = User.findOne({ where: {id: jwt_payload.id} });
-
+let strategy = new JwtStrategy(jwtOptions, async function(jwt_payload, done) {
+  console.log(jwt_payload)
+  let user;
+  try{
+    user = await User.findOne({ where: {id: jwt_payload.id} });
+  } catch(e){
+    console.log('Error forwarding user object in middleware')
+  }
   if (user) {
-    next(null, user);
+    done(null, user);
   } else {
-    next(null, false);
+    done(null, false);
   }
 });
 

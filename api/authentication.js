@@ -22,7 +22,6 @@ router.post('/login', async function(req, res, next) {
                 await User.create({ name, email }).then(user => {
                     newUser = user;
                 });
-                console.log(newUser.email);
                 let payload = { id: newUser.id };
                 let token = jwt.sign(payload, jwtOptions.secretOrKey);
                 res.setHeader('Set-Cookie', `Bearer=${token}; HttpOnly`);
@@ -40,7 +39,7 @@ router.post('/login', async function(req, res, next) {
                 }
             }
         } catch(error){
-            res.status(401).json({ message: 'Something went user', error: error });
+            res.status(401).json({ message: 'Something went wrong', error: error });
         }
     }
   });

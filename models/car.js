@@ -1,17 +1,18 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
-  const car = sequelize.define('car', {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      defaultValue: DataTypes.UUIDV4
-    },
+  const Car = sequelize.define('Car', {
     make: DataTypes.STRING,
     model: DataTypes.STRING,
-    year: DataTypes.STRING
+    year: DataTypes.STRING,
+    bodyType: DataTypes.STRING,
+    plates: DataTypes.STRING,
+    vin: DataTypes.STRING,
+    mileage: DataTypes.STRING,
+    description: DataTypes.STRING,
+    imageURL: DataTypes.STRING
   }, {});
-  car.associate = function(models) {
+  Car.associate = function(models) {
     // associations can be defined here
   };
-  return car;
+  return Car;
 };

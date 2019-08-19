@@ -1,0 +1,17 @@
+{
+    "tables": {
+        "cars": {
+            "tableName": "cars",
+            "indexes": []
+        },
+        "Inventories": {
+            "tableName": "Inventories",
+            "indexes": []
+        },
+        "Users": {
+            "tableName": "Users",
+            "indexes": []
+        }
+    },
+    "revision": 1
+}
