@@ -1,0 +1,338 @@
+\documentclass[10pt]{article}
+\usepackage{sectsty}
+\usepackage{graphicx}
+\usepackage{tabu}
+\subsectionfont{\small}
+
+
+\newcommand{\reqinit}{
+	% Create a new counter for keeping track of the last number
+	\newcounter{reqcountbackup}
+	% Create a new counter for the custom label
+	\newcounter{reqcount}
+	% Redefine the command for the last counter so when it is called
+	% it prints the number like this in a bold font: R<number>
+	\renewcommand{\thereqcount}{\textbf{R\arabic{reqcount}}}
+}
+
+% Used to define the start of the requirements
+\newcommand{\reqstart}{
+	% Indicate the start of a new list and tell it to use the redefined
+	% command and corresponding counter for every item
+	\begin{list}{\thereqcount}{\usecounter{reqcount}}
+		% Important part: set the value of the used counter to the
+		% same value of the backup counter.
+		\setcounter{reqcount}{\value{reqcountbackup}}
+	}
+	
+	% Used to define the end of the requirements
+	\newcommand{\reqend}{
+		\setcounter{reqcountbackup}{\value{reqcount}}
+		% Mark the end of the list environment
+	\end{list}
+}
+
+\begin{document}
+	
+	\begin{titlepage}
+		\centering
+		\vspace*{\fill}
+		
+		\vspace*{0.5cm}
+		
+		\huge\bfseries
+		\rule{\textwidth}{1.6pt}\\[\baselineskip]
+		Auto Car Classifier \\Coding Standards and Quality Documentation
+		
+		\vspace*{0.5cm}
+		
+		\large Edited by: \\[\baselineskip]
+		
+		{Fiwa Lekhulani\\Abhinav Thakur\\Vincent Soweto\\Andrew Jordaan\\Keorapetse Shiko}
+		
+		\rule{\textwidth}{1.6pt}\\[\baselineskip]
+		
+		
+		\vspace*{\fill}
+	\end{titlepage}
+	
+	\newpage
+	
+	\tableofcontents
+	
+	\pagenumbering{Roman}
+	\newpage
+	
+	
+	\section{System Overview}
+	    This system is a progressive web app that can detect cars in images, extract plates from the images and classify the car according to make model and year
+	\section{Introduction}
+	\paragraph{
+	The aim of this document is to describe our conventions and styles to ensure a uniform style, clarity, flexibility, reliability and efficiency of your code. this documents outlines coding practices that we should adhere to for the project and organisation.  }
+	
+	\section{Definitions}
+	\newline
+	\textbf{Definitions:-}
+	\newline
+
+	\textbf{Style: }  is a set of rules or guidelines used when writing the source code for a computer program. 
+	\newline 
+	\textbf{Clarity: } clearness or lucidity as to perception or understanding of written code
+	\newline
+	\textbf{Flexibility: } defined by the ease with which you can modify it to fulfill some purpose you hadn't conceived possible at the time you wrote it
+	\newline
+	\textbf{Reliability: } is when programmers have developed a series of best practices when programming to ensure  longevity and maintainability of developed code
+	\newline
+	\textbf{Efficiency: }describes the reliability, speed and programming methodology used in developing code for an application.
+	
+	\section{Coding Standards}
+	    \subsection{File Names}
+	    \paragraph{
+	    The file names are supposed to be verbs so as to ensure that whoever reads the filename understand the functionality implemented in the file. for javascript the file have a js file extension. In the image below the filename predict.js has function preprocessImage which is self-explanatory with respect to tensorflow js. For input it takes and image and modelName. File names must be implemented in camelCase ie predict.js instead of  Predict.js.
+	    }
+	    
+	    \subsection{Description of Classes}
+	    \paragraph{
+	    \newline
+	    Classes - class names should be camelcased with the first letter starting with a uppercase letter.
+	    \newline
+            Purpose- they are used for object oriented programming in which the class is used for creating instances of objects.
+            \newline
+            Description of methods –is a method which is bound to the class and not the object of the class. They have the access to the state of the class as it takes a class parameter that points to the class and not the object instance. 
+            \newline
+            Description of fields – 
+            \newline
+            In-code comments – were used for tasks for tasks that were outstanding and still had to be finished. Different software vendors use different coding standards and automated documentation tools. As a result some files had different coding stands.
+            \newline
+            We also stated that if the code is not simple and self-explanatory it should have comments so that whoever is reading it can understand. For example complex code that is related to machine learning is accompanied with comments
+	    }
+         \paragraph{
+        For JavaScript since there are functions so the use of classes is rarely used because------
+        }
+    	\paragraph{
+    	Coding conventions include the following:}
+	    \subsubsection{Naming conventions}
+	    \begin{itemize}
+	         \item Reserverd words - when using naming conventions for javascript one cannot use the following key words for  break , case , catch , continue , debugger , default , delete , do , else , finally , for , function , if , in , instanceof , new , return , switch , this , throw , try , typeof , var , void , while , and with. Separate any reserved word (such as if, for, or catch) from an open parenthesis (() that follows it on that line.Separating any reserved word (such as else or catch) from a closing curly brace  that precedes it on that line.
+        \newline
+	    
+	        \item variable names that look similar should be avoided to avoid confusion ie
+	        \newline
+	        \textbf{Good:}
+    	   \newline firstName = "John";
+    	   \newline lastName = "Doe";
+           \newline price = 19.90;
+           \newline tax = 0.20;
+           \newline
+                 
+	        \textbf{Bad:}
+	        \newline var nam = 'liz';
+	        \newline var nom = 'loitze'
+	        \item imports in js tend to conflict if they are not used in the correct programming language ie import * as tf from '@tensorflow/tfjs' instead of
+	        \newline
+	        
+	        \item use let instead of var because var exists globally and let exists  within block scope. This increases efficiency by saving on memory.
+        \newline
+	        \textbf{Good:}
+	        \newline function find()
+	        \newline {
+	        \newline    let num = 0;
+	        \newline }
+	        \textbf{Bad:}
+	        \newline function find()
+	        \newline {
+	        \newline    var num = 0;
+	        \newline }
+	        \newline 
+	        
+	        
+	        \item software version -  to ensure that all the code that is written it has to adhere to particular standards for example in tensorflow the tensorflowjs loadModel function was changed to loadLayersmodel in a later version.
+	        \newline
+	        
+	        
+	        \item code versions - branching is used to develop a new feature that could be introduced to make sure that there is one at least one working branch that can be used.
+	        
+	        \item Models - each models names is related to what it is supposed to classify. This these are the carDectectorModel.
+	        \newline
+	        \textbf{Good: } objectDetectorModel
+	        \newline \textbf{Bad:} model
+	        \newline 
+	        
+	        \item Paths - file paths are maintained a format specific to each languages API
+	        \newline
+	        \textbf{Good:} const notes = '/users/joe/notes.txt'
+            \newline path.dirname(notes) // /users/joe
+            \newline path.basename(notes) // notes.txt
+            \newline path.extname(notes) // .txt
+	        \newline \textbf{Bad:}
+            \newline path.dirname('/users/joe/notes.txt') // /users/joe
+            \newline path.basename('/users/joe/notes.txt') // notes.txt
+            \newline path.extname('/users/joe/notes.txt') // .txt
+	        
+	        \item Files - those that are of similar data are group in a folder related to the code that will use it.
+	        \newline
+	        
+	        \item Attributes - attributes that use instead of magic numbers, string, etc. This also allows programmers to backtrack the origin of a variables definition.
+	        \newline
+	        \textbf{Good:} 
+	        \newline var numOne = 1, numTwo = 2;
+	        \newline var total = numeOne + numTwo;
+	        \newline \textbf{Bad:}
+	        \newline var total = 1 + 2;
+	        
+	        \item Functions – function names are supposed to be verbs since they encapsulate blocks of code that perform a specific task
+	        \newline
+	        \textbf{Good:} 
+	        \newline function addition()
+	        \newline \textbf{Bad:} function funky()
+	        \newline 
+	        
+	        \item Constants – const variable are used within the scope they are used in. This allows for efficient memory usage.
+	        \newline
+	        \textbf{Good:}
+	        \newline function add(){
+	        \newline const  numOne = 1, numTwo = 2;
+	        \newline return total = numeOne + numTwo;
+	        \newline }
+	        \newline \textbf{Bad:}
+	        \newline const  numOne = 1, numTwo = 2;
+	        \newline function add(){
+	        \newline return total = numeOne + numTwo;
+	        \newline }
+	        
+	        \item Special case characters - these are the escape sequence (\', \", \\, \b, \f, \n, \r, \t, \v)
+	        \newline
+	        \textbf{Good:}
+	        \newline \textbf{Bad:}
+	        \newline 
+	        
+	    \end{itemize}
+        
+	    \subsubsection{Formatting conventions}
+    	\begin{itemize}
+        \item	Ordering of program statements - the logic of statement execution should be a particular order to ensure that implementation is correct. 
+        \newline
+	        
+        \item	Line breaks - After each semicolon and the end of each statement. We break a line an start inline with the previous statement unless it is a logic statement, braces.  
+        \newline
+	        \textbf{Good:} let num = 0;
+	        \newline let op = '*';
+	        \newline \textbf{Bad:}
+	        \newline 
+	        
+        \item	Indentation - depending on the statement or function being executed. Most spacing is done by using a tab space. Tab spaces are equals to four spaces
+        \newline
+	        \textbf{Good:}
+	        \newline function toCelsius(fahrenheit) 
+	        \newline {
+            \newline    return (5 / 9) * (fahrenheit - 32);
+            \newline }
+	        \newline \textbf{NB: Different editors interpret tabs differently.}
+	         
+	        
+        \item	Alignment - all blocks of code that are related should be  grouped together.
+        \newline
+	        \textbf{Good:} 
+	        \newline let num = 0;
+	        \newline let stringNum = '';
+	        \newline let zeroBin = '000000';
+	        \newline \textbf{Bad:}
+	        \newline let num = 0;
+	        \newline
+	        \newline let stringNum = '';
+	        \newline 
+	        \newline let zeroBin = '000000';
+	        
+        \item	Spacing – a single space is used to separate operation in a statement and make it easier to read.
+        \newline
+	        \textbf{Good:} let total += three;
+	        \newline \textbf{Bad:} let total+=three;
+	        \newline 
+	        
+        \item Camel case- they ensure that long car variable name are easy to understand.
+        \newline
+	        \textbf{Good:}
+	        \newline carBooleanDetector
+	        \newline \textbf{Bad:}
+	        \newline CarBooleanDetector
+	        
+        \item   Directories - all files related to the same tasks should be in the same folder. For example test files and images will be in files with similar data.Backend and documentation will have sub folders such as assets and tex files subfolders.
+        \newline
+	      
+	   
+	   \item Spaces Around Operators - Always put spaces around operators ( = + - * / ), and after commas:
+
+ \textbf{Good:}
+ 
+        \newline var x = y + z;
+        \newline var values = ["Volvo", "Saab", "Fiat"];
+	        \newline \textbf{Bad:} var x=y+z;
+	        \newline 
+
+	   \newline
+	        
+        \item Semi colon - as soon as the statement is done it should be ended with a semicolon with no spaces.
+        \newline
+	        \textbf{Good:} let num = 0;
+	        \newline \textbf{Bad:} let num = 0 ;
+	        \newline 
+	        
+	      \item Braces are required for all control structures (i.e. if, else, for, do, while, as well as any others), even if the body contains only a single statement. The first statement of a non-empty block must begin on its own line.
+        \newline
+	        \textbf{Good:}
+	       \newline if (someVeryLongCondition())
+	       \newline {
+            \newline    doSomething();
+            \newline }
+	        \newline \textbf{Bad:}
+	        \newline  if (someVeryLongCondition())
+            \newline doSomething();
+
+        \end{itemize}
+	    \subsubsection{In-code comment conventions}
+	    \begin{itemize}
+        \item	Single-line comments are placed before functions. These comments detail use of the function, what arguments it uses and what it returns if specified to do so.
+        \newline
+	        \textbf{Good:}
+	        \newline // single line comment
+	        \newline 
+	        
+        \item Depending on the programming languages a particular syntax is used for javascript block statement /* */ 
+        \newline
+	        \textbf{Good:}
+	        \newline /*
+	        \newline *
+	        \newline * This is a multi-line comment.
+	        \newline */
+	        
+        \end{itemize}
+    
+    \section{Code Quality}
+    \subsubsection{Coding Standards}
+    \paragraph{By the following rules that have been set in out coding standard we ensure that there is  uniform structure to all the code that has been written in a manner that adheres to the coding styles.}
+    \subsubsection{Linting Software}
+    \paragraph{Various tools are used to ensure that coding standards such as code syntax is maintained. Some online platforms include: }
+    \begin{itemize}
+        \item JSONLint - The JSON Validator that is found at the website https://jsonlint.com/
+        \item HTML Code Editor - Instant Preview that is found at the website https://htmlcodeeditor.com/
+        \item JavaScript Tester online that is the found on the website https://www.webtoolkitonline.com/javascript-tester.html
+    \end{itemize}
+    \paragraph{
+    }
+    
+    
+    \section{Tree Structure}
+    \subsubsection{Repository rule}
+    \begin{itemize}
+        \item Do not commit to master branch with out a pull request
+        \item Peer reviews should be done for pull requests before branches are merged. 
+        \item All open branched should eventually be closed.
+        \item When working on a new feature in dev branch, a new branch should be create and merge when the code is working and stable.
+        \item Folder names should be descriptive verbs and east to understand
+         
+    \end{itemize}
+    
+	\newpage
+	
+    
+\end{document}

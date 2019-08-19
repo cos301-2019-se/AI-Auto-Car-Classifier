@@ -1,0 +1,31 @@
+{
+  "development": {
+    "username": "controlaltelite11@controlaltelite.database.windows.net",
+    "password": "Lekhuleni3296!",
+    "database": "autocarclassifier",
+    "host": "controlaltelite.database.windows.net",
+    "port": 1433,
+    "dialect": "mssql",
+    "dialectOptions": {
+      "options": {
+        "encrypt": true
+      }
+    }
+  },
+  "test": {
+    "username": "nodeuser",
+    "password": "nodeuser@1234",
+    "database": "mydb",
+    "host": "localhost",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "root",
+    "password": null,
+    "database": "database_production",
+    "host": "127.0.0.1",
+    "dialect": "mysql",
+    "operatorsAliases": false
+  }
+}
