@@ -122,7 +122,7 @@ function getColour(imageID, hasPlate, coords)
 
     $.ajax({
         method: "POST",
-        url: "http://localhost:3000/classify/color_detector",
+        url: "/classify/color_detector",
         dataType: "json",
         data:
             {

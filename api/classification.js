@@ -614,6 +614,8 @@ function colourTest(imagePath, coordinates, cb)
 
     Jimp.read(imagePath, function (err, image)
     {
+		if(err)
+			console.log(err);
 
         var startX, startY;
         var regionWidth, regionHeight;
