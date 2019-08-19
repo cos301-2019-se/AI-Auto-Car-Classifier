@@ -8,15 +8,15 @@
     "dialect": "mssql",
     "dialectOptions": {
       "options": {
-          "encrypt": true
+        "encrypt": true
       }
-  }
+    }
   },
   "test": {
-    "username": "root",
-    "password": null,
-    "database": "database_test",
-    "host": "127.0.0.1",
+    "username": "nodeuser",
+    "password": "nodeuser@1234",
+    "database": "mydb",
+    "host": "localhost",
     "dialect": "mysql",
     "operatorsAliases": false
   },
