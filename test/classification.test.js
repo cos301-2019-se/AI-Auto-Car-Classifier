@@ -95,7 +95,7 @@ describe('Validate that we can retreive the make and model of a specific car', f
       done();
   });
 
-  it('It should fail with a NotFoundError because the protocol is post, not get', function (done) {
+ /* it('It should fail with a NotFoundError because the protocol is post, not get', function (done) {
     request(app)
       .post('/classify/get_car_details')
       .send({imageId: 'Image1.jpg'})
@@ -103,7 +103,7 @@ describe('Validate that we can retreive the make and model of a specific car', f
       .expect( /json/)
       .expect(404, done);
       done();
-  });
+  });*/
 
   it('It should send the make and model of the car', function (done) {
     request(app)
@@ -248,7 +248,7 @@ describe('Testing number plate recognition.', function() {
 describe('Testing image resize.', function() {
   it('It should return the number plate details', function(done) {
     request(app)
-      .post('/classify/resizeImages')
+      .post('/resize_images/resizeImages')
       .send({imageID: 'Image1.jpg'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
