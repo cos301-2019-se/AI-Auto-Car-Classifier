@@ -183,7 +183,7 @@ describe('Ensure we can check if an image contains a car or not', function () {
 describe('Testing image submission for a single file.', function() {
   it('It should submit the single image returning with status = 200 ', function(done) {
     request(app)
-      .post('/classify/submitImage')
+      .post('/classify/submit')
       .send({imageID: 'Image1.jpg'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -197,7 +197,7 @@ describe('Testing image submission for a single file.', function() {
 describe('Testing image64 submission.', function() {
   it('It should submit the single image returning with status = 200 ', function(done) {
     request(app)
-      .post('/classify/submitImage64')
+      .post('/classify/submit64')
       .send({imageID: 'Image1.jpg'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
