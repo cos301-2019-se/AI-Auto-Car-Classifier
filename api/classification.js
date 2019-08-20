@@ -12,8 +12,14 @@ const FileSet = require('fileset');
 const colour = require('color-namer');
 var nj = require('numjs');
 let passport = require('../config/passport');
-var cloudinary = require('../config/cloudinaryConfig');
 var download = require('download-to-file');
+
+
+//get models
+const db = require('../models/index');
+const User = db.sequelize.models.User;
+const Car = db.sequelize.models.Car;
+const inventory = db.sequelize.models.Inventory;
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb)
@@ -28,19 +34,22 @@ var storage = multer.diskStorage({
 
 var upload = multer({storage: storage});
 const MODEL_ENDPOINT = 'http://21616aee-bf95-4402-bf1b-284eb0739dcf.westeurope.azurecontainer.io/score';
-const BOOLEAN_MODEL_ENDPOINT = 'http://be246d86-0b32-47ca-80ff-d37034c869a9.westeurope.azurecontainer.io/score';
+const BOOLEAN_MODEL_ENDPOINT = 'http://04f7a584-8a70-4b64-9bd6-acc277ed8282.westeurope.azurecontainer.io/score';
 
-router.post('/submit', upload.single('image'), submitImage);
-router.post('/submit_multiple', upload.array('imageMultiple'), submitMultipleImages);
-router.post('/submit64', submitImage64);
+router.post('/submit', passport.authenticate('jwt',{session:false}),upload.single('image'), submitImage);
+router.post('/submit_multiple',passport.authenticate('jwt',{session:false}), upload.array('imageMultiple'), submitMultipleImages);
+router.post('/submit64', passport.authenticate('jwt',{session:false}), submitImage64);
 
-router.post('/color_detector', getImageColorBySample);
-router.post('/car_detector', imageContainsCar);
-router.post('/get_car_details', getMakeAndModel);
-router.post('/number_plate', getNumberPlate);
+router.post('/color_detector', passport.authenticate('jwt',{session:false}), getImageColorBySample);
+router.post('/car_detector', passport.authenticate('jwt',{session:false}), imageContainsCar);
+router.post('/get_car_details', passport.authenticate('jwt',{session:false}), getMakeAndModel);
+router.post('/number_plate', passport.authenticate('jwt',{session:false}), getNumberPlate);
 router.get('/', serverRunning);
-router.post('/resize_images', resizeImages);
-router.post('/upload_image', uploadImage);
+router.post('/resize_images', passport.authenticate('jwt',{session:false}), resizeImages);
+router.post('/upload_image', passport.authenticate('jwt',{session:false}), uploadImage);
+
+router.post('/save_car', passport.authenticate('jwt',{session:false}), saveCar);
+router.get('/get_inventory', passport.authenticate('jwt',{session:false}), getInventory);
 
 
 function serverRunning(req, res)
@@ -50,7 +59,7 @@ function serverRunning(req, res)
     });
 }
 
-function uploadImage(req, res)
+function uploadImage(req, res,)
 {
     cloudinary.uploader.upload(req.body.imagePath, function (error, result)
     {
@@ -62,6 +71,96 @@ function uploadImage(req, res)
     });
 
 
+}
+async function saveCar(req, res){
+    if(!req.body.make || !req.body.model){
+        res.status(400).json({
+            error: "The make and model are compulsory"
+        });
+    } else {
+        let newCar;
+        try{
+            await Car.create({
+                ...req.body
+            })
+            .then(car => {
+                newCar = car;
+            })
+            addToInventory(req.user.id, newCar.id)
+            res.status(200).json({
+                success: "Car added to inventory"
+            });
+        } catch(error){
+            res.status(500).json({
+                error
+            });
+        }
+    }
+}
+async function addToInventory(userId, carId){
+    try{
+        await inventory.create({
+            company: "AI-Cars",
+            userId,
+            carId
+        })
+    } catch(err){
+        throw err;
+    }
+}
+
+async function getUserInventories(userId){
+    let temp = [];
+    try{
+        await inventory.findAll({
+            where: {
+                userId: userId
+            }
+        })
+        .then(entries => {
+            temp = entries
+        });
+        return temp;
+    } catch(err){
+        console.log("Error fetching inventories", err);
+    }
+}
+
+async function getCar(carId){
+    let temp = {}
+    try{
+        await Car.findOne({
+            where: {
+                id: carId
+            }
+        })
+        .then(car => {
+            temp = car
+        })
+        return temp;
+    } catch(err){
+        console.log("Error fetching cars", err);
+    }
+}
+
+async function getInventory(req, res){
+    let inventories = []
+    let allCars = [];
+    let car = null;
+    try{
+        inventories = await getUserInventories(req.user.id);
+        for(c = 0; c < inventories.length; c++) {
+            car = await getCar(inventories[c].carId)
+            allCars.push(car);
+        }
+        res.status(200).json({
+            allCars
+        });
+    } catch(err){
+        res.status(500).json({
+            err
+        });
+    }
 }
 
 function submitImage(req, res)
@@ -515,6 +614,8 @@ function colourTest(imagePath, coordinates, cb)
 
     Jimp.read(imagePath, function (err, image)
     {
+		if(err)
+			console.log(err);
 
         var startX, startY;
         var regionWidth, regionHeight;

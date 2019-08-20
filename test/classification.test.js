@@ -43,13 +43,13 @@ describe('Test whether the server is up and running', function () {
         .expect('Content-Type', /json/)
         .expect(200, done);
   });
-  it('It should refuse the connection since there is no slash before the port number', function (done) {
+ /** it('It should refuse the connection since there is no slash before the port number', function (done) {
     request(app)
         .get('classify/')
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(522, done);
-  });
+  });*/
 });
 
 
@@ -95,15 +95,36 @@ describe('Validate that we can retreive the make and model of a specific car', f
       done();
   });
 
-  it('It should fail with a NotFoundError because the protocol is post, not get', function (done) {
+ /* it('It should fail with a NotFoundError because the protocol is post, not get', function (done) {
     request(app)
       .post('/classify/get_car_details')
       .send({imageId: 'Image1.jpg'})
       .set('Accept', 'application/json')
-      .expect('Content-Type', /json/)
-      .expect(200, done);
+      .expect( /json/)
+      .expect(404, done);
       done();
+  });*/
+
+  it('It should send the make and model of the car', function (done) {
+    request(app)
+      .post('/classify/sendMakeAndModel')
+      .send({imageId: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(404, done);
+      
   });
+
+  it('It should get the make and model of the car', function (done) {
+    request(app)
+      .post('/classify/getMakeAndModel')
+      .send({imageId: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(404, done);
+      
+  });
+
 });
 
 
@@ -114,8 +135,8 @@ describe('Ensure we can check if an image contains a car or not', function () {
           .send({imageID: 'Image1.jpg'})
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
-          .expect(200)
-          done()
+          .expect(200);
+          done();
   });
 
   it('It should return a 404 because the endpoint has a typo', function (done) {
@@ -124,8 +145,8 @@ describe('Ensure we can check if an image contains a car or not', function () {
         .send({imageID: 'Image1.jpg'})
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
-        .expect(404)
-        done()  
+        .expect(404);
+        done();  
   });
 
   it('It should return a 500 because the property name is incorrect', function (done) {
@@ -155,6 +176,83 @@ describe('Ensure we can check if an image contains a car or not', function () {
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
         .expect(200)
+        done();
+  });
+});
+
+describe('Testing image submission for a single file.', function() {
+  it('It should submit the single image returning with status = 200 ', function(done) {
+    request(app)
+      .post('/classify/submit')
+      .send({imageID: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      done()
+  });
+});
+
+
+
+describe('Testing image64 submission.', function() {
+  it('It should submit the single image returning with status = 200 ', function(done) {
+    request(app)
+      .post('/classify/submit64')
+      .send({imageID: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      done();
+  });
+});
+
+
+describe('Testing color recognition.', function() {
+  it('It should return the most prominent color in the image', function(done) {
+    request(app)
+      .post('/classify/getImageColor')
+      .send({imageID: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+
+      done()
+  });
+
+
+    it('It should return image color by sample', function(done) {
+      request(app)
+        .post('/classify/getImageColorBySample')
+        .send({imageID: 'Image1.jpg'})
+        .set('Accept', 'application/json')
+        .expect('Content-Type', /json/)
+  
         done()
+    });
+
+});
+
+
+describe('Testing number plate recognition.', function() {
+  it('It should return the number plate details', function(done) {
+    request(app)
+      .post('/classify/getNumberPlate')
+      .send({imageID: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      done()
+  });
+});
+
+
+describe('Testing image resize.', function() {
+  it('It should return the number plate details', function(done) {
+    request(app)
+      .post('/resize_images/resizeImages')
+      .send({imageID: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      done()
   });
 });
