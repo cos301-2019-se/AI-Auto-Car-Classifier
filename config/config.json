@@ -1,16 +1,10 @@
 {
   "development": {
-    "username": "controlaltelite11@controlaltelite.database.windows.net",
-    "password": "Lekhuleni3296!",
+    "username": "root",
+    "password": "controlaltelite11!!",
     "database": "autocarclassifier",
-    "host": "controlaltelite.database.windows.net",
-    "port": 1433,
-    "dialect": "mssql",
-    "dialectOptions": {
-      "options": {
-          "encrypt": true
-      }
-  }
+    "host": "localhost",
+    "dialect": "mysql"
   },
   "test": {
     "username": "root",

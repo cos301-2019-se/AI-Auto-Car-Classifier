@@ -1,6 +1,7 @@
 ############################################################################################################################
 #                                Car classsifier Score file
 ############################################################################################################################
+#resnet_152 dependencies
 # from keras.optimizers import SGD
 # from keras.layers import Input, Dense, Conv2D, MaxPooling2D, AveragePooling2D, ZeroPadding2D, Flatten, Activation, add
 # from keras.layers.normalization import BatchNormalization
@@ -19,13 +20,14 @@
 # import sys
 # sys.setrecursionlimit(3000)
 # import azureml.core.model as azure_model
-
+# from azureml.core import Workspace
 # #run function dependencies
 # import numpy as np
 # import cv2 as cv
-# from azureml.core import Workspace, Datastore
 # import scipy.io
-
+# import base64
+# import io
+# from imageio import imread
 
 # #scale_layers from custom_layers
 # class Scale(Layer):
@@ -226,7 +228,7 @@
 
 #     model = Model(img_input, x_fc)
 
-#     weights_path = azure_model.Model.get_model_path('image_detection_model')
+#     weights_path = azure_model.Model.get_model_path('car-classifier-model')
 
 #     model.load_weights(weights_path, by_name=True)
 
@@ -248,7 +250,8 @@
 # def init():
 #     global model, class_names
 #     model = resnet152_model(224, 224, 3, 196)
-#     ws = Workspace(subscription_id='d4ab7ef5-e767-4bec-9593-30d1ca4e1789', resource_group='AIAutoCarClassifier', workspace_name='controlaltelite')
+#     model.load_weights(azure_model.Model.get_model_path('car-classifier-model'), by_name=True)
+#     ws = Workspace(workspace_name='controlaltelite',subscription_id='217d2697-2f39-4d62-b2e5-47332395fb15',resource_group='controlaltelite11')
 #     ds = ws.get_default_datastore()
 #     ds.download(target_path='.', prefix='cars_meta', show_progress=True)
 #     cars_meta = scipy.io.loadmat('cars_meta')
@@ -258,8 +261,12 @@
 # def run(raw_data):
 #     try:
 #         img_width, img_height = 224, 224
-#         image = json.loads(raw_data)['data']
-#         bgr_img = np.array(image, dtype='uint8')
+
+#         rgb_img = json.loads(raw_data)['data'] #get base64 image
+        
+#         rgb_img = imread(io.BytesIO(base64.b64decode(rgb_img))) #convert base64 image to numpy n-dimensional array in RGB format
+#         bgr_img = cv.cvtColor(rgb_img, cv.COLOR_RGB2BGR) # convert RGB to BGR format for CV to be able to process
+#         print(bgr_img)
 #         bgr_img = cv.resize(bgr_img, (img_width, img_height), cv.INTER_CUBIC)
 #         rgb_img = cv.cvtColor(bgr_img, cv.COLOR_BGR2RGB)
 #         rgb_img = np.expand_dims(rgb_img, 0)
@@ -270,6 +277,8 @@
 #     except Exception as e:
 #         result = str(e)
 #         return {"error": result}
+
+
 
 
 
