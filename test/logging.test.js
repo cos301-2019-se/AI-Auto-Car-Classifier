@@ -13,7 +13,7 @@ let data = {
 
 
 describe('Testing log sign in.', function() {
-  it('It should  return status = 200 ', function(done) {
+  it('It should  return status 200 ', function(done) {
     request(app)
       .post('/sign-in/logSignIn')
       .send({imageID: 'Image1.jpg'})
@@ -22,11 +22,8 @@ describe('Testing log sign in.', function() {
       .expect(200)
       done()
   });
-});
 
-
-describe('Testing classification log', function() {
-  it('It should return status = 200', function(done) {
+  it('Testing classification log', function(done) {
     request(app)
       .post('/classification/logClassification')
       .send({imageID: 'Image1.jpg'})
@@ -35,10 +32,10 @@ describe('Testing classification log', function() {
 
       done()
   });
-});
 
-describe('Testing classification failure log.', function() {
-  it('It should return with status = 200', function(done) {
+
+
+  it('Testing classification failure log', function(done) {
     request(app)
       .post('/classification-failure/logClassificationFailure')
       .send({imageID: 'Image1.jpg'})
@@ -48,3 +45,7 @@ describe('Testing classification failure log.', function() {
       done()
   });
 });
+
+
+
+
