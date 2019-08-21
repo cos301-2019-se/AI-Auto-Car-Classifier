@@ -4,8 +4,12 @@ $(document).ready(function ()
 {
     $("#loadingImage").css('visibility', 'hidden');
 
-    const uploadButton = document.querySelector('#uploadBtn');
 
+    $('#saveToInventoryBtn').on('click',  loadInventoryDetails);
+
+    $('#submitCarDetails').on('click',saveCarDetails);
+
+    const uploadButton = document.querySelector('#uploadBtn');
     uploadButton.addEventListener('click', (e) =>
     {
         cloudinary.openUploadWidget({cloud_name: 'dso2wjxjj', upload_preset: 'zfowrq1z'},
@@ -17,7 +21,7 @@ $(document).ready(function ()
                     var imageUrl = results[0].secure_url;
 
                     displayImage(imageUrl);
-                      classifyImage(imageUrl);
+                    classifyImage(imageUrl);
                     var imageUrls = [];
 
                     for (let i = 0; i < results.length; i++)
@@ -50,11 +54,24 @@ $(document).ready(function ()
 
 });
 
+function loadInventoryDetails()
+{
+    console.log('Setting Details');
+
+    var make = $('#makeItem').text();
+    var colour = $('#colourItem').text();
+    var plate = $('#plateItem').text();
+
+    $('#makeInput').val(make);
+    $('#colourInput').val(colour);
+    $('#plateInput').val(plate);
+}
+
 function classifyImage(imageUrl)
 {
     clearProgress();
 
-    detectCar(imageUrl,function (imageUrl)
+    detectCar(imageUrl, function (imageUrl)
     {
         getMake(imageUrl);
         getNumberPlate(imageUrl, function (hasPlate, coords, imageID)
@@ -63,6 +80,50 @@ function classifyImage(imageUrl)
             getColour(imageID, hasPlate, coords);
         });
     });
+
+}
+
+function saveCarDetails()
+{
+    var make = $('#makeInput').val();
+    var model = $('#modelInput').val();
+    var colour = $('#colourInput').val();
+    var plate = $('#plateInput').val();
+
+    var mileage = $('#mileageInput').val();
+    var year = $('#yearInput').val();
+
+    $.ajax({
+        method: "POST",
+        url: "/classify/save_car",
+        dataType: "json",
+        data:
+            {
+                make: make,
+                model: model,
+                plates: plate,
+                mileage: mileage,
+                year: year
+            },
+        success: function (res)
+        {
+            console.log('Save Car: ' + res.status);
+            $('#exampleModal').modal('hide');
+        },
+        error: function (jqXHR, exception)
+        {
+            console.log("Error in getting Colour: " + jqXHR.status);
+            displayError('Unable to Save Car Details ');
+
+        },
+        beforeSend: function (xhr)
+        {
+            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("authToken"));
+        }
+
+
+    });
+
 
 }
 
@@ -154,7 +215,7 @@ function getColour(imageID, hasPlate, coords)
 
 function clearProgress()
 {
-    $('#makeProgress').css('width',0);
+    $('#makeProgress').css('width', 0);
 
     $('#makeProgress').removeClass();
     $('#makeProgress').addClass('progress-bar');
@@ -162,12 +223,12 @@ function clearProgress()
     $('#makeAccuracy').text('');
 
 
-    $('#modelProgress').css('width',0);
+    $('#modelProgress').css('width', 0);
     $('#modelProgress').removeClass();
     $('#modelProgress').addClass('progress-bar');
     $('#modelAccuracy').text('');
 
-    $('#plateProgress').css('width',0);
+    $('#plateProgress').css('width', 0);
     $('#plateProgress').removeClass();
     $('#plateProgress').addClass('progress-bar');
     $('#plateAccuracy').text('');
@@ -197,11 +258,11 @@ function getMake(imageID)
 
 
             $('#makeProgress').addClass(getProgressBarColour(confidence));
-            $('#makeProgress').css('width',confidence);
+            $('#makeProgress').css('width', confidence);
             $('#makeAccuracy').text(confidence + '%');
 
             $('#modelProgress').addClass(getProgressBarColour(confidence));
-            $('#modelProgress').css('width',confidence);
+            $('#modelProgress').css('width', confidence);
             $('#modelAccuracy').text(confidence + '%');
 
 
@@ -250,7 +311,7 @@ function getNumberPlate(imageID, cb)
                 $('#plateItem').text(plate);
 
                 $('#plateProgress').addClass(getProgressBarColour(progressWidth));
-                $('#plateProgress').css('width',progressWidth);
+                $('#plateProgress').css('width', progressWidth);
                 $('#plateAccuracy').text(progressWidth + '%');
 
                 //     createPlatePopover(imageID,width,height,upperLeftX - 10,upperLeftY - 10);
@@ -279,11 +340,11 @@ function getNumberPlate(imageID, cb)
 
 function getProgressBarColour(value)
 {
-    if(value < 51)
+    if (value < 51)
     {
         return "bg-gradient-danger"
     }
-    else if(value < 70)
+    else if (value < 70)
     {
         return "bg-gradient-warning";
     }
@@ -292,6 +353,7 @@ function getProgressBarColour(value)
         return "bg-gradient-success";
     }
 }
+
 function createPlatePopover(imageID, width, height, x, y)
 {
     var imgObject = new Image();
@@ -385,18 +447,21 @@ function onSignIn(googleUser)
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
 
-function getAndLoadInventory(){
+function getAndLoadInventory()
+{
     console.log("getting makes")
     $.ajax({
         method: "GET",
         url: "http://localhost:3000/classify/get_inventory",
         dataType: "json",
-        success: function (res) {
+        success: function (res)
+        {
             console.log(res);
             let tableBody = document.getElementsByClassName("inventory");
             let dynamicTable = ``;
 
-            res.allCars.forEach(car => {
+            res.allCars.forEach(car =>
+            {
                 dynamicTable += `<tr>
                 <th scope="row">${car.make}</th>
                 <td>${car.model}</td>
@@ -406,10 +471,11 @@ function getAndLoadInventory(){
             });
             tableBody[0].innerHTML = dynamicTable;
         },
-        error: function (jqXHR, textStatus, exception){
-			console.log('something went wrong!');
-			console.log(`${exception}`);
-			return false;
+        error: function (jqXHR, textStatus, exception)
+        {
+            console.log('something went wrong!');
+            console.log(`${exception}`);
+            return false;
         },
         beforeSend: function (xhr)
         {
