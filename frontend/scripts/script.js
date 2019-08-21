@@ -101,6 +101,7 @@ function saveCarDetails()
             {
                 make: make,
                 model: model,
+                color: colour,
                 plates: plate,
                 mileage: mileage,
                 year: year
