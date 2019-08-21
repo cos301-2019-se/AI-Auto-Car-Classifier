@@ -1,7 +1,7 @@
 var request = require("supertest");
 var assert = require('assert');
 const app = require("../server.js");
-const classification =  require('../api/classification.js');
+const classification =  require('../classification.js');
 
 let data = {
  imageID: 'Image1.jpg'
@@ -187,6 +187,16 @@ describe('Testing image submission for a single file.', function() {
       .expect(200)
       done()
   });
+
+  it('It should submit the single image returning with status = 200 ', function(done) {
+    request(app)
+      .post('/upload_image')
+      .send({imageID: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      done()
+  });
 });
 
 
@@ -252,4 +262,39 @@ describe('Testing image resize.', function() {
       .expect(200)
       done()
   });
+});
+
+describe('Testing car information saving.', function() {
+  it('It should save the car details', function(done) {
+    request(app)
+      .post('/saveCar')
+      .send({imageID: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      done()
+  });
+
+  
+  it('Error, incomplete car details', function(done) {
+    request(app)
+      .post('/saveCar')
+      .send({imageID: null})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(400)
+      done()
+  });
+
+
+  it('Unexpected error', function(done) {
+    request(app)
+      .post('/saveCar')
+      .send({imageID: null})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(500)
+      done()
+  });
+
 });
