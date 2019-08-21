@@ -21,6 +21,7 @@ router.post('/login', async function(req, res, next) {
                 let newUser;
                 await User.create({ name, email }).then(user => {
                     newUser = user;
+                    console.log("New User Created ID:"+ user.id);
                 });
                 let payload = { id: newUser.id };
                 let token = jwt.sign(payload, jwtOptions.secretOrKey);
@@ -34,12 +35,15 @@ router.post('/login', async function(req, res, next) {
                     let token = jwt.sign(payload, jwtOptions.secretOrKey);
                     res.setHeader('Set-Cookie', `Bearer=${token}; HttpOnly`);
                     res.json({ success: 'logged in', token: token  });
+                    console.log("Log in success. User ID:" + user.id);
                 } else {
                     res.status(401).json({ message: 'Could not get credentials' });
+                    console.log("Could not get credentials");
                 }
             }
         } catch(error){
             res.status(401).json({ message: 'Something went wrong', error: error });
+            console.log("Something went wrong. Try signing again.");
         }
     }
   });

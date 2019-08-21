@@ -13,8 +13,8 @@ const colour = require('color-namer');
 var nj = require('numjs');
 let passport = require('../config/passport');
 var download = require('download-to-file');
-
-
+//const winston = require('winston');
+let winston = require('winston');
 //get models
 const db = require('../models/index');
 const User = db.sequelize.models.User;
@@ -51,23 +51,54 @@ router.post('/upload_image', passport.authenticate('jwt',{session:false}), uploa
 router.post('/save_car', passport.authenticate('jwt',{session:false}), saveCar);
 router.get('/get_inventory', passport.authenticate('jwt',{session:false}), getInventory);
 
+/*
+const consoleTransport = new winston.transports.Console()
+    const fileout= new winston.transports.File({filename: './logs/test.log'});
+    const myWinstonOptions = {
+        transports: fileout
+    }
+    const logger = new winston.createLogger(myWinstonOptions)
+*/
+let logger = winston.createLogger({
+    level: 'info',
+    format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.printf(info => {
+            return `${info.timestamp} ${info.level}: ${info.message}`;
+        })
+    ),
+
+    transports: [new winston.transports.File({filename: 'app.log'})]
+});
+
 
 function serverRunning(req, res)
 {
+    logger.log('Uploading image req');
+
     res.status(200).json({
         message: 'server running'
     });
+    console.log("Server running status: ");
 }
 
 function uploadImage(req, res,)
 {
+    console.log("Upload image function")
+     console.log = function(data)
+            {
+                var currentDate = '[' + new Date().toUTCString() + '] ';
+                this.logCopy(currentDate, data);
+            };
     cloudinary.uploader.upload(req.body.imagePath, function (error, result)
     {
+
         console.log(result, error);
 
         res.status(200).json({
             message: result
         });
+
     });
 
 
@@ -77,6 +108,7 @@ async function saveCar(req, res){
         res.status(400).json({
             error: "The make and model are compulsory"
         });
+        console.log("The make and model are compulsory");
     } else {
         let newCar;
         try{
@@ -84,16 +116,19 @@ async function saveCar(req, res){
                 ...req.body
             })
             .then(car => {
+            console.log("Car added to inventory for user ID: " + req.user.id);
                 newCar = car;
             })
             addToInventory(req.user.id, newCar.id)
             res.status(200).json({
                 success: "Car added to inventory"
             });
+
         } catch(error){
             res.status(500).json({
                 error
             });
+            console.log("Error: "+error);
         }
     }
 }
@@ -105,11 +140,13 @@ async function addToInventory(userId, carId){
             carId
         })
     } catch(err){
+        console.log("Failed to add to inventory: " + err);
         throw err;
     }
 }
 
 async function getUserInventories(userId){
+   //
     let temp = [];
     try{
         await inventory.findAll({
@@ -118,6 +155,7 @@ async function getUserInventories(userId){
             }
         })
         .then(entries => {
+            console.log("Fetching user inventories.");
             temp = entries
         });
         return temp;
@@ -136,6 +174,7 @@ async function getCar(carId){
         })
         .then(car => {
             temp = car
+            console.log("Fetching cars");
         })
         return temp;
     } catch(err){
@@ -145,10 +184,12 @@ async function getCar(carId){
 
 async function getInventory(req, res){
     let inventories = []
+    let logger= []
     let allCars = [];
     let car = null;
     try{
         inventories = await getUserInventories(req.user.id);
+
         for(c = 0; c < inventories.length; c++) {
             car = await getCar(inventories[c].carId)
             allCars.push(car);
@@ -157,6 +198,8 @@ async function getInventory(req, res){
             allCars
         });
     } catch(err){
+
+        console.log("Error getting inventory: "+err);
         res.status(500).json({
             err
         });
@@ -173,6 +216,7 @@ function submitImage(req, res)
     {
         statusVal = "fail";
         mess = "No Image Data received";
+        console.log("No Image data received")
 
     }
 
@@ -219,6 +263,7 @@ function submitMultipleImages(req, res)
 function resizeImages(req, res)
 {
     console.log("Resizing Images");
+  //  logger.log('Uploading image req');
     resizeDirectoryImages('./unprocessedImages', {width: 1000})  // Resize all png, jpg, and bmp images in the example directory to be at max 500 wide
         .then(() =>
         {
@@ -251,6 +296,7 @@ function moveProcessedImages(res)
             status: "success",
 
         });
+        console.log("Moving Images:" + res.status);
     });
 
 }
@@ -277,6 +323,7 @@ function resizeDirectoryImages(dirPath, {width = Jimp.AUTO, height = Jimp.AUTO, 
         {
             if (err)
             {
+                console.log("Error resizing directory images: "+ err);
                 reject(err);
             }
             else
@@ -354,6 +401,7 @@ function submitImage64(req, res)
         res.status(401).json({
             status: statusVal
         });
+        console.log(mess);
     }
     else
     {
@@ -375,6 +423,7 @@ const writeToFile = (response) => (error) =>
         response.status(500).json({
             error: 'Something went wrong with uploading the image, please try again'
         });
+        console.log("Something went wrong with uploading the image, please try again.")
     }
 }
 
@@ -443,14 +492,17 @@ async function getMakeAndModel(req, res)
                 res.status(500).json({
                     error: 'Car classifier returned an error trying to classify the image. Please try again'
                 });
+                console.log("Car classifier returned an error trying to classify the image. Please try again");
             }
         });
     }
     catch (exception)
     {
         res.status(500).json({
-            error: 'An error occured trying to classify the image, please try again'
+            error: 'An error occured trying to classify the image, please try again.'
         });
+        console.log(error);
+
     }
 
 }
@@ -460,7 +512,7 @@ async function imageContainsCar(req, res)
 
     var imageUrl = req.body.imageID;
 
-    console.log("Image: " + imageUrl);
+    console.log("Image URL for car detection: " + imageUrl);
 
        //read image as numpy array, turn it into numpy list and send an api call to the model
         await image2base64(imageUrl) // you can also to use url
@@ -468,6 +520,7 @@ async function imageContainsCar(req, res)
                 (response) => {
 
                     bas64Image = response;
+                    console.log("Image to base64 converted");
                 }
             )
             .catch(
@@ -500,6 +553,7 @@ async function imageContainsCar(req, res)
                     message: 'An error occurred trying to classify the image, please try again',
                     error: error
                 });
+                console.log("An error occurred trying to classify the image, please try again", error);
             }
 
         });
@@ -837,14 +891,18 @@ function getImageColorMock(req, res)
 /**The functions below get the numberplate from an image of a car */
 function getNumberPlate(req, res)
 {
-    var imageID = req.body.imageID;
 
+    var imageID = req.body.imageID;
+    console.log('Number plate decoder request received');
     var fileName = 'image' + '-' + Date.now() + '.jpg';
     download(imageID, './images/' + fileName, function (err, filepath)
     {
         if (err) throw err;
 
         console.log('Download finished:', filepath);
+        var dt = new Date();
+        var utcDate = dt.toUTCString();
+        console.log("Image sent to classifier at: "+ utcDate);
         var file = filepath;
 
         if (fs.existsSync(file))
@@ -905,6 +963,7 @@ function getNumberPlate(req, res)
                 message: "Image Not Found"
 
             });
+            console.log("Image not found");
         }
 
 
@@ -932,6 +991,7 @@ function sendMakeAndModel(res, data)
         const numWords = getNumWords(data.toString());
         if (numWords <= 0)
         {
+            console.log("There is only one word in the annotation of the car");
             throw 'There is only one word in the annotation of the car';
         }
         let extendedModel;
@@ -958,6 +1018,10 @@ function sendMakeAndModel(res, data)
             year: year,
             confidence: confidence
         });
+        console.log("Car details received: Make: "+ make+ " "+".Model: "+ model+". Confidence: " +confidence*100  + "%. Year: "+ year);
+        var dt = new Date();
+         var utcDate = dt.toUTCString();
+         console.log(" Classification request received for make and model. Received at: "+ utcDate);
     }
     catch (exception)
     {
@@ -968,5 +1032,9 @@ function sendMakeAndModel(res, data)
         });
     }
 };
+
+
+
+
 
 module.exports = router;
