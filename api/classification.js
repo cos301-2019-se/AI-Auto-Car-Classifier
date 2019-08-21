@@ -50,6 +50,7 @@ router.post('/upload_image', passport.authenticate('jwt',{session:false}), uploa
 
 router.post('/save_car', passport.authenticate('jwt',{session:false}), saveCar);
 router.get('/get_inventory', passport.authenticate('jwt',{session:false}), getInventory);
+router.post('/get_car', passport.authenticate('jwt',{session:false}), getCarByImageURL);
 
 
 function serverRunning(req, res)
@@ -160,6 +161,26 @@ async function getInventory(req, res){
         res.status(500).json({
             err
         });
+    }
+}
+
+async function getCarByImageURL(req, res){
+    try{
+        if(!req.body.imageURL){
+            throw "No property imageURL in request body";
+        }
+        await Car.findOne({
+            where: {
+                imageURL: req.body.imageURL
+            }
+        })
+        .then(car => {
+            res.status(200).json({
+                car
+            });
+        })
+    } catch(err){
+        console.log("Error fetching car by imageURL", err);
     }
 }
 
