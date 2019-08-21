@@ -22,7 +22,7 @@ describe('Testing authentification.', function() {
       .send({name: 'Keo', email: 'null@haha.com'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
-      .expect(success)
+      .expect(token)
       done()
   });
 });
