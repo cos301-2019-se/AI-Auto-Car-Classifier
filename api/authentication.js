@@ -32,7 +32,7 @@ router.post('/login', async function(req, res, next) {
                     // only personalized value that goes into our token
                     let payload = { id: user.id };
                     let token = jwt.sign(payload, jwtOptions.secretOrKey);
-                    res.setHeader('Set-Cookie', `Bearer=${token}; HttpOnly`);
+                    res.cookie('token', `Bearer=${token}; HttpOnly`, {httpOnly: true});
                     res.json({ success: 'logged in', token: token  });
                 } else {
                     res.status(401).json({ message: 'Could not get credentials' });

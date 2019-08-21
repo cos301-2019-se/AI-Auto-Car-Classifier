@@ -29,7 +29,7 @@
         </button>
         <!-- Brand -->
         <a class="navbar-brand pt-0" href="dashboard.html">
-            <img src="./assets/img/brand/301LogoDraft.png" class="navbar-brand-img" alt="...">
+            <img src="./assets/img/brand/301%20logo%20smaller.png" class="navbar-brand-img" alt="...">
         </a>
 
         <!-- Collapse -->
@@ -53,8 +53,13 @@
                 </div>
             </div>
 
+            <!-- Divider -->
+            <hr class="my-3">
+            <hr class="my-3">
+            <hr class="my-3">
+            <hr class="my-3">
             <!-- Navigation -->
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mb-md-3">
                 <li class="nav-item">
                     <a class="nav-link" href="#">
                         <i class="ni ni-spaceship"> </i> Getting started
@@ -62,7 +67,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link " href="./examples/profile.html">
+                    <a class="nav-link " href="#">
                         <i class="ni ni-single-02 text-yellow"> </i> User profile
                     </a>
                 </li>
@@ -73,23 +78,22 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./examples/register.html">
+                    <a class="nav-link" href="signUp.html">
                         <i class="ni ni-circle-08 text-pink"> </i> Register
                     </a>
                 </li>
             </ul>
-            <!-- Divider -->
-            <hr class="my-3">
+
         </div>
     </div>
 </nav>
 <div class="main-content">
 
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-5">
         <div class="container-fluid">
             <div class="header-body">
                 <!-- Card stats -->
-                <div class="row">
+                <div  id="statsDiv" class="row">
                     <div class="col-xl-3 col-lg-6">
                         <div class="card card-stats mb-4 mb-xl-0">
                             <div class="card-body">
@@ -104,10 +108,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span>&nbsp;</span>
-                                    <span>&nbsp;</span>
-                                </p>
+
                             </div>
                         </div>
                     </div>
@@ -126,10 +127,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span>&nbsp;</span>
-                                    <span>&nbsp;</span>
-                                </p>
+
                             </div>
                         </div>
                     </div>
@@ -147,10 +145,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"> </i>12%</span>
-                                    <span class="text-nowrap">Since last month</span>
-                                </p>
+
                             </div>
                         </div>
                     </div>
@@ -168,10 +163,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <p class="mt-3 mb-0 text-muted text-sm">
-                                    <span class="text-success mr-2"><i class="fas fa-arrow-up"> </i> 7%</span>
-                                    <span class="text-nowrap">Since last month</span>
-                                </p>
+
                             </div>
                         </div>
                     </div>
@@ -186,7 +178,7 @@
                     <div class="card-header bg-transparent">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h6 class="text-uppercase text-light ls-1 mb-1">Image</h6>
+                                <h4 class="text-uppercase text-light ls-1 mb-1">Image</h4>
 
                             </div>
 
@@ -210,9 +202,7 @@
                             <div class="col">
                                 <h3 class="mb-0">Classification</h3>
                             </div>
-                            <div class="col text-right">
-                                <a href="#" class="btn btn-sm btn-danger">Incorrect</a>
-                            </div>
+
                         </div>
                     </div>
                     <div class="table-responsive">
@@ -278,12 +268,13 @@
                         </table>
                     </div>
                 </div>
+                <button id="saveToInventoryBtn" type="button" class="btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#exampleModal">Save to Inventory</button>
             </div>
 
         </div>
 
         <div class="row mt-5">
-            <div class="col-xl-8 mb-5 mb-xl-0">
+            <div class="col-xl-12 mb-5 mb-xl-0">
                 <div class="card shadow">
                     <div class="card-header border-0">
                         <div class="row align-items-center">
@@ -304,7 +295,7 @@
         </div>
 
         <div class="row mt-5">
-            <div class="col-xl-8 mb-5 mb-xl-0">
+            <div class="col-xl-12 mb-5 mb-xl-0">
                 <div class="card shadow">
                     <div class="card-header border-0">
                         <div class="row align-items-center">
@@ -365,6 +356,122 @@
 
     </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Car Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="makeInput">Make</label>
+                                <input type="text" class="form-control" id="makeInput" >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="modelInput">Model</label>
+                                <input type="text"  class="form-control" id="modelInput" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="colourInput">Colour</label>
+                                <input type="text" class="form-control" id="colourInput" >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="plateInput">Number Plate</label>
+                                <input type="text"  class="form-control" id="plateInput"/>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="mileageInput">Mileage</label>
+                                <input type="text" class="form-control" id="mileageInput" >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="yearInput">Year</label>
+                                <input type="text"  class="form-control" id="yearInput"/>
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+<div class="col-md-6">
+    <div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+        <div class="modal-dialog modal- modal-dialog-centered modal-sm" role="document">
+            <div class="modal-content">
+
+                <div class="modal-body p-0">
+
+                    <div class="card bg-secondary shadow border-0">
+                        <div class="card-header bg-transparent pb-1">
+                            <div class="text-muted text-center mt-2 mb-3">Car Details</div>
+
+                        </div>
+                        <div class="card-body px-lg-5 py-lg-5">
+
+                            <form role="form">
+                                <div class="form-group mb-3">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-email-83"></i></span>
+                                        </div>
+                                        <input class="form-control" placeholder="Email" type="email">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group input-group-alternative">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                        </div>
+                                        <input class="form-control" placeholder="Password" type="password">
+                                    </div>
+                                </div>
+
+                                <div class="text-center">
+                                    <button type="button" class="btn btn-primary my-4">Submit</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
 <!--   Core
 <script src="./assets/js/plugins/jquery/dist/jquery.min.js"></script>
 <script src="./assets/js/plugins/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
