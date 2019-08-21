@@ -23,6 +23,5 @@ describe('Testing authentification.', function() {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect()
-      done(200)
   });
 });
