@@ -8,6 +8,7 @@ $(document).ready(function ()
 
     uploadButton.addEventListener('click', (e) =>
     {
+        console.log("Image uploaded.");
         cloudinary.openUploadWidget({cloud_name: 'dso2wjxjj', upload_preset: 'zfowrq1z'},
             function (error, results)
             {
@@ -32,7 +33,7 @@ $(document).ready(function ()
     });
 
     /******************Get inventory Items and display them *******/
-    getAndLoadInventory();
+    //getAndLoadInventory();
 
     /****************** Gallery Image Clicked *******************/
 
@@ -258,7 +259,7 @@ function getNumberPlate(imageID, cb)
             }
             else
             {
-                console.log("Car Plate FAILED");
+                console.log("Numberplate decoder FAILED");
                 $('#plateItem').text("???");
                 cb('false', null, imageID);
             }
@@ -379,20 +380,20 @@ function displayImage(image)
 function onSignIn(googleUser)
 {
     var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+   // console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    //console.log('Name: ' + profile.getName());
+    //console.log('Image URL: ' + profile.getImageUrl());
+   // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
 
 function getAndLoadInventory(){
-    console.log("getting makes")
+    console.log("Request for Getting and loading inventory");
     $.ajax({
         method: "GET",
         url: "http://localhost:3000/classify/get_inventory",
         dataType: "json",
         success: function (res) {
-            console.log(res);
+            console.log("Loading inventory...");
             let tableBody = document.getElementsByClassName("inventory");
             let dynamicTable = ``;
 
@@ -408,7 +409,7 @@ function getAndLoadInventory(){
         },
         error: function (jqXHR, textStatus, exception){
 			console.log('something went wrong!');
-			console.log(`${exception}`);
+			console.log("Problem: "+`${exception}`);
 			return false;
         },
         beforeSend: function (xhr)
@@ -418,3 +419,23 @@ function getAndLoadInventory(){
     });
 }
 
+ /*   function logg()
+{
+    logger.info('Script');
+    logger.info('Script');
+    logger.info('Script');
+
+    logger.info('Script');
+    function logRequest(req, res, next) {
+        logger.info(req.url)
+        next()
+    }
+
+
+    function logError(err, req, res, next) {
+        logger.error(err)
+        next()
+    }
+
+}
+*/
