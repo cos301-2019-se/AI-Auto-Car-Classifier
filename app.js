@@ -2,8 +2,8 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
-
+const winston = require('winston');
+//const logger = require("./api/logger");
 
 
 const displayPageRoute = require('./api/displayPage');
@@ -34,6 +34,7 @@ app.use((req, res, next) =>
 {
     const error = new Error('Not found');
     error.status = 404;
+   // logger.info("/ Request URL error: ", error);
     next(error);
 });
 
@@ -41,6 +42,7 @@ app.use((req, res, next) =>
 app.use((error, req, res, next) =>
 {
     res.status(error.status || 500);
+    //logger.info("/ Request URL error: ", error);
     res.json({
         error: {
             message: error.message
@@ -49,3 +51,27 @@ app.use((error, req, res, next) =>
 });
 
 module.exports = app;
+
+/*
+
+const consoleTransport = new winston.transports.Console()
+const fileout= new winston.transports.File({filename: './logs/test.log'});
+const myWinstonOptions = {
+    transports: fileout
+}
+const logger = new winston.createLogger(myWinstonOptions)
+
+function logRequest(req, res, next) {
+    logger.info('Log request');
+    logger.info(req.url)
+    next()
+}
+app.use(logRequest)
+
+function logError(err, req, res, next) {
+    logger.info('Log error');
+    logger.error(err)
+    next()
+}
+app.use(logError)
+*/
