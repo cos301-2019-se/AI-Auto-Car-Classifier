@@ -178,7 +178,7 @@ describe('Ensure we can check if an image contains a car or not', function () {
 });
 
 describe('Testing image submission for a single file.', function() {
-  it('It should submit the single image returning with status = 200 ', function(done) {
+  it('It should submit the single image', function(done) {
     request(app)
       .post('/submit')
       .send({imageID: 'Image1.jpg'})
@@ -188,7 +188,7 @@ describe('Testing image submission for a single file.', function() {
       done()
   });
 
-  it('It should submit the single image returning with status = 200 ', function(done) {
+  it('It should submit the single image ', function(done) {
     request(app)
       .post('/upload_image')
       .send({imageID: 'Image1.jpg'})
@@ -202,13 +202,23 @@ describe('Testing image submission for a single file.', function() {
 
 
 describe('Testing image64 submission.', function() {
-  it('It should submit the single image returning with status = 200 ', function(done) {
+  it('It should submit the single image ', function(done) {
     request(app)
       .post('/submit64')
       .send({imageID: 'Image1.jpg'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
+      done();
+  });
+
+  it('It should not submit the single image ', function(done) {
+    request(app)
+      .post('/submit64')
+      .send({imageID: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(500)
       done();
   });
 });
@@ -247,6 +257,16 @@ describe('Testing number plate recognition.', function() {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
+      done()
+  });
+
+  it('It should return an error', function(done) {
+    request(app)
+      .post('/number_plate')
+      .send({imageID: 'Image1.jpg'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(500)
       done()
   });
 });
