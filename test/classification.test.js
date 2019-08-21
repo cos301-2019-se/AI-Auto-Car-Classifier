@@ -57,7 +57,7 @@ describe('Test whether the server is up and running', function () {
 describe('Validate that we can retreive the make and model of a specific car', function () {
   it('It should return the make and model of a car with status 200', function (done) {
       request(app)
-          .post('/classify/get_car_details')
+          .post('/classification/get_car_details')
           .send({imageID: 'Image1.jpg'})
           .set('Accept', 'application/json')
           .expect('Content-Type', /json/)
@@ -221,7 +221,7 @@ describe('Testing color recognition.', function() {
 
     it('It should return image color by sample', function(done) {
       request(app)
-        .post('/color_detector/getImageColorBySample')
+        .post('/color_detector')
         .send({imageID: 'Image1.jpg'})
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
