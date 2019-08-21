@@ -5,6 +5,7 @@ const auth =  require('../api/authentication');
 
 
 describe('Testing authentification.', function() {
+    mocha.timeout('2s');
   it('Return 401 error code', function(done) {
     request(app)
       .post('/login')
