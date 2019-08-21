@@ -873,10 +873,8 @@ function getNumberPlate(req, res)
         else
         {
             res.status(200).json({
-
                 status: "fail",
                 message: "Image Not Found"
-
             });
         }
     });

@@ -7,9 +7,6 @@ let data = {
  imageID: 'Image1.jpg'
 }
 
-
-
-
 /**health tests for server */
 describe('Test whether the server is up and running', function () {
   it('respond with json containing saying that the \'server is running\'', function (done) {
@@ -183,7 +180,7 @@ describe('Ensure we can check if an image contains a car or not', function () {
 describe('Testing image submission for a single file.', function() {
   it('It should submit the single image returning with status = 200 ', function(done) {
     request(app)
-      .post('/classify/submit')
+      .post('/submit')
       .send({imageID: 'Image1.jpg'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -197,7 +194,7 @@ describe('Testing image submission for a single file.', function() {
 describe('Testing image64 submission.', function() {
   it('It should submit the single image returning with status = 200 ', function(done) {
     request(app)
-      .post('/classify/submit64')
+      .post('/submit64')
       .send({imageID: 'Image1.jpg'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -235,7 +232,7 @@ describe('Testing color recognition.', function() {
 describe('Testing number plate recognition.', function() {
   it('It should return the number plate details', function(done) {
     request(app)
-      .post('/classification/getNumberPlate')
+      .post('/number_plate')
       .send({imageID: 'Image1.jpg'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -248,7 +245,7 @@ describe('Testing number plate recognition.', function() {
 describe('Testing image resize.', function() {
   it('It should return the number plate details', function(done) {
     request(app)
-      .post('/resize_images/resizeImages')
+      .post('/resize_images')
       .send({imageID: 'Image1.jpg'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
