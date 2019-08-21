@@ -4,11 +4,10 @@ module.exports = (sequelize, DataTypes) => {
     make: DataTypes.STRING,
     model: DataTypes.STRING,
     year: DataTypes.STRING,
-    bodyType: DataTypes.STRING,
-    plates: DataTypes.STRING,
-    vin: DataTypes.STRING,
-    mileage: DataTypes.STRING,
+    color: DataTypes.STRING,
     description: DataTypes.STRING,
+    mileage: DataTypes.STRING,
+    vin: DataTypes.STRING,
     imageURL: DataTypes.STRING
   }, {});
   Car.associate = function(models) {
