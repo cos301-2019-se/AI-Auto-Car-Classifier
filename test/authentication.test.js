@@ -4,7 +4,7 @@ const app = require("../server.js");
 const auth =  require('../api/authentication');
 
 
-describe('Testing authentification.', function() {
+describe('Testing authentification.', function(done) {
     this.timeout(2000);
     setTimeout(done, 500);
   it('Return 401 error code', function(done) {
