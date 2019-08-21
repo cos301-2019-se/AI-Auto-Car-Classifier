@@ -1,7 +1,7 @@
 var request = require("supertest");
 var assert = require('assert');
 const app = require("../server.js");
-const classification =  require('../classification.js');
+const classification =  require('../api/classification');
 
 let data = {
  imageID: 'Image1.jpg'
