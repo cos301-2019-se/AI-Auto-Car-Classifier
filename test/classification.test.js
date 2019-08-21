@@ -210,7 +210,7 @@ describe('Testing image64 submission.', function() {
 describe('Testing color recognition.', function() {
   it('It should return the most prominent color in the image', function(done) {
     request(app)
-      .post('/classify/getImageColor')
+      .post('/classification/getImageColor')
       .send({imageID: 'Image1.jpg'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -221,7 +221,7 @@ describe('Testing color recognition.', function() {
 
     it('It should return image color by sample', function(done) {
       request(app)
-        .post('/classify/getImageColorBySample')
+        .post('/classification/getImageColorBySample')
         .send({imageID: 'Image1.jpg'})
         .set('Accept', 'application/json')
         .expect('Content-Type', /json/)
@@ -235,7 +235,7 @@ describe('Testing color recognition.', function() {
 describe('Testing number plate recognition.', function() {
   it('It should return the number plate details', function(done) {
     request(app)
-      .post('/classify/getNumberPlate')
+      .post('/classification/getNumberPlate')
       .send({imageID: 'Image1.jpg'})
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)

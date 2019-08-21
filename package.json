@@ -37,8 +37,8 @@
     "passport-jwt": "^4.0.0",
     "path": "^0.12.7",
     "request": "^2.88.0",
-    "sharp": "^0.23.0",
-    "sequelize": "^5.15.1"
+    "sequelize": "^5.15.1",
+    "sharp": "^0.23.0"
   },
   "devDependencies": {
     "mocha": "^6.1.4",
