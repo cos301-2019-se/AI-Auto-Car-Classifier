@@ -24,7 +24,7 @@
 ## **Members**
 
 <div align="center" style="margin:0 auto;">
-<img src="https://drive.google.com/open?id=1tbFd5dSUsX6-15zs-0rtkxbXy0v2Irpy" alt="Ctrl Alt Elte" title="Ctrl Alt Elite" style="width:80%; height:90%; margin: 0 auto; text-align:center;" />
+<img src="https://drive.google.com/file/d/1tbFd5dSUsX6-15zs-0rtkxbXy0v2Irpy/view?usp=sharing" alt="Ctrl Alt Elte" title="Ctrl Alt Elite" style="width:80%; height:90%; margin: 0 auto; text-align:center;" />
 <p>Left to Right: Keorapetse, Fiwa, Andrew, Abhinav, Vincent</p>
 </div>
 
@@ -52,7 +52,7 @@
 |Member | Details | 
 | :---         | :---         |  
 |**Abhinav Thakur**|    **13286383**   |
-|LinkedIn profile |[bestabhinav](https://github.com/bestabhinav)|
+|LinkedIn profile |[bestabhinav](https://www.linkedin.com/in/abhinav-thakur-05199415b/)|
 |**Overview**|I am passionate about achieving optimal solutions to everyday problems with the use of the latest technologies. I am a dedicated learner who is always ready to learn new technologies needed to solve a problem.|
 |**Position** |Software Engineer|
 |**Interests** |Entrepreneurship, history, politics and philosophy|
