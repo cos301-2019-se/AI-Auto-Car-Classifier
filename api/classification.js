@@ -785,7 +785,11 @@ function getImageColorBySample(req, res)
 
         var matchedColour = commonColourMapper(col); // Change name to more common colour
 
-        //   console.log(colourCount);
+        console.log("Top 3 colours: ");
+
+          console.log(colourCount[0]);
+          console.log(colourCount[1]);
+          console.log(colourCount[2]);
 
         res.status(200).json({
             status: "success",
