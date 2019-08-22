@@ -92,6 +92,7 @@ async function saveCar(req, res){
                 success: "Car added to inventory"
             });
         } catch(error){
+            console.log("Save car error: " + error);
             res.status(500).json({
                 error
             });
