@@ -4,6 +4,7 @@ $(document).ready(function ()
 {
     $("#loadingImage").css('visibility', 'hidden');
 
+    $('body').on('click', '.inventoryRow', showCarFromInventory);
 
     $('#saveToInventoryBtn').on('click', loadInventoryDetails);
 
@@ -53,6 +54,16 @@ $(document).ready(function ()
     });
 
 });
+
+function showCarFromInventory()
+{
+    console.log('Clicked');
+    var imageURL = $(this).data("imageurl");
+    getCar(imageURL);
+    displayImage(imageURL);
+
+    $("html, body").animate({scrollTop: 0}, 200);
+}
 
 function loadInventoryDetails()
 {
@@ -470,7 +481,7 @@ function getAndLoadInventory()
 
             res.allCars.forEach(car =>
             {
-                dynamicTable += `<tr>
+                dynamicTable += `<tr class="inventoryRow" data-carid="${car.id}" data-imageurl="${car.imageURL}">
                 <th scope="row">${car.make}</th>
                 <td>${car.model}</td>
                 <td>${car.color}</td>
