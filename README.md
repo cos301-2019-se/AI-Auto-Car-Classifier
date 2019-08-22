@@ -20,7 +20,7 @@
 - [Testing Policy Document](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Testing%20Policy.pdf)
 - [User Manual](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/User_Manual_Demo4.pdf)
 - [File Structure](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/file%20strucuture/fileStrct.JPG)
-- [All of the prevous demo documents can be found in this directory](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/)
+- [Old Documentation](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/)
 
 
 ## **Members**
