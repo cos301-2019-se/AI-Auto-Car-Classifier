@@ -1,3 +1,5 @@
+<img src="https://cs.up.ac.za/static/images/headerUP.jpg" alt="UP logo">
+
 # AI-Auto Car Classifier
 
 ## **ControlAltElite**
@@ -24,7 +26,7 @@
 ## **Members**
 
 <div align="center" style="margin:0 auto;">
-<img src="https://drive.google.com/file/d/1tbFd5dSUsX6-15zs-0rtkxbXy0v2Irpy/view?usp=sharing" alt="Ctrl Alt Elte" title="Ctrl Alt Elite" style="width:80%; height:90%; margin: 0 auto; text-align:center;" />
+<img src="https://imgur.com/a/E8KwfKq" alt="Ctrl Alt Elte" title="Ctrl Alt Elite" style="width:80%; height:90%; margin: 0 auto; text-align:center;" />
 <p>Left to Right: Keorapetse, Fiwa, Andrew, Abhinav, Vincent</p>
 </div>
 
