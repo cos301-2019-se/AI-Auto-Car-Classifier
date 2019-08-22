@@ -23,51 +23,57 @@
 
 ## **Members**
 
+<div align="center" style="margin:0 auto;">
+<img src="https://drive.google.com/open?id=1tbFd5dSUsX6-15zs-0rtkxbXy0v2Irpy" alt="Ctrl Alt Elte" title="Ctrl Alt Elite" style="width:80%; height:90%; margin: 0 auto; text-align:center;" />
+<p>Left to Right: Keorapetse, Fiwa, Andrew, Abhinav, Vincent</p>
+</div>
+
+
  Project Management tool: [ZenHub](https://app.zenhub.com/workspaces/controlaltelite-5cc986490a0d102d91ad7cbf/board?repos=183455866)
  
 |Member | Details | 
 | :---         | :---         |    
 |**Fiwa Lekhuleni**|    **u15187145**   |
-|Git profile |[flekhuleni](https://github.com/flekhuleni)|
+|LinkedIn profile |[Fiwa](https://www.linkedin.com/in/fiwa-lekhuleni-3993a28b/)|
 |**Overview**| My charisma makes it easier for me to work in a team. I am a hardworking and a very passionate, self driven software engineer who is proficient in web development |
-|**Position** |Software Developer|
+|**Position** |Software Engineer|
 |**Interests** |Artificial intelligence, Machine learning, Javascript|
 |**Skills**|C++, C#, Java, HTML, PHP and JavaScript|
 
 |Member | Details | 
 | :---         | :---         |  
 |**Vincent MM Soweto**|    **141372127**   |
-|Git profile |[vmmsoweto](https://github.com/vmmsoweto)|
+|LinkedIn profile |[Vince](https://www.linkedin.com/in/vincent-soweto-7a99b489/)|
 |**Overview**|My goal is to assist people to achieve their technology oriented goals and grow my own understanding of the Information Technology Industry.|
-|**Position** |Software Developer|
+|**Position** |Software Engineer|
 |**Interests** | Programming is my world |
 |**Skills**|Javascript,Java, HTML, Jquery, VueJS, C++, Assembly, SQL, PHP, VB .Net|
 
 |Member | Details | 
 | :---         | :---         |  
 |**Abhinav Thakur**|    **13286383**   |
-|Git profile |[bestabhinav](https://github.com/bestabhinav)|
+|LinkedIn profile |[bestabhinav](https://github.com/bestabhinav)|
 |**Overview**|I am passionate about achieving optimal solutions to everyday problems with the use of the latest technologies. I am a dedicated learner who is always ready to learn new technologies needed to solve a problem.|
-|**Position** |Software Developer|
+|**Position** |Software Engineer|
 |**Interests** |Entrepreneurship, history, politics and philosophy|
 |**Skills**|Languages: Java, C++, JavaScript, XML, HTML, CSS, PHP & Networking|
 
 |Member | Details | 
 | :---         | :---         |  
 |**Andrew Jordaan**|    **16033796**   |
-|Git profile |[ajordaan](https://github.com/ajordaan)|
+|LinkedIn profile |[Drew](https://www.linkedin.com/in/andrew-jordaan-2387268b/)|
 |**Overview**|Working Together, Fully Participating and Learning|
-|**Position** |Software Developer|
-|**Interests** |Artificial intelligence|
+|**Position** |Software Engineer|
+|**Interests** |Artificial intelligence, Hockey|
 |**Skills**|Languages: Java, C++, JavaScript, XML, HTML, CSS, PHP, Networking|
 
 |Member | Details | 
 | :---         | :---         |  
 |**Keorapetse Shiko**|    **12231992**   |
-|Git profile |[keo11](https://github.com/keo11)|
-|**Overview**|My main goal whilst working on any project is that of perfection; since, I believe perfection in any task ensures success in it, or at least, less bugs. I believe that my professionalism alongside my hard work and perseverance will help the team deliver a project.|
-|**Position** |Software Developer|
-|**Interests** |Robotics, Drones, Micro-Controllers, Software Development|
-|**Skills**|C#, Java, C++, HTML, JavaScript, CSS, Bootstrap, PHP, SQL, MongoDB, Node.js, Express.io, JQuery, XML, JSON, Ajax, Ionic, ReactJS|
+|LinkedIn profile |[Keo](https://www.linkedin.com/in/keorapetse-shiko-454535154/)|
+|**Overview**|The price of success is hard work, dedication to the job at hand, and the determination that whether we win or lose, we have applied the best of ourselves to the task at hand.|
+|**Position** |Software Engineer|
+|**Interests** |Data Science, Sports, Chess, Psychoanalysis|
+|**Skills**| Java, C++, HTML, JavaScript, CSS, Bootstrap, PHP, SQL, MongoDB, Node.js.|
 
 
