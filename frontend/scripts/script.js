@@ -58,11 +58,41 @@ $(document).ready(function ()
 function showCarFromInventory()
 {
     console.log('Clicked');
+    clearProgress();
     var imageURL = $(this).data("imageurl");
-    getCar(imageURL);
+    getCarDetails(imageURL);
     displayImage(imageURL);
 
     $("html, body").animate({scrollTop: 0}, 200);
+}
+
+function getCarDetails(imageURL)
+{
+    $.ajax({
+        method: "POST",
+        url: "/classify/get_car",
+        dataType: "json",
+        data:
+            {
+                imageURL: imageURL
+            },
+        success: function (res)
+        {
+            $('#makeItem').text(res.car.make);
+            $('#modelItem').text(res.car.model);
+            $('#colourItem').text(res.car.color);
+            $('#plateItem').text(res.car.description);
+
+        },
+        error: function (jqXHR, exception)
+        {
+            console.log("Error in getting Car: " + jqXHR.status);
+        },
+        beforeSend: function (xhr)
+        {
+            xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("authToken"));
+        }
+    });
 }
 
 function loadInventoryDetails()
