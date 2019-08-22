@@ -17,19 +17,16 @@ module.exports = {
       year: {
         type: Sequelize.STRING
       },
-      bodyType: {
+      color: {
         type: Sequelize.STRING
       },
-      plates: {
-        type: Sequelize.STRING
-      },
-      vin: {
+      description: {
         type: Sequelize.STRING
       },
       mileage: {
         type: Sequelize.STRING
       },
-      description: {
+      vin: {
         type: Sequelize.STRING
       },
       imageURL: {

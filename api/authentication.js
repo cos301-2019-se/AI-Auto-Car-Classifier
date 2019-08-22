@@ -1,6 +1,6 @@
 var express = require('express');
 const router = express.Router();
-const { secret } = require('../config/jwtConfig');
+const { secret } = require('../config/config');
 const passportJWT = require('passport-jwt');
 let ExtractJwt = passportJWT.ExtractJwt;
 const jwt = require('jsonwebtoken');

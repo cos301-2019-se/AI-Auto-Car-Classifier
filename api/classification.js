@@ -50,6 +50,7 @@ router.post('/upload_image', passport.authenticate('jwt',{session:false}), uploa
 
 router.post('/save_car', passport.authenticate('jwt',{session:false}), saveCar);
 router.get('/get_inventory', passport.authenticate('jwt',{session:false}), getInventory);
+router.post('/get_car', passport.authenticate('jwt',{session:false}), getCarByImageURL);
 
 
 function serverRunning(req, res)
@@ -91,6 +92,7 @@ async function saveCar(req, res){
                 success: "Car added to inventory"
             });
         } catch(error){
+            console.log("Save car error: " + error);
             res.status(500).json({
                 error
             });
@@ -163,6 +165,26 @@ async function getInventory(req, res){
     }
 }
 
+async function getCarByImageURL(req, res){
+    try{
+        if(!req.body.imageURL){
+            throw "No property imageURL in request body";
+        }
+        await Car.findOne({
+            where: {
+                imageURL: req.body.imageURL
+            }
+        })
+        .then(car => {
+            res.status(200).json({
+                car
+            });
+        })
+    } catch(err){
+        console.log("Error fetching car by imageURL", err);
+    }
+}
+
 function submitImage(req, res)
 {
     var statusVal = "success";
@@ -190,7 +212,6 @@ function submitMultipleImages(req, res)
 
     const files = req.files;
 
-
     if (!files)
     {
         statusVal = "fail";
@@ -205,10 +226,7 @@ function submitMultipleImages(req, res)
         }
 
         data = paths;
-
-
     }
-
 
     res.status(200).json({
         status: statusVal,
@@ -234,7 +252,6 @@ function moveProcessedImages(res)
     FileSet('**/unprocessedImages/*.jpg **/unprocessedImages/*.png **/unprocessedImages/*.jpeg **/unprocessedImages/*.JPG', '', function (err, files)
     {
         if (err) return console.error(err);
-
 
         console.log(files);
 
@@ -432,7 +449,6 @@ async function getMakeAndModel(req, res)
             json: true,
         }, function (error, response, body)
         {
-
             if (response && response.statusCode == 200)
             {
                 sendMakeAndModel(res, `${response.body.car}-${response.body.confidence}`);
@@ -457,7 +473,6 @@ async function getMakeAndModel(req, res)
 
 async function imageContainsCar(req, res)
 {
-
     var imageUrl = req.body.imageID;
 
     console.log("Image: " + imageUrl);
@@ -466,7 +481,6 @@ async function imageContainsCar(req, res)
         await image2base64(imageUrl) // you can also to use url
             .then(
                 (response) => {
-
                     bas64Image = response;
                 }
             )
@@ -540,11 +554,9 @@ function testColourAccuracy(req, res)
     var correct = 0;
     details.forEach(function (car)
     {
-
         let file = car.fileName;
         let colour = car.colour;
         let coordinates = car.coordinates;
-
 
         colourTest('test/imagesWithPlates/' + file, coordinates, function (matchedColour)
         {
@@ -567,12 +579,10 @@ function testColourAccuracy(req, res)
 
     });
 
-
     res.status(200).json({
         status: "success",
         accuracy: "acc"
     });
-
 }
 
 function getAccuracy(correct, total)
@@ -638,7 +648,6 @@ function colourTest(imagePath, coordinates, cb)
 
             regionWidth = 100;
             regionHeight = 100;
-
         }
         else
         {
@@ -650,7 +659,6 @@ function colourTest(imagePath, coordinates, cb)
             regionHeight = 200;
         }
         var samples = [];
-
 
         getRegion(startX, startY, regionWidth, regionHeight, image, samples); //Midpoint box
 
@@ -690,8 +698,6 @@ function colourTest(imagePath, coordinates, cb)
 
         var c = commonColourMapper(col);
         cb(c);
-
-
     });
 }
 
@@ -730,7 +736,6 @@ function getImageColorBySample(req, res)
 
             regionWidth = 100;
             regionHeight = 100;
-
         }
         else
         {
@@ -742,7 +747,6 @@ function getImageColorBySample(req, res)
             regionHeight = 200;
         }
         var samples = [];
-
 
         getRegion(startX, startY, regionWidth, regionHeight, image, samples); //Midpoint box
 
@@ -781,21 +785,21 @@ function getImageColorBySample(req, res)
 
         var matchedColour = commonColourMapper(col); // Change name to more common colour
 
-        //   console.log(colourCount);
+        console.log("Top 3 colours: ");
 
+          console.log(colourCount[0]);
+          console.log(colourCount[1]);
+          console.log(colourCount[2]);
 
         res.status(200).json({
             status: "success",
             color: matchedColour
         });
     });
-
-
 }
 
 function compareColour(a, b)
 {
-
     const col1 = a.count;
     const col2 = b.count;
 
@@ -814,7 +818,6 @@ function compareColour(a, b)
 
 function getRegion(startX, startY, width, height, image, samples)
 {
-
     for (let i = startY; i < (height + startY); i += 5)
     {
         for (let k = startX; k < (width + startX); k += 5)
@@ -891,23 +894,15 @@ function getNumberPlate(req, res)
                     imageID: fileName,
                     confidence: con
                 });
-
-
             });
-
-
         }
         else
         {
             res.status(200).json({
-
                 status: "fail",
                 message: "Image Not Found"
-
             });
         }
-
-
     });
 }
 
