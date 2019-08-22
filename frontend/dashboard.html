@@ -78,8 +78,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="signUp.html">
-                        <i class="ni ni-circle-08 text-pink"> </i> Register
+                    <a data-toggle="modal" data-target="#modal-default" class="nav-link" href="#">
+                        <i class="ni ni-camera-compact text-pink"> </i> Supported Cars
                     </a>
                 </li>
             </ul>
@@ -420,6 +420,624 @@
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <button id="submitCarDetails" type="button" class="btn btn-primary">Submit</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<!-- Info Modal  -->
+<div class="modal fade" id="modal-default" tabindex="-1" role="dialog" aria-labelledby="modal-default" aria-hidden="true">
+    <div class="modal-dialog modal- modal-dialog-centered modal-" role="document">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h4 class="modal-title" id="modal-title-default">Supported Car Details</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+
+            <div id="infoTableDiv" class="modal-body">
+
+                <input type="text" id="infoTableInput" onkeyup="tableFilter()" placeholder="Search for names..">
+
+                <table id="infoTable" class="table table-bordered table-hover table-condensed">
+                    <tbody><tr>
+                        <td>AM General Hummer SUV 2000</td>
+                    </tr>
+                    <tr>
+                        <td>Acura RL Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Acura TL Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Acura TL Type-S 2008</td>
+                    </tr>
+                    <tr>
+                        <td>Acura TSX Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Acura Integra Type R 2001</td>
+                    </tr>
+                    <tr>
+                        <td>Acura ZDX Hatchback 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Aston Martin V8 Vantage Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Aston Martin V8 Vantage Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Aston Martin Virage Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Aston Martin Virage Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Audi RS 4 Convertible 2008</td>
+                    </tr>
+                    <tr>
+                        <td>Audi A5 Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Audi TTS Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Audi R8 Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Audi V8 Sedan 1994</td>
+                    </tr>
+                    <tr>
+                        <td>Audi 100 Sedan 1994</td>
+                    </tr>
+                    <tr>
+                        <td>Audi 100 Wagon 1994</td>
+                    </tr>
+                    <tr>
+                        <td>Audi TT Hatchback 2011</td>
+                    </tr>
+                    <tr>
+                        <td>Audi S6 Sedan 2011</td>
+                    </tr>
+                    <tr>
+                        <td>Audi S5 Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Audi S5 Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Audi S4 Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Audi S4 Sedan 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Audi TT RS Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>BMW ActiveHybrid 5 Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>BMW 1 Series Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>BMW 1 Series Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>BMW 3 Series Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>BMW 3 Series Wagon 2012</td>
+                    </tr>
+                    <tr>
+                        <td>BMW 6 Series Convertible 2007</td>
+                    </tr>
+                    <tr>
+                        <td>BMW X5 SUV 2007</td>
+                    </tr>
+                    <tr>
+                        <td>BMW X6 SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>BMW M3 Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>BMW M5 Sedan 2010</td>
+                    </tr>
+                    <tr>
+                        <td>BMW M6 Convertible 2010</td>
+                    </tr>
+                    <tr>
+                        <td>BMW X3 SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>BMW Z4 Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Bentley Continental Supersports Conv. Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Bentley Arnage Sedan 2009</td>
+                    </tr>
+                    <tr>
+                        <td>Bentley Mulsanne Sedan 2011</td>
+                    </tr>
+                    <tr>
+                        <td>Bentley Continental GT Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Bentley Continental GT Coupe 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Bentley Continental Flying Spur Sedan 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Bugatti Veyron 16.4 Convertible 2009</td>
+                    </tr>
+                    <tr>
+                        <td>Bugatti Veyron 16.4 Coupe 2009</td>
+                    </tr>
+                    <tr>
+                        <td>Buick Regal GS 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Buick Rainier SUV 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Buick Verano Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Buick Enclave SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Cadillac CTS-V Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Cadillac SRX SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Cadillac Escalade EXT Crew Cab 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Silverado 1500 Hybrid Crew Cab 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Corvette Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Corvette ZR1 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Corvette Ron Fellows Edition Z06 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Traverse SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Camaro Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet HHR SS 2010</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Impala Sedan 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Tahoe Hybrid SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Sonic Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Express Cargo Van 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Avalanche Crew Cab 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Cobalt SS 2010</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Malibu Hybrid Sedan 2010</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet TrailBlazer SS 2009</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Silverado 2500HD Regular Cab 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Silverado 1500 Classic Extended Cab 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Express Van 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Monte Carlo Coupe 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Malibu Sedan 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Silverado 1500 Extended Cab 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Chevrolet Silverado 1500 Regular Cab 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Chrysler Aspen SUV 2009</td>
+                    </tr>
+                    <tr>
+                        <td>Chrysler Sebring Convertible 2010</td>
+                    </tr>
+                    <tr>
+                        <td>Chrysler Town and Country Minivan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Chrysler 300 SRT-8 2010</td>
+                    </tr>
+                    <tr>
+                        <td>Chrysler Crossfire Convertible 2008</td>
+                    </tr>
+                    <tr>
+                        <td>Chrysler PT Cruiser Convertible 2008</td>
+                    </tr>
+                    <tr>
+                        <td>Daewoo Nubira Wagon 2002</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Caliber Wagon 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Caliber Wagon 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Caravan Minivan 1997</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Ram Pickup 3500 Crew Cab 2010</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Ram Pickup 3500 Quad Cab 2009</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Sprinter Cargo Van 2009</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Journey SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Dakota Crew Cab 2010</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Dakota Club Cab 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Magnum Wagon 2008</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Challenger SRT8 2011</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Durango SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Durango SUV 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Charger Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Dodge Charger SRT-8 2009</td>
+                    </tr>
+                    <tr>
+                        <td>Eagle Talon Hatchback 1998</td>
+                    </tr>
+                    <tr>
+                        <td>FIAT 500 Abarth 2012</td>
+                    </tr>
+                    <tr>
+                        <td>FIAT 500 Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Ferrari FF Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Ferrari California Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Ferrari 458 Italia Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Ferrari 458 Italia Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Fisker Karma Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Ford F-450 Super Duty Crew Cab 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Ford Mustang Convertible 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Ford Freestar Minivan 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Ford Expedition EL SUV 2009</td>
+                    </tr>
+                    <tr>
+                        <td>Ford Edge SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Ford Ranger SuperCab 2011</td>
+                    </tr>
+                    <tr>
+                        <td>Ford GT Coupe 2006</td>
+                    </tr>
+                    <tr>
+                        <td>Ford F-150 Regular Cab 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Ford F-150 Regular Cab 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Ford Focus Sedan 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Ford E-Series Wagon Van 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Ford Fiesta Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>GMC Terrain SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>GMC Savana Van 2012</td>
+                    </tr>
+                    <tr>
+                        <td>GMC Yukon Hybrid SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>GMC Acadia SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>GMC Canyon Extended Cab 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Geo Metro Convertible 1993</td>
+                    </tr>
+                    <tr>
+                        <td>HUMMER H3T Crew Cab 2010</td>
+                    </tr>
+                    <tr>
+                        <td>HUMMER H2 SUT Crew Cab 2009</td>
+                    </tr>
+                    <tr>
+                        <td>Honda Odyssey Minivan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Honda Odyssey Minivan 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Honda Accord Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Honda Accord Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Hyundai Veloster Hatchback 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Hyundai Santa Fe SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Hyundai Tucson SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Hyundai Veracruz SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Hyundai Sonata Hybrid Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Hyundai Elantra Sedan 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Hyundai Accent Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Hyundai Genesis Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Hyundai Sonata Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Hyundai Elantra Touring Hatchback 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Hyundai Azera Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Infiniti G Coupe IPL 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Infiniti QX56 SUV 2011</td>
+                    </tr>
+                    <tr>
+                        <td>Isuzu Ascender SUV 2008</td>
+                    </tr>
+                    <tr>
+                        <td>Jaguar XK XKR 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Jeep Patriot SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Jeep Wrangler SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Jeep Liberty SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Jeep Grand Cherokee SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Jeep Compass SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Lamborghini Reventon Coupe 2008</td>
+                    </tr>
+                    <tr>
+                        <td>Lamborghini Aventador Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Lamborghini Gallardo LP 570-4 Superleggera 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Lamborghini Diablo Coupe 2001</td>
+                    </tr>
+                    <tr>
+                        <td>Land Rover Range Rover SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Land Rover LR2 SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Lincoln Town Car Sedan 2011</td>
+                    </tr>
+                    <tr>
+                        <td>MINI Cooper Roadster Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Maybach Landaulet Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Mazda Tribute SUV 2011</td>
+                    </tr>
+                    <tr>
+                        <td>McLaren MP4-12C Coupe 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Mercedes-Benz 300-Class Convertible 1993</td>
+                    </tr>
+                    <tr>
+                        <td>Mercedes-Benz C-Class Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Mercedes-Benz SL-Class Coupe 2009</td>
+                    </tr>
+                    <tr>
+                        <td>Mercedes-Benz E-Class Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Mercedes-Benz S-Class Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Mercedes-Benz Sprinter Van 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Mitsubishi Lancer Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Nissan Leaf Hatchback 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Nissan NV Passenger Van 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Nissan Juke Hatchback 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Nissan 240SX Coupe 1998</td>
+                    </tr>
+                    <tr>
+                        <td>Plymouth Neon Coupe 1999</td>
+                    </tr>
+                    <tr>
+                        <td>Porsche Panamera Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Ram C/V Cargo Van Minivan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Rolls-Royce Phantom Drophead Coupe Convertible 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Rolls-Royce Ghost Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Rolls-Royce Phantom Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Scion xD Hatchback 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Spyker C8 Convertible 2009</td>
+                    </tr>
+                    <tr>
+                        <td>Spyker C8 Coupe 2009</td>
+                    </tr>
+                    <tr>
+                        <td>Suzuki Aerio Sedan 2007</td>
+                    </tr>
+                    <tr>
+                        <td>Suzuki Kizashi Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Suzuki SX4 Hatchback 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Suzuki SX4 Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Tesla Model S Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Toyota Sequoia SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Toyota Camry Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Toyota Corolla Sedan 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Toyota 4Runner SUV 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Volkswagen Golf Hatchback 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Volkswagen Golf Hatchback 1991</td>
+                    </tr>
+                    <tr>
+                        <td>Volkswagen Beetle Hatchback 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Volvo C30 Hatchback 2012</td>
+                    </tr>
+                    <tr>
+                        <td>Volvo 240 Sedan 1993</td>
+                    </tr>
+                    <tr>
+                        <td>Volvo XC90 SUV 2007</td>
+                    </tr>
+                    <tr>
+                        <td>smart fortwo Convertible 2012</td>
+                    </tr>
+                    </tbody></table>
+
+               </div>
+
+            <div class="modal-footer">
+
+                <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
+            </div>
+
         </div>
     </div>
 </div>
