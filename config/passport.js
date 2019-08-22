@@ -1,9 +1,8 @@
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const JWTStrategy = passportJWT.Strategy;
-//const bcrypt = require('bcrypt'); encryption for passwords, not needed
 
-const { secret } = require('../config/jwtConfig');
+const { secret } = require('../config/config');
 
 let ExtractJwt = passportJWT.ExtractJwt;
 let JwtStrategy = passportJWT.Strategy;
