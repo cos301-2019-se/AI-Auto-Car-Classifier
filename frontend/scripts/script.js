@@ -59,10 +59,12 @@ function loadInventoryDetails()
     console.log('Setting Details');
 
     var make = $('#makeItem').text();
+    var model = $('#modelItem').text();
     var colour = $('#colourItem').text();
     var plate = $('#plateItem').text();
 
     $('#makeInput').val(make);
+    $('#modelInput').val(model);
     $('#colourInput').val(colour);
     $('#plateInput').val(plate);
 }
