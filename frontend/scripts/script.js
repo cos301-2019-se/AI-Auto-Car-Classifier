@@ -128,6 +128,8 @@ function saveCarDetails()
         {
             console.log('Save Car: ' + res.status);
             $('#exampleModal').modal('hide');
+
+            addNewCarToTable(make, model, colour, plate,imageURL);
         },
         error: function (jqXHR, exception)
         {
@@ -144,6 +146,18 @@ function saveCarDetails()
     });
 
 
+}
+
+function addNewCarToTable(make, model, colour, plate,imageUrl)
+{
+    var html = '<tr class="inventoryRow" data-imageurl="'+ imageUrl + '">'+
+        '<th scope="row">'+ make + '</th>'+
+        '<td>'+ model + '</td>'+
+        '<td>'+ colour + '</td>'+
+        '<td>'+ plate + '</td>'+
+    '</tr>';
+
+    $('.inventory').append(html);
 }
 
 function detectCar(imageID, callback)
