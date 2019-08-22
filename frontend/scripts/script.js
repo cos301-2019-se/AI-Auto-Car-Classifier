@@ -5,9 +5,9 @@ $(document).ready(function ()
     $("#loadingImage").css('visibility', 'hidden');
 
 
-    $('#saveToInventoryBtn').on('click',  loadInventoryDetails);
+    $('#saveToInventoryBtn').on('click', loadInventoryDetails);
 
-    $('#submitCarDetails').on('click',saveCarDetails);
+    $('#submitCarDetails').on('click', saveCarDetails);
 
     const uploadButton = document.querySelector('#uploadBtn');
     uploadButton.addEventListener('click', (e) =>
@@ -97,6 +97,8 @@ function saveCarDetails()
     var mileage = $('#mileageInput').val();
     var year = $('#yearInput').val();
 
+    var imageURL = $('#mainImage').attr('src');
+
     $.ajax({
         method: "POST",
         url: "/classify/save_car",
@@ -105,6 +107,8 @@ function saveCarDetails()
             {
                 make: make,
                 model: model,
+                color: colour,
+                imageURL: imageURL,
                 plates: plate,
                 mileage: mileage,
                 year: year
@@ -470,7 +474,7 @@ function getAndLoadInventory()
                 <th scope="row">${car.make}</th>
                 <td>${car.model}</td>
                 <td>${car.color}</td>
-                <td> ${car.plates}</td>
+                <td>${car.description}</td>
             </tr>`;
             });
             tableBody[0].innerHTML = dynamicTable;
