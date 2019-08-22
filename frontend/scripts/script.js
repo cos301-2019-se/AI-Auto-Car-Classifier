@@ -63,10 +63,12 @@ function loadInventoryDetails()
     var colour = $('#colourItem').text();
     var plate = $('#plateItem').text();
 
+
     $('#makeInput').val(make);
     $('#modelInput').val(model);
     $('#colourInput').val(colour);
-    $('#plateInput').val(plate);
+    if (plate !== '???')
+        $('#plateInput').val(plate);
 }
 
 function classifyImage(imageUrl)
