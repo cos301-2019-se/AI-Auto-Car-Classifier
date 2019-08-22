@@ -26,7 +26,7 @@
 ## **Members**
 
 <div align="center" style="margin:0 auto;">
-<img src="https://imgur.com/a/E8KwfKq" alt="Ctrl Alt Elte" title="Ctrl Alt Elite" style="width:80%; height:90%; margin: 0 auto; text-align:center;" />
+<img src="https://i.imgur.com/ui0gcZL.jpg" alt="Ctrl Alt Elte" title="Ctrl Alt Elite" style="width:80%; height:90%; margin: 0 auto; text-align:center;" />
 <p>Left to Right: Keorapetse, Fiwa, Andrew, Abhinav, Vincent</p>
 </div>
 
