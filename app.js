@@ -8,7 +8,6 @@ const cors = require('cors');
 
 const displayPageRoute = require('./api/displayPage');
 const classifyRoute = require('./api/classification');
-const notifyRoute = require('./api/notification');
 const logRoute = require('./api/logging');
 const authentication = require('./api/authentication');
 let passport = require('./config/passport');
