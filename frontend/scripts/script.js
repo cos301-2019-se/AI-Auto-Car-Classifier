@@ -6,6 +6,46 @@ $(document).ready(function ()
 
     $('body').on('click', '.inventoryRow', showCarFromInventory);
 
+    $('#gettingStarted').on('click',function()
+    {
+        console.log('getting started');
+        var introguide = introJs();
+
+        introguide.setOptions({
+            steps: [
+                {
+                    element: '#uploadBtn',
+                    intro: 'Click here to upload images. You can upload images from your local storage, a url or from your camera.',
+                    position: 'bottom'
+                },
+                {
+                    element: '#classificationBox',
+                    intro: 'Using a Deep Learning Neural Network, car features will be extracted from the image and displayed here',
+                    position: 'bottom'
+                },
+                {
+                    element: '#saveToInventoryBtn',
+                    intro: 'After Classification, you can save the car details to your inventory',
+                    position: 'bottom'
+                },
+                {
+                    element: '.gallery',
+                    intro: 'Any images you upload will appear here. Click on an image to classify it! ',
+                    position: 'bottom'
+                },
+                {
+                    element: '.inventoryTable',
+                    intro: 'The details of saved images will be displayed here. Click on a row to view the image ! ',
+                    position: 'bottom'
+                }
+            ],
+            showProgress: true
+        });
+
+        introguide.start();
+
+    });
+
     $('#saveToInventoryBtn').on('click', loadInventoryDetails);
 
     $('#submitCarDetails').on('click', saveCarDetails);
