@@ -22,7 +22,6 @@ app.use(express.static(__dirname + '/frontend')); // so all frontend files can b
 app.use('/images/', express.static('./images')); // so uploaded images can be served
 
 app.use('/classify', classifyRoute);
-app.use('/notify', notifyRoute);
 app.use('/log', logRoute);
 app.use('/', displayPageRoute);
 app.use('/auth', authentication);
