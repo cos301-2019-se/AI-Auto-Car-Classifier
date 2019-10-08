@@ -33,3 +33,5 @@ artifacts:
     - package.json
     - node_modules/*
     - api/*
+    - config/*
+    - images/*
