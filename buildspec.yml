@@ -35,3 +35,5 @@ artifacts:
     - api/*
     - config/*
     - images/*
+    - models/*
+    - migrations/*
