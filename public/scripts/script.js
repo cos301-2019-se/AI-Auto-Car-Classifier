@@ -555,7 +555,7 @@ function getAndLoadInventory()
     console.log("getting makes")
     $.ajax({
         method: "GET",
-        url: "http://localhost:3000/classify/get_inventory",
+        url: "/classify/get_inventory",
         dataType: "json",
         success: function (res)
         {
