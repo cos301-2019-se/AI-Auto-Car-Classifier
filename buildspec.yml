@@ -28,8 +28,8 @@ phases:
 artifacts:
   files:
     - app.js
-    - server.js
-    - frontend/*
+    - bin/*
+    - public/*
     - package.json
     - node_modules/*
     - api/*

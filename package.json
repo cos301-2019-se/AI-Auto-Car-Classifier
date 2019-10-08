@@ -2,9 +2,8 @@
   "name": "AIAutoCarClassifier",
   "version": "1.0.0",
   "description": "A web application to identify cars in images by make, model, year and body type",
-  "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node ./bin/www",
     "test": "nyc mocha test --exit"
   },
   "repository": {

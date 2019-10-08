@@ -17,7 +17,7 @@ let passport = require('./config/passport');
 //Prevent CORS violation
     app.use(cors());
 
-    app.use(express.static(__dirname + '/frontend')); // so all frontend files can be served
+    app.use(express.static(__dirname + '/public')); // so all public files can be served
     app.use('/images/', express.static('./images')); // so uploaded images can be served
 
     app.use('/classify', classifyRoute);
