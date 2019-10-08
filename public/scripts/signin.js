@@ -4,7 +4,7 @@ function onSignIn(googleUser) {
 	var profile = googleUser.getBasicProfile();
 	$.ajax({
         method: "POST",
-        url: "http://localhost:3000/auth/login",
+        url: "/auth/login",
         dataType: "json",
         data: {
 			name: profile.getName(),
@@ -24,6 +24,8 @@ function onSignIn(googleUser) {
              */
 			console.log('something went wrong!');
 			console.log(`${exception}`);
+			console.log(jqXHR);
+			console.log(textStatus);
 			return false;
         }
     });
