@@ -10,8 +10,6 @@ const logRoute = require('./api/logging');
 const authentication = require('./api/authentication');
 let passport = require('./config/passport');
 
-
-app.configure(function(){
     app.set('port', process.env.PORT || 3000);
     app.use(bodyParser.urlencoded({extended: true, limit: '25mb'}));
     app.use(bodyParser.json({limit: '25mb'}));
@@ -46,7 +44,6 @@ app.configure(function(){
             }
         });
     });
-});
 
 
 
