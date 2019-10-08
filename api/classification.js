@@ -10,7 +10,7 @@ const Jimp = require('jimp');
 const glob = require('glob');
 const FileSet = require('fileset');
 const colour = require('color-namer');
-var nj = require('numjs');
+
 let passport = require('../config/passport');
 var download = require('download-to-file');
 
