@@ -343,3 +343,10 @@
 #         return {"error": result}
 
 
+
+        # image_config = ContainerImage.image_configuration(execution_script = "score.py", runtime = "python", conda_file = "myenv.yml")
+        # image = ContainerImage.create(name = "car-detector-image", models = [model], image_config = image_config, workspace = ws)
+        # aciconfig = AciWebservice.deploy_configuration(cpu_cores = 2, memory_gb = 6, tags = {"data": "Stanford", "type": "Image Detection"}, description = 'An image dection model using imageai and imageio')
+        # service = Webservice.deploy_from_image(deployment_config = aciconfig, image = image, workspace = ws)
+
+        #datastore.upload(src_dir='.', target_path='cars_meta.mat', overwrite=True, show_progress=True)
