@@ -349,4 +349,4 @@
         # aciconfig = AciWebservice.deploy_configuration(cpu_cores = 2, memory_gb = 6, tags = {"data": "Stanford", "type": "Image Detection"}, description = 'An image dection model using imageai and imageio')
         # service = Webservice.deploy_from_image(deployment_config = aciconfig, image = image, workspace = ws)
 
-datastore.upload(src_dir='your source directory', target_path='your target path', overwrite=True, show_progress=True)
+        #datastore.upload(src_dir='.', target_path='cars_meta.mat', overwrite=True, show_progress=True)

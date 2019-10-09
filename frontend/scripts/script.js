@@ -233,7 +233,7 @@ function addNewCarToTable(make, model, colour, plate, imageUrl)
 function detectCar(imageID, callback)
 {
 
-    $.ajax({
+    /*$.ajax({
         method: "POST",
         url: "/classify/car_detector",
         dataType: "json",
@@ -266,7 +266,8 @@ function detectCar(imageID, callback)
         {
             xhr.setRequestHeader("Authorization", "Bearer " + localStorage.getItem("authToken"));
         }
-    });
+    });*/
+    callback(imageID);
 }
 
 function clearLoadingImages()
