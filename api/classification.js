@@ -503,7 +503,6 @@ async function imageContainsCar(req, res)
         {
             if(response && response.statusCode == 200)
             {
-                console.log(response.body);
                 res.status(200).json(
                 {
                     ...response.body
