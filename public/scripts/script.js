@@ -388,10 +388,11 @@ function getNumberPlate(imageID, cb)
 {
     $.ajax({
         method: "POST",
-        url: "/classify/number_plate",
+        url: "http://ec2-18-130-182-115.eu-west-2.compute.amazonaws.com/number-plate.php",
         data: {imageID: imageID},
         success: function (res)
         {
+            console.log("")
             var imageID = res.imageID;
             if (res.status === "success")
             {

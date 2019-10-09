@@ -852,23 +852,24 @@ function getNumberPlate(req, res)
 
         if (fs.existsSync(file))
         {
-            var image = fs.readFileSync(file);
 
-            const {exec} = require('child_process');
-            var command = 'alpr -c eu -d -j -n 1 ' + file;
-            exec(command, (err, stdout, stderr) =>
+            request.post('http://ec2-18-130-182-115.eu-west-2.compute.amazonaws.com/number_plate.php', {
+                form: {imageURL: imageID}
+            }, (error, res2, body) =>
             {
-                if (err)
+                if (error)
                 {
+                    console.error(error);
                     res.status(200).json({
-                        status: "failed",
+                        status: "failed: " + error,
                         imageID: fileName
                     });
-
-                    return;
+                    return
                 }
+                console.log(`statusCode: ${res2.statusCode}`);
+                console.log(body);
 
-                var object = JSON.parse(stdout);
+                var object = JSON.parse(body);
 
                 var results = object.results;
                 if (results.length <= 0)
@@ -895,6 +896,8 @@ function getNumberPlate(req, res)
                     confidence: con
                 });
             });
+
+
         }
         else
         {
