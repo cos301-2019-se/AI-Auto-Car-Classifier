@@ -50,6 +50,35 @@ $(document).ready(function ()
 
     $('#submitCarDetails').on('click', saveCarDetails);
 
+    $('#classifyBtn').on('click', function ()
+    {
+        let imageURL = $('#mainImage').attr('src');
+
+        if (!imageURL.includes('http'))
+        {
+            displayError("Please Upload an image first");
+        }
+        else
+        {
+            classifyImage(imageURL);
+
+        }
+    });
+
+    $('#licenseBtn').on('click', function ()
+    {
+        let imageURL = $('#mainImage').attr('src');
+
+        if (!imageURL.includes('http'))
+        {
+            displayError("Please Upload an image first");
+        }
+        else
+        {
+            uploadLicenseDisc();
+        }
+    });
+
     const uploadButton = document.querySelector('#uploadBtn');
     uploadButton.addEventListener('click', (e) =>
     {
@@ -62,7 +91,7 @@ $(document).ready(function ()
                     var imageUrl = results[0].secure_url;
 
                     displayImage(imageUrl);
-                    classifyImage(imageUrl);
+                    //  classifyImage(imageUrl);
                     var imageUrls = [];
 
                     for (let i = 0; i < results.length; i++)
@@ -90,7 +119,7 @@ $(document).ready(function ()
 
         $("html, body").animate({scrollTop: 0}, 200);
 
-        classifyImage(imageID);
+       // classifyImage(imageID);
     });
 
 });
