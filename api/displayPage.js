@@ -3,7 +3,7 @@ var express = require('express');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
-    fs.readFile('./frontend/index.html', function (err, html) {
+    fs.readFile('./public/index.html', function (err, html) {
         if (err) {
             console.log(err.message);
         }

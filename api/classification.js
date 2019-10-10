@@ -10,7 +10,7 @@ const Jimp = require('jimp');
 const glob = require('glob');
 const FileSet = require('fileset');
 const colour = require('color-namer');
-var nj = require('numjs');
+
 let passport = require('../config/passport');
 var download = require('download-to-file');
 
@@ -36,21 +36,28 @@ var upload = multer({storage: storage});
 const MODEL_ENDPOINT = 'http://25b7d458-597d-4ce5-9324-3b104c745009.westeurope.azurecontainer.io/score';
 const BOOLEAN_MODEL_ENDPOINT = 'http://c7511ddd-12ea-4e05-86ea-326ed48c8253.westeurope.azurecontainer.io/score';
 
-router.post('/submit', passport.authenticate('jwt',{session:false}),upload.single('image'), submitImage);
-router.post('/submit_multiple',passport.authenticate('jwt',{session:false}), upload.array('imageMultiple'), submitMultipleImages);
-router.post('/submit64', passport.authenticate('jwt',{session:false}), submitImage64);
+router.post('/submit', passport.authenticate('jwt', {session: false}), upload.single('image'), submitImage);
+router.post('/submit_multiple', passport.authenticate('jwt', {session: false}), upload.array('imageMultiple'), submitMultipleImages);
+router.post('/submit64', passport.authenticate('jwt', {session: false}), submitImage64);
 
-router.post('/color_detector', passport.authenticate('jwt',{session:false}), getImageColorBySample);
-router.post('/car_detector', passport.authenticate('jwt',{session:false}), imageContainsCar);
-router.post('/get_car_details', passport.authenticate('jwt',{session:false}), getMakeAndModel);
-router.post('/number_plate', passport.authenticate('jwt',{session:false}), getNumberPlate);
+router.post('/color_detector', passport.authenticate('jwt', {session: false}), getImageColorBySample);
+router.post('/car_detector', passport.authenticate('jwt', {session: false}), imageContainsCar);
+router.post('/get_car_details', passport.authenticate('jwt', {session: false}), getMakeAndModel);
+router.post('/number_plate', passport.authenticate('jwt', {session: false}), getNumberPlate);
 router.get('/', serverRunning);
-router.post('/resize_images', passport.authenticate('jwt',{session:false}), resizeImages);
-router.post('/upload_image', passport.authenticate('jwt',{session:false}), uploadImage);
+router.post('/resize_images', passport.authenticate('jwt', {session: false}), resizeImages);
+router.post('/upload_image', passport.authenticate('jwt', {session: false}), uploadImage);
 
-router.post('/save_car', passport.authenticate('jwt',{session:false}), saveCar);
-router.get('/get_inventory', passport.authenticate('jwt',{session:false}), getInventory);
-router.post('/get_car', passport.authenticate('jwt',{session:false}), getCarByImageURL);
+router.post('/save_car', passport.authenticate('jwt', {session: false}), saveCar);
+router.get('/get_inventory', passport.authenticate('jwt', {session: false}), getInventory);
+router.post('/get_car', passport.authenticate('jwt', {session: false}), getCarByImageURL);
+
+
+
+router.post('/car_detector_MOCK', passport.authenticate('jwt', {session: false}), imageContainsCarMock);
+router.post('/get_car_details_MOCK', passport.authenticate('jwt', {session: false}), getMakeAndModelMock);
+
+
 
 
 function serverRunning(req, res)
@@ -73,25 +80,34 @@ function uploadImage(req, res,)
 
 
 }
-async function saveCar(req, res){
-    if(!req.body.make || !req.body.model){
+
+async function saveCar(req, res)
+{
+    if (!req.body.make || !req.body.model)
+    {
         res.status(400).json({
             error: "The make and model are compulsory"
         });
-    } else {
+    }
+    else
+    {
         let newCar;
-        try{
+        try
+        {
             await Car.create({
                 ...req.body
             })
-            .then(car => {
-                newCar = car;
-            })
+                .then(car =>
+                {
+                    newCar = car;
+                })
             addToInventory(req.user.id, newCar.id)
             res.status(200).json({
                 success: "Car added to inventory"
             });
-        } catch(error){
+        }
+        catch (error)
+        {
             console.log("Save car error: " + error);
             res.status(500).json({
                 error
@@ -99,75 +115,98 @@ async function saveCar(req, res){
         }
     }
 }
-async function addToInventory(userId, carId){
-    try{
+
+async function addToInventory(userId, carId)
+{
+    try
+    {
         await inventory.create({
             company: "AI-Cars",
             userId,
             carId
         })
-    } catch(err){
+    }
+    catch (err)
+    {
         throw err;
     }
 }
 
-async function getUserInventories(userId){
+async function getUserInventories(userId)
+{
     let temp = [];
-    try{
+    try
+    {
         await inventory.findAll({
             where: {
                 userId: userId
             }
         })
-        .then(entries => {
-            temp = entries
-        });
+            .then(entries =>
+            {
+                temp = entries
+            });
         return temp;
-    } catch(err){
+    }
+    catch (err)
+    {
         console.log("Error fetching inventories", err);
     }
 }
 
-async function getCar(carId){
+async function getCar(carId)
+{
     let temp = {}
-    try{
+    try
+    {
         await Car.findOne({
             where: {
                 id: carId
             }
         })
-        .then(car => {
-            temp = car
-        })
+            .then(car =>
+            {
+                temp = car
+            })
         return temp;
-    } catch(err){
+    }
+    catch (err)
+    {
         console.log("Error fetching cars", err);
     }
 }
 
-async function getInventory(req, res){
+async function getInventory(req, res)
+{
     let inventories = []
     let allCars = [];
     let car = null;
-    try{
+    try
+    {
         inventories = await getUserInventories(req.user.id);
-        for(c = 0; c < inventories.length; c++) {
+        for (c = 0; c < inventories.length; c++)
+        {
             car = await getCar(inventories[c].carId)
             allCars.push(car);
         }
         res.status(200).json({
             allCars
         });
-    } catch(err){
+    }
+    catch (err)
+    {
         res.status(500).json({
             err
         });
     }
 }
 
-async function getCarByImageURL(req, res){
-    try{
-        if(!req.body.imageURL){
+async function getCarByImageURL(req, res)
+{
+    try
+    {
+        if (!req.body.imageURL)
+        {
             throw "No property imageURL in request body";
         }
         await Car.findOne({
@@ -175,12 +214,15 @@ async function getCarByImageURL(req, res){
                 imageURL: req.body.imageURL
             }
         })
-        .then(car => {
-            res.status(200).json({
-                car
-            });
-        })
-    } catch(err){
+            .then(car =>
+            {
+                res.status(200).json({
+                    car
+                });
+            })
+    }
+    catch (err)
+    {
         console.log("Error fetching car by imageURL", err);
     }
 }
@@ -424,16 +466,19 @@ const logErrors = (label) => (data) =>
 async function getMakeAndModel(req, res)
 {
     let bas64Image = null;
-    try{
+    try
+    {
         //read image as numpy array, turn it into numpy list and send an api call to the model
         await image2base64(req.body.imageID) // you can also to use url
             .then(
-                (response) => {
+                (response) =>
+                {
                     bas64Image = response;
                 }
             )
             .catch(
-                (error) => {
+                (error) =>
+                {
                     console.log(error); //Exepection error....
                 }
             );
@@ -477,46 +522,54 @@ async function imageContainsCar(req, res)
 
     console.log("Image: " + imageUrl);
 
-       //read image as numpy array, turn it into numpy list and send an api call to the model
-        await image2base64(imageUrl) // you can also to use url
-            .then(
-                (response) => {
-                    bas64Image = response;
-                }
-            )
-            .catch(
-                (error) => {
-                    console.log(error); //Exepection error....
-                }
-            );
-
-        request.post({
-            headers: {
-                'content-type': 'application/json'
-            },
-            url: BOOLEAN_MODEL_ENDPOINT,
-            body: {
-                data: bas64Image
-            },
-            json: true,
-        }, function (error, response, body)
-        {
-            if(response && response.statusCode == 200)
+    //read image as numpy array, turn it into numpy list and send an api call to the model
+    await image2base64(imageUrl) // you can also to use url
+        .then(
+            (response) =>
             {
                 res.status(200).json(
                 {
                     ...response.body
                 });
             }
-            else
+        )
+        .catch(
+            (error) =>
             {
                 res.status(500).json({
                     message: 'An error occurred trying to detecting a car in the image, please try again',
                     error: error
                 });
             }
+        );
 
-        });
+    request.post({
+        headers: {
+            'content-type': 'application/json'
+        },
+        url: BOOLEAN_MODEL_ENDPOINT,
+        body: {
+            data: bas64Image
+        },
+        json: true,
+    }, function (error, response, body)
+    {
+        if (response && response.statusCode == 200)
+        {
+            res.status(200).json(
+                {
+                    ...response.body
+                });
+        }
+        else
+        {
+            res.status(500).json({
+                message: 'An error occurred trying to classify the image, please try again',
+                error: error
+            });
+        }
+
+    });
 
 
 }
@@ -526,7 +579,7 @@ function imageContainsCarMock(req, res)
 {
     console.log("Detect Car Mock Function");
     res.status(200).json({
-        probability: "0.9216358"
+        confidence: 0.9210
     });
 }
 
@@ -624,8 +677,8 @@ function colourTest(imagePath, coordinates, cb)
 
     Jimp.read(imagePath, function (err, image)
     {
-		if(err)
-			console.log(err);
+        if (err)
+            console.log(err);
 
         var startX, startY;
         var regionWidth, regionHeight;
@@ -787,9 +840,9 @@ function getImageColorBySample(req, res)
 
         console.log("Top 3 colours: ");
 
-          console.log(colourCount[0]);
-          console.log(colourCount[1]);
-          console.log(colourCount[2]);
+        console.log(colourCount[0]);
+        console.log(colourCount[1]);
+        console.log(colourCount[2]);
 
         res.status(200).json({
             status: "success",
@@ -852,23 +905,24 @@ function getNumberPlate(req, res)
 
         if (fs.existsSync(file))
         {
-            var image = fs.readFileSync(file);
 
-            const {exec} = require('child_process');
-            var command = '.\\openalpr_64\\alpr -c eu -d -j -n 1 ' + file;
-            exec(command, (err, stdout, stderr) =>
+            request.post('http://ec2-18-130-182-115.eu-west-2.compute.amazonaws.com/number-plate.php', {
+                form: {imageURL: imageID}
+            }, (error, res2, body) =>
             {
-                if (err)
+                if (error)
                 {
+                    console.error(error);
                     res.status(200).json({
-                        status: "failed",
+                        status: "failed: " + error,
                         imageID: fileName
                     });
-
-                    return;
+                    return
                 }
+                console.log(`statusCode: ${res2.statusCode}`);
+                console.log(body);
 
-                var object = JSON.parse(stdout);
+                var object = JSON.parse(body);
 
                 var results = object.results;
                 if (results.length <= 0)
@@ -895,6 +949,8 @@ function getNumberPlate(req, res)
                     confidence: con
                 });
             });
+
+
         }
         else
         {
@@ -918,6 +974,16 @@ const getNumWords = (word) =>
     {
         return -1;
     }
+}
+
+function getMakeAndModelMock(req,res)
+{
+    res.status(200).json({
+        make: "BMW",
+        model: "M3",
+        year: "2013",
+        confidence: 0.7834
+    });
 }
 
 function sendMakeAndModel(res, data)

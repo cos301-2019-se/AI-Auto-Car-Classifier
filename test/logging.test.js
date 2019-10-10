@@ -2,7 +2,7 @@ const log = require('../api/logging');
 
 var request = require("supertest");
 var assert = require('assert');
-const app = require("../server.js");
+const app = require("../bin/www");
 const classification =  require('../api/classification.js');
 
 

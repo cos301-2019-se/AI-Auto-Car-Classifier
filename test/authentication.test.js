@@ -1,6 +1,6 @@
 var request = require("supertest");
 var assert = require('assert');
-const app = require("../server.js");
+const app = require("../bin/www");
 const auth =  require('../api/authentication');
 
 
