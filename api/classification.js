@@ -521,7 +521,7 @@ async function imageContainsCar(req, res)
     var imageUrl = req.body.imageID;
 
     console.log("Image: " + imageUrl);
-
+let bas64Image = null;
     //read image as numpy array, turn it into numpy list and send an api call to the model
     await image2base64(imageUrl) // you can also to use url
         .then(

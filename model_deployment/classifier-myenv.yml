@@ -1,0 +1,13 @@
+name: autocarclassifier
+dependencies:
+  - python==3.7.3
+
+  - pip:
+    - scikit-learn
+    - opencv-python-headless
+    - keras==2.2.4
+    - numpy
+    - scipy
+    - tensorflow==1.13.1
+    - azureml.core
+    - imageio
