@@ -8,11 +8,17 @@
 **Project description**
 * AI Auto Car Classifier is a web app that can be used to take images of vehicles, cars to be specific, and classify them according to make, model and year.
 
-**HOW TO RUN THE PROJECT**
+
+**LINK TO THE PROJECT**
+* http://autocarclassfier.us-east-2.elasticbeanstalk.com/
+
+
+**HOW TO RUN THE PROJECT LOCALLY**
 * Install `nodejs v10.14` and `Microsoft Visual C++ >=2015`
 * Pull the master respository, navigate to the `backend` directory
 * Run `npm install` to install packages, then `npm start` to start the project
 * Visit `localhost:3000` 
+
 
 ## **Documentation**
 - [Functional & Architectural Design documentation](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/SRS_DEMO4.pdf)
