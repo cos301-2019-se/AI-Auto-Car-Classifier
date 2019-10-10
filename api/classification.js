@@ -521,25 +521,19 @@ async function imageContainsCar(req, res)
     var imageUrl = req.body.imageID;
 
     console.log("Image: " + imageUrl);
-
+let bas64Image = null;
     //read image as numpy array, turn it into numpy list and send an api call to the model
     await image2base64(imageUrl) // you can also to use url
         .then(
             (response) =>
             {
-                res.status(200).json(
-                {
-                    ...response.body
-                });
+                bas64Image = response;
             }
         )
         .catch(
             (error) =>
             {
-                res.status(500).json({
-                    message: 'An error occurred trying to detecting a car in the image, please try again',
-                    error: error
-                });
+                console.log(error); //Exepection error....
             }
         );
 
