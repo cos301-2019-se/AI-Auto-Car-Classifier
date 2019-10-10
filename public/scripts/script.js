@@ -235,7 +235,7 @@ function detectCar(imageID, callback)
 
     $.ajax({
         method: "POST",
-        url: "/classify/car_detector_MOCK",
+        url: "/classify/car_detector",
         dataType: "json",
         data: {imageID: imageID},
         success: function (res)
@@ -343,7 +343,7 @@ function getMake(imageID)
 {
     $.ajax({
         method: "POST",
-        url: "/classify/get_car_details_MOCK",
+        url: "/classify/get_car_details",
         dataType: "json",
         data: {imageID: imageID},
         success: function (res)

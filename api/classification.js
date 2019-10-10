@@ -33,8 +33,8 @@ var storage = multer.diskStorage({
 });
 
 var upload = multer({storage: storage});
-const MODEL_ENDPOINT = 'http://21616aee-bf95-4402-bf1b-284eb0739dcf.westeurope.azurecontainer.io/score';
-const BOOLEAN_MODEL_ENDPOINT = 'http://04f7a584-8a70-4b64-9bd6-acc277ed8282.westeurope.azurecontainer.io/score';
+const MODEL_ENDPOINT = 'http://25b7d458-597d-4ce5-9324-3b104c745009.westeurope.azurecontainer.io/score';
+const BOOLEAN_MODEL_ENDPOINT = 'http://c7511ddd-12ea-4e05-86ea-326ed48c8253.westeurope.azurecontainer.io/score';
 
 router.post('/submit', passport.authenticate('jwt', {session: false}), upload.single('image'), submitImage);
 router.post('/submit_multiple', passport.authenticate('jwt', {session: false}), upload.array('imageMultiple'), submitMultipleImages);
