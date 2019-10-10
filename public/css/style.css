@@ -37,5 +37,21 @@
     overflow-x: hidden;
 }
 
+#buttons{
+    margin-top: 2em;
+}
 
+#classifyBtn{
+
+width: 100%;
+    display: inline-block; !important;
+background: #815ee4;
+}
+
+#licenseBtn{
+
+    width: 100%;
+    display: inline-block; !important;
+    background: #815ee4;
+}
 
