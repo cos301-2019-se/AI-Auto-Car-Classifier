@@ -235,7 +235,7 @@ function detectCar(imageID, callback)
 
     $.ajax({
         method: "POST",
-        url: "/classify/car_detector",
+        url: "/classify/car_detector_MOCK",
         dataType: "json",
         data: {imageID: imageID},
         success: function (res)
@@ -343,7 +343,7 @@ function getMake(imageID)
 {
     $.ajax({
         method: "POST",
-        url: "/classify/get_car_details",
+        url: "/classify/get_car_details_MOCK",
         dataType: "json",
         data: {imageID: imageID},
         success: function (res)
@@ -388,7 +388,7 @@ function getNumberPlate(imageID, cb)
 {
     $.ajax({
         method: "POST",
-        url: "http://ec2-18-130-182-115.eu-west-2.compute.amazonaws.com/number-plate.php",
+        url: "/classify/number_plate",
         data: {imageID: imageID},
         success: function (res)
         {
