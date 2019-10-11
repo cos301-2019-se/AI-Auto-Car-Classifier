@@ -22,6 +22,12 @@
 * Visit `localhost:3000` 
 
 
+**HOW TO CONTRIBUTE TO THE PROJECT**
+* Clone the repository and pull the dev branch
+* Create a new Branch based on the dev branch
+* Naming the Branch starts with `fix/name-of-branch` for fixes and `feature/name-of-branch` for features
+* Make a pull request to dev, it will have to have atleast approving reviews before being merged
+
 ## **Documentation**
 - [Functional & Architectural Design documentation](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/SRS_DEMO4.pdf)
 - [Coding standards document](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Coding%20Standards.pdf)
@@ -41,6 +47,6 @@
 
  Project Management tool: [ZenHub](https://app.zenhub.com/workspaces/controlaltelite-5cc986490a0d102d91ad7cbf/board?repos=183455866)
 
-Contributor profiles: (https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/fix/re-deploy-models/documents/contributors.md)
+Contributor profiles: (https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/fix/dev/documents/contributors.md)
 
 
