@@ -119,7 +119,7 @@ $(document).ready(function ()
 
         $("html, body").animate({scrollTop: 0}, 200);
 
-       // classifyImage(imageID);
+        // classifyImage(imageID);
     });
 
 });
@@ -140,13 +140,12 @@ function uploadLicenseDisc()
                 img.src = imageUrl;
                 img.crossOrigin = "Anonymous";
 
-                $(img).on('load',function()
+                $(img).on('load', function ()
                 {
                     var disc = scanLicenseDisc(img);
 
                     setLicenseDiscDetails(disc);
                 });
-
 
 
             }
@@ -156,6 +155,13 @@ function uploadLicenseDisc()
 
 function setLicenseDiscDetails(disc)
 {
+    if (disc == null)
+    {
+        displayError("Unable to scan license disc");
+        clearLoadingImages();
+        return;
+    }
+
     $('#makeItem').text(disc.make);
     $('#modelItem').text(disc.model);
     $('#colourItem').text(disc.colour);
