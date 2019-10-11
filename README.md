@@ -14,7 +14,6 @@ AI-Auto-Car-Classifier is a web application aimed at automating the process of a
 
 
 
-# [CARS SUPPORTED](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/CAR%20SUPPPORTED.pdf)
 
 **HOW TO RUN THE PROJECT LOCALLY**
 * Install `nodejs v10.14` and `Microsoft Visual C++ >=2015`
@@ -29,6 +28,7 @@ AI-Auto-Car-Classifier is a web application aimed at automating the process of a
 - [Testing Policy Document](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Testing_Policy_Demo4.pdf)
 - [User Manual](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/User_Manual_Demo4.pdf)
 - [Project Management tool](https://app.zenhub.com/workspaces/ctrl-alt-elite-5c897d6931ef025b44d6da8c/board?repos=175168303,179668152,182155839)
+- [CARS SUPPORTED](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/CAR%20SUPPPORTED.pdf)
 
 
 
