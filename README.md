@@ -38,6 +38,6 @@
 
  Project Management tool: [ZenHub](https://app.zenhub.com/workspaces/cos-301-control-alt-elite-5d2cc8835119c359764862d4/board?repos=182155839)
 
-Contributor profiles: (https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/fix/dev/documents/contributors.md)
+Contributor profiles: https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/fix/dev/documents/contributors.md
 
 
