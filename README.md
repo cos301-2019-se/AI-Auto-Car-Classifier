@@ -6,7 +6,7 @@
 
 
 **Project description**
-* AI-Auto-Car-Classifier is a web application aimed at automating the process of adding cars to a salespersons inventory of cars. This means, given a cars image, the system should be able to identify the cars make, model and color whilst also extracting the vehicles number plate if it exists. It should also allow the salesperson to edit incorrect classifications and add additional fields. The API could also be used for other applications.
+* AI-Auto-Car-Classifier is a web application aimed at automating the process of adding cars to a salespersons inventory of cars. This means, given a cars image, the system should be able to identify the cars make, model and color while also extracting the vehicles number plate if it exists. The application is also available as a service for boom gates. This means for gates that take images of cars, they can either choose to only retrieve the cars details(and store them in their own database) or use the apps database.
 
 
 **LINK TO THE PROJECT**
@@ -14,12 +14,12 @@
 
 
 **HOW TO RUN THE PROJECT LOCALLY**
-* Install `nodejs v10.14` and `Microsoft Visual C++ >=2015`
-* Pull the dev respository 
+* Install `nodejs ^v10.0` and `Microsoft Visual C++ >=2015`
+* Pull the dev respository
 * Run `npm install` to install packages
 * Create a local mysql database and change the passport configurations to point to it
 * Run `npm start` to start the project
-* Visit `localhost:3000` 
+* Visit `localhost:3000`
 
 
 **HOW TO CONTRIBUTE TO THE PROJECT**
