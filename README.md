@@ -25,7 +25,6 @@
 - [Coding standards document](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Coding%20Standards.pdf)
 - [Testing Policy Document](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Testing_Policy_Demo4.pdf)
 - [User Manual](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/User_Manual_Demo4.pdf)
-- [File Structure](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/file%20strucuture/fileStrct.JPG)
 - [Project Management tool](https://app.zenhub.com/workspaces/ctrl-alt-elite-5c897d6931ef025b44d6da8c/board?repos=175168303,179668152,182155839)
 
 
@@ -37,7 +36,6 @@
 </div>
 
 
- Project Management tool: [ZenHub](https://app.zenhub.com/workspaces/controlaltelite-5cc986490a0d102d91ad7cbf/board?repos=183455866)
  
 |Member | Details | 
 | :---         | :---         |    
