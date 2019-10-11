@@ -6,5 +6,12 @@ module.exports = {
   database: process.env.DATABASE,
   host: process.env.HOST,
   port: process.env.PORT,
-  secret: process.env.SECRET
+  secret: process.env.SECRET,
+  apiKey: process.env.APIKEY,
+  authDomain: process.env.authDomain,
+  dbUrl: process.env.FIREBASEDBURL,
+  projectId: process.env.PROJECTID,
+  senderId: process.env.SENDERID,
+  appId: process.env.APPID,
+  storageBucket: process.env.STORAGEBUCKET
 };
