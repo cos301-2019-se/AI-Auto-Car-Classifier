@@ -22,12 +22,14 @@ AI-Auto-Car-Classifier is a web application aimed at automating the process of a
 
 
 ## **Documentation**
+
 - [Functional & Architectural Design documentation](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/SRS_DEMO4.pdf)
 - [Coding standards document](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Coding%20Standards.pdf)
 - [Testing Policy Document](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Testing_Policy_Demo4.pdf)
-- [User Manual](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/User_Manual_Demo4.pdf)
+- [Testing tool: Travis CLI](https://travis-ci.org/cos301-2019-se/AI-Auto-Car-Classifier)
+- [User Manual](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/User_Manual_Version5.pdf)
 - [Project Management tool](https://app.zenhub.com/workspaces/ctrl-alt-elite-5c897d6931ef025b44d6da8c/board?repos=175168303,179668152,182155839)
-
+- [Cars Supported](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/CAR%20SUPPPORTED.pdf)
 
 
 
