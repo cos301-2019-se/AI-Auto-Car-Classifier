@@ -12,7 +12,7 @@ AI-Auto-Car-Classifier is a web application aimed at automating the process of a
 **LINK TO THE PROJECT**
 * http://autocarclassfier.us-east-2.elasticbeanstalk.com/
 
-## CARS SUPPORTED(https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/CAR%20SUPPPORTED.pdf)
+## [CARS SUPPORTED](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/CAR%20SUPPPORTED.pdf)
 
 **HOW TO RUN THE PROJECT LOCALLY**
 * Install `nodejs v10.14` and `Microsoft Visual C++ >=2015`
