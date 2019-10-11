@@ -1,12 +1,12 @@
 var IMAGE_PATH = './images/';
-
+var carInfo = null;
 $(document).ready(function ()
 {
     $("#loadingImage").css('visibility', 'hidden');
 
     $('body').on('click', '.inventoryRow', showCarFromInventory);
 
-    $('#gettingStarted').on('click',function()
+    $('#gettingStarted').on('click', function ()
     {
         console.log('getting started');
         var introguide = introJs();
@@ -50,6 +50,35 @@ $(document).ready(function ()
 
     $('#submitCarDetails').on('click', saveCarDetails);
 
+    $('#classifyBtn').on('click', function ()
+    {
+        let imageURL = $('#mainImage').attr('src');
+
+        if (!imageURL.includes('http'))
+        {
+            displayError("Please Upload an image first");
+        }
+        else
+        {
+            classifyImage(imageURL);
+
+        }
+    });
+
+    $('#licenseBtn').on('click', function ()
+    {
+        let imageURL = $('#mainImage').attr('src');
+
+        if (!imageURL.includes('http'))
+        {
+            displayError("Please Upload an image first");
+        }
+        else
+        {
+            uploadLicenseDisc();
+        }
+    });
+
     const uploadButton = document.querySelector('#uploadBtn');
     uploadButton.addEventListener('click', (e) =>
     {
@@ -62,7 +91,7 @@ $(document).ready(function ()
                     var imageUrl = results[0].secure_url;
 
                     displayImage(imageUrl);
-                    classifyImage(imageUrl);
+                    //  classifyImage(imageUrl);
                     var imageUrls = [];
 
                     for (let i = 0; i < results.length; i++)
@@ -90,10 +119,54 @@ $(document).ready(function ()
 
         $("html, body").animate({scrollTop: 0}, 200);
 
-        classifyImage(imageID);
+        // classifyImage(imageID);
     });
 
 });
+
+function uploadLicenseDisc()
+{
+    cloudinary.openUploadWidget({cloud_name: 'dso2wjxjj', upload_preset: 'zfowrq1z'},
+        function (error, results)
+        {
+            //console.log(error, result)
+            if (typeof results !== 'undefined')
+            {
+                var loadingGif = '<img src="./resources/loading%20screen%20colour.gif" height="50px" width="50px">';
+                $('.classification').html(loadingGif);
+                var imageUrl = results[0].secure_url;
+
+                var img = new Image();
+                img.src = imageUrl;
+                img.crossOrigin = "Anonymous";
+
+                $(img).on('load', function ()
+                {
+                    var disc = scanLicenseDisc(img);
+
+                    setLicenseDiscDetails(disc);
+                });
+
+
+            }
+
+        });
+}
+
+function setLicenseDiscDetails(disc)
+{
+    if (disc == null)
+    {
+        displayError("Unable to scan license disc");
+        clearLoadingImages();
+        return;
+    }
+
+    $('#makeItem').text(disc.make);
+    $('#modelItem').text(disc.model);
+    $('#colourItem').text(disc.colour);
+    $('#plateItem').text(disc.numberPlate);
+}
 
 function showCarFromInventory()
 {
@@ -155,6 +228,9 @@ function loadInventoryDetails()
 function classifyImage(imageUrl)
 {
     clearProgress();
+
+    var loadingGif = '<img src="./resources/loading%20screen%20colour.gif" height="50px" width="50px">';
+    $('.classification').html(loadingGif);
 
     detectCar(imageUrl, function (imageUrl)
     {
@@ -536,9 +612,6 @@ function generateImageHTML(image)
 
 function displayImage(image)
 {
-    var loadingGif = '<img src="./resources/loading%20screen%20colour.gif" height="50px" width="50px">';
-    $('.classification').html(loadingGif);
-
     $("#mainImage").attr("src", image);
 }
 
@@ -588,7 +661,8 @@ function getAndLoadInventory()
     });
 }
 
-function tableFilter() {
+function tableFilter()
+{
     // Declare variables
     var input, filter, table, tr, td, i, txtValue;
     input = document.getElementById("infoTableInput");
@@ -597,13 +671,18 @@ function tableFilter() {
     tr = table.getElementsByTagName("tr");
 
     // Loop through all table rows, and hide those who don't match the search query
-    for (i = 0; i < tr.length; i++) {
+    for (i = 0; i < tr.length; i++)
+    {
         td = tr[i].getElementsByTagName("td")[0];
-        if (td) {
+        if (td)
+        {
             txtValue = td.textContent || td.innerText;
-            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            if (txtValue.toUpperCase().indexOf(filter) > -1)
+            {
                 tr[i].style.display = "";
-            } else {
+            }
+            else
+            {
                 tr[i].style.display = "none";
             }
         }

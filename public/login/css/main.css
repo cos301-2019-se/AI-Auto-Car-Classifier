@@ -37,6 +37,8 @@
 body, html {
 	height: 100%;
 	font-family: Poppins-Regular, sans-serif;
+  background-color: #21D4FD;
+  background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
 }
 .heading{
   color: #000000 !important;
@@ -188,7 +190,7 @@ iframe {
 
 .wrap-login100 {
   width: 680px;
-  background: #fff;
+
   border-radius: 10px;
   position: relative;
 }
@@ -206,7 +208,7 @@ iframe {
   display: block;
   font-family: Montserrat-Medium;
   font-size: 39px;
-  color: #555555;
+  color: #000000;
   line-height: 1.2;
   text-align: center;
 }
@@ -529,4 +531,12 @@ iframe {
       width: 100%;
     }
   }
+}
+
+.logoImg {
+  padding: 0;
+  display: block;
+  margin: 0 auto;
+  max-height: 100%;
+  max-width: 100%;
 }
