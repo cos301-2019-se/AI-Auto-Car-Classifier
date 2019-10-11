@@ -15,8 +15,10 @@
 
 **HOW TO RUN THE PROJECT LOCALLY**
 * Install `nodejs v10.14` and `Microsoft Visual C++ >=2015`
-* Pull the master respository, navigate to the `backend` directory
-* Run `npm install` to install packages, then `npm start` to start the project
+* Pull the dev respository 
+* Run `npm install` to install packages
+* Create a local mysql database and change the passport configurations to point to it
+* Run `npm start` to start the project
 * Visit `localhost:3000` 
 
 
@@ -39,6 +41,6 @@
 
  Project Management tool: [ZenHub](https://app.zenhub.com/workspaces/controlaltelite-5cc986490a0d102d91ad7cbf/board?repos=183455866)
 
-Contributor profiles: []
+Contributor profiles: (https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/fix/re-deploy-models/documents/contributors.md)
 
 
