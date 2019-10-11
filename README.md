@@ -6,12 +6,13 @@
 
 
 **Project description**
-* AI-Auto-Car-Classifier is a web application aimed at automating the process of adding cars to a salespersons inventory of cars. This means, given a cars image, the system should be able to identify the cars make, model and color whilst also extracting the vehicles number plate if it exists. It should also allow the salesperson to edit incorrect classifications and add additional fields. The API could also be used as a service for users who would like features of our application in their system. Besides a car saleperson's inventory use, some of the other uses of our system would include to be to used in conjunction with a CCTV to monitor and log the car drivers' vehicles, the application could also be used to detect stolen cars, given that the user has a database containing the details of the stolen cars. 
+AI-Auto-Car-Classifier is a web application aimed at automating the process of adding cars to a salespersons inventory of cars. This means, given a cars image, the system should be able to identify the cars make, model and color whilst also extracting the vehicles number plate if it exists. It should also allow the salesperson to edit incorrect classifications and add additional fields. The API could also be used as a service for users who would like features of our application in their system. Besides a car saleperson's inventory use, some of the other uses of our system would include to be to used in conjunction with a CCTV to monitor and log the car drivers' vehicles, the application could also be used to detect stolen cars, given that the user has a database containing the details of the stolen cars. 
 
 
 **LINK TO THE PROJECT**
 * http://autocarclassfier.us-east-2.elasticbeanstalk.com/
 
+## CARS SUPPORTED(https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/CAR%20SUPPPORTED.pdf)
 
 **HOW TO RUN THE PROJECT LOCALLY**
 * Install `nodejs v10.14` and `Microsoft Visual C++ >=2015`
@@ -37,4 +38,4 @@
 <p>Left to Right: Keorapetse, Fiwa, Andrew, Abhinav, Vincent</p>
 </div>
 
-## [Team Bios](https://docs.google.com/presentation/d/1v_Ax3CbxtyJXZbsJRcKai1DqtPCjQopL7H7S3KX6VBY/edit#slide=id.g62256c5886_0_25)
+## [Team bios](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/Team%20members%20of%20CTRL%20ALT%20ELITE%20.pdf)
