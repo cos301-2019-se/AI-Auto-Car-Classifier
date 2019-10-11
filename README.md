@@ -37,7 +37,7 @@
 <p>Left to Right: Keorapetse, Fiwa, Andrew, Abhinav, Vincent</p>
 </div>
 
-## **Team Members**(https://docs.google.com/presentation/d/1v_Ax3CbxtyJXZbsJRcKai1DqtPCjQopL7H7S3KX6VBY/edit#slide=id.g62256c5886_0_25)
+## **[More about the team](https://docs.google.com/presentation/d/1v_Ax3CbxtyJXZbsJRcKai1DqtPCjQopL7H7S3KX6VBY/edit#slide=id.g62256c5886_0_25)
  
 |Member | Details | 
 | :---         | :---         |    
