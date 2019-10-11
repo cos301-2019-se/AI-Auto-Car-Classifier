@@ -750,99 +750,124 @@ function colourTest(imagePath, coordinates, cb)
 
 function getImageColorBySample(req, res)
 {
-    var imagePath = './images/' + req.body.imageID;
-    var coordinates = [];
-    var hasPlate = req.body.hasNumberPlate;
-
-    if (hasPlate === 'true')
+    try
     {
-        coordinates = req.body.coordinates;
-    }
 
-    Jimp.read(imagePath, function (err, image)
-    {
-        var startX, startY;
-        var regionWidth, regionHeight;
+
+        var imagePath = './images/' + req.body.imageID;
+        var coordinates = [];
+        var hasPlate = req.body.hasNumberPlate;
 
         if (hasPlate === 'true')
         {
-            var upperLeftX = coordinates[0].x;
-            var upperLeftY = coordinates[0].y;
-            var lowerLeftY = coordinates[3].y;
-            var upperRightX = coordinates[1].x;
-
-            var width = upperRightX - upperLeftX + 20;
-            var height = lowerLeftY - upperLeftY;
-
-            height *= 2;
-
-            var endY = upperLeftY - height;
-
-            startY = endY - 100;
-            startX = upperLeftX - 20;
-
-            regionWidth = 100;
-            regionHeight = 100;
+            coordinates = req.body.coordinates;
         }
-        else
+
+        Jimp.read(imagePath, function (err, image)
         {
-            var midpointX = image.bitmap.width / 2;
-            var midpointY = image.bitmap.height / 2;
-            startX = midpointX - 100;
-            startY = midpointY - 100;
-            regionWidth = 200;
-            regionHeight = 200;
-        }
-        var samples = [];
+            var startX, startY;
+            var regionWidth, regionHeight;
 
-        getRegion(startX, startY, regionWidth, regionHeight, image, samples); //Midpoint box
-
-        var colourCount = [];
-
-        for (var i = 0; i < samples.length; i++)
-        {
-            var rgba = Jimp.intToRGBA(samples[i]);
-            var rgbString = "rgb(" + rgba.r + "," + rgba.g + "," + rgba.b + ")";
-            var names = colour(rgbString, {pick: ['basic']});
-
-            var colourName = names.basic[0].name;
-
-            let existingColour = colourCount.filter(c => c['name'] === colourName);
-
-            if (existingColour.length === 0)
+            if (hasPlate === 'true')
             {
-                colourCount.push(new Colour(colourName));
+                console.log("Colour detection using plate coords");
+                var upperLeftX = coordinates[0].x;
+                var upperLeftY = coordinates[0].y;
+                var lowerLeftY = coordinates[3].y;
+                var upperRightX = coordinates[1].x;
+
+                var width = upperRightX - upperLeftX + 20;
+                var height = lowerLeftY - upperLeftY;
+
+                height *= 2;
+
+                var endY = upperLeftY - height;
+
+                startY = endY - 100;
+                startX = upperLeftX - 20;
+
+                regionWidth = 100;
+                regionHeight = 100;
             }
             else
             {
-                existingColour[0].addOccurance();
+                console.log("Not using plate coords!!")
+                if(typeof image == 'undefined')
+                {
+                    res.status(200).json({
+                        status: "success",
+                        color: "???"
+                    });
+
+                    return;
+                }
+
+                var midpointX = image.bitmap.width / 2;
+                var midpointY = image.bitmap.height / 2;
+                startX = midpointX - 100;
+                startY = midpointY - 100;
+                regionWidth = 200;
+                regionHeight = 200;
             }
-        }
+            var samples = [];
 
-        colourCount.sort(compareColour);
+            getRegion(startX, startY, regionWidth, regionHeight, image, samples); //Midpoint box
 
-        var col = colourCount[0].name;
-        if (col === 'gray' || col === 'silver' || col === 'black') // Decreases likelihood of grill/windscreen match
-        {
-            if (colourCount[0].count - colourCount[1].count < 50)
+            var colourCount = [];
+
+            for (var i = 0; i < samples.length; i++)
             {
-                col = colourCount[1].name;
+                var rgba = Jimp.intToRGBA(samples[i]);
+                var rgbString = "rgb(" + rgba.r + "," + rgba.g + "," + rgba.b + ")";
+                var names = colour(rgbString, {pick: ['basic']});
+
+                var colourName = names.basic[0].name;
+
+                let existingColour = colourCount.filter(c => c['name'] === colourName);
+
+                if (existingColour.length === 0)
+                {
+                    colourCount.push(new Colour(colourName));
+                }
+                else
+                {
+                    existingColour[0].addOccurance();
+                }
             }
-        }
 
-        var matchedColour = commonColourMapper(col); // Change name to more common colour
+            colourCount.sort(compareColour);
 
-        console.log("Top 3 colours: ");
+            var col = colourCount[0].name;
+            if (col === 'gray' || col === 'silver' || col === 'black') // Decreases likelihood of grill/windscreen match
+            {
+                if (colourCount[0].count - colourCount[1].count < 50)
+                {
+                    col = colourCount[1].name;
+                }
+            }
 
-        console.log(colourCount[0]);
-        console.log(colourCount[1]);
-        console.log(colourCount[2]);
+            var matchedColour = commonColourMapper(col); // Change name to more common colour
 
+            console.log("Top 3 colours: ");
+
+            console.log(colourCount[0]);
+            console.log(colourCount[1]);
+            console.log(colourCount[2]);
+
+            res.status(200).json({
+                status: "success",
+                color: matchedColour
+            });
+        });
+
+    }
+    catch(err)
+    {
         res.status(200).json({
             status: "success",
-            color: matchedColour
+            color: "???"
         });
-    });
+    }
 }
 
 function compareColour(a, b)
@@ -916,32 +941,47 @@ function getNumberPlate(req, res)
                 console.log(`statusCode: ${res2.statusCode}`);
                 console.log(body);
 
-                var object = JSON.parse(body);
-
-                var results = object.results;
-                if (results.length <= 0)
+                try
                 {
-                    console.log("Unable to determine number plate");
+                    var object = JSON.parse(body);
+
+                    var results = object.results;
+                    if (results.length <= 0)
+                    {
+                        console.log("Unable to determine number plate");
+                        res.status(200).json({
+                            status: "failed",
+                            imageID: fileName
+                        });
+
+                        return;
+                    }
+
+                    var plate = results[0].plate;
+
+                    var coords = results[0].coordinates;
+
+                    var con = results[0].confidence;
+
                     res.status(200).json({
-                        status: "failed",
-                        imageID: fileName
+                        status: "success",
+                        numberPlate: plate,
+                        coordinates: coords,
+                        imageID: fileName,
+                        confidence: con
                     });
-
-                    return;
                 }
-                var plate = results[0].plate;
+                catch(err)
+                {
+                    res.status(200).json({
+                        status: "fail",
+                        message: err
+                    });
+                }
 
-                var coords = results[0].coordinates;
 
-                var con = results[0].confidence;
 
-                res.status(200).json({
-                    status: "success",
-                    numberPlate: plate,
-                    coordinates: coords,
-                    imageID: fileName,
-                    confidence: con
-                });
+
             });
 
 
