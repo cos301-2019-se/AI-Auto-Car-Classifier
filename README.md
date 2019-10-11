@@ -1,8 +1,8 @@
 <img src="https://cs.up.ac.za/static/images/headerUP.jpg" alt="UP logo">
 
-# AI-Auto Car Classifier
+## **Team Ctrl Alt Elite**
 
-## **Ctrl Alt Elite**
+# AI-Auto Car Classifier
 
 
 # Project description
