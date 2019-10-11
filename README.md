@@ -36,15 +36,6 @@
 - [File Structure](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/file%20strucuture/fileStrct.JPG)
 - [Project Management tool](https://app.zenhub.com/workspaces/ctrl-alt-elite-5c897d6931ef025b44d6da8c/board?repos=175168303,179668152,182155839)
 
-
-## **Members**
-
-<div align="center" style="margin:0 auto;">
-<img src="https://i.imgur.com/ui0gcZL.jpg" alt="Ctrl Alt Elte" title="Ctrl Alt Elite" style="width:80%; height:90%; margin: 0 auto; text-align:center;" />
-<p>Left to Right: Keorapetse, Fiwa, Andrew, Abhinav, Vincent</p>
-</div>
-
-
  Project Management tool: [ZenHub](https://app.zenhub.com/workspaces/cos-301-control-alt-elite-5d2cc8835119c359764862d4/board?repos=182155839)
 
 Contributor profiles: (https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/fix/dev/documents/contributors.md)
