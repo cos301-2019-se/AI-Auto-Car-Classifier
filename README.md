@@ -15,7 +15,7 @@
 
 **HOW TO RUN THE PROJECT LOCALLY**
 * Install `nodejs v10.14` and `Microsoft Visual C++ >=2015`
-* Pull the master respository, navigate to the `backend` directory
+* Pull the master respository, navigate to the `dev` directory
 * Run `npm install` to install packages, then `npm start` to start the project
 * Visit `localhost:3000` 
 
