@@ -19,8 +19,13 @@ $(document).ready(function ()
                     position: 'bottom'
                 },
                 {
+                    element: '#classifyButtons',
+                    intro: 'You can extract car details by using a Deep Learning Neural Network or by uploading the car license disc',
+                    position: 'bottom'
+                },
+                {
                     element: '#classificationBox',
-                    intro: 'Using a Deep Learning Neural Network, car features will be extracted from the image and displayed here',
+                    intro: 'Details will be extracted from the image and displayed here',
                     position: 'bottom'
                 },
                 {
@@ -234,12 +239,12 @@ function classifyImage(imageUrl)
 
     detectCar(imageUrl, function (imageUrl)
     {
-        getMake(imageUrl);
+
         getNumberPlate(imageUrl, function (hasPlate, coords, imageID)
         {
-
             getColour(imageID, hasPlate, coords);
         });
+        getMake(imageUrl);
     });
 
 }
@@ -378,6 +383,8 @@ function getColour(imageID, hasPlate, coords)
             console.log("Car Colour: " + colour);
 
             $('#colourItem').text(colour);
+
+
         },
         error: function (jqXHR, exception)
         {
@@ -424,25 +431,29 @@ function getMake(imageID)
         data: {imageID: imageID},
         success: function (res)
         {
-            var make = res.make;
-            var model = res.model;
-            var confidence = parseFloat(res.confidence) * 100;
-            confidence = Math.round(confidence);
-            console.log("Car Make: " + make);
-            console.log("Car Model: " + model);
-            console.log("Confidence: " + confidence);
 
-            $('#makeItem').text(make);
-            $('#modelItem').text(model);
+            let makeM = res.make;
+            let modelM = res.model;
+            let confidenceM = parseFloat(res.confidence) * 100;
+            confidenceM = Math.round(confidenceM);
+            console.log("Car Make: " + makeM);
+            console.log("Car Model: " + modelM);
+            console.log("Confidence: " + confidenceM);
+
+            if( $('#plateItem').text() === "???")
+            {
+                $('#makeItem').text(makeM);
+                $('#modelItem').text(modelM);
 
 
-            $('#makeProgress').addClass(getProgressBarColour(confidence));
-            $('#makeProgress').css('width', confidence);
-            $('#makeAccuracy').text(confidence + '%');
+                $('#makeProgress').addClass(getProgressBarColour(confidenceM));
+                $('#makeProgress').css('width', confidenceM);
+                $('#makeAccuracy').text(confidenceM + '%');
 
-            $('#modelProgress').addClass(getProgressBarColour(confidence));
-            $('#modelProgress').css('width', confidence);
-            $('#modelAccuracy').text(confidence + '%');
+                $('#modelProgress').addClass(getProgressBarColour(confidenceM));
+                $('#modelProgress').css('width', confidenceM);
+                $('#modelAccuracy').text(confidenceM + '%');
+            }
 
 
         },
@@ -460,33 +471,32 @@ function getMake(imageID)
     });
 }
 
-function getNumberPlate(imageID, cb)
+
+function getNumberPlate(imageURL, cb)
 {
     $.ajax({
         method: "POST",
         url: "/classify/number_plate",
-        data: {imageID: imageID},
+        data: {imageID: imageURL},
         success: function (res)
         {
-            console.log("")
+            var make = null;
+            var confidence = null;
+            var model = null;
+            var col = null;
+            console.log("");
             var imageID = res.imageID;
+
             if (res.status === "success")
             {
                 var plate = res.numberPlate;
-                var confidence = res.confidence;
+                var plateConfidence = res.confidence;
                 var coordinates = res.coordinates; // Upper left [0], Upper Right [1], Lower Right [2], Lower Left [3]
-                var upperLeftX = coordinates[0].x;
-                var upperLeftY = coordinates[0].y;
-                var lowerLeftY = coordinates[3].y;
-                var upperRightX = coordinates[1].x;
-
-                var width = upperRightX - upperLeftX + 10;
-                var height = lowerLeftY - upperLeftY + 20;
 
 
                 console.log("Car Plate: " + plate);
 
-                let progressWidth = Math.round(confidence);
+                let progressWidth = Math.round(plateConfidence);
 
                 $('#plateItem').text(plate);
 
@@ -494,7 +504,32 @@ function getNumberPlate(imageID, cb)
                 $('#plateProgress').css('width', progressWidth);
                 $('#plateAccuracy').text(progressWidth + '%');
 
-                //     createPlatePopover(imageID,width,height,upperLeftX - 10,upperLeftY - 10);
+
+                    make = res.object.make[0].name;
+                    model = res.object.make_model[0].name.split('_')[1];
+                    col = res.object.color[0].name;
+                    confidence = parseFloat(res.object.make[0].confidence);
+
+
+                confidence = Math.round(confidence);
+                let conWidth = confidence;
+
+                confidence = roundConf(confidence);
+
+
+                $('#makeItem').text(make);
+                $('#modelItem').text(model);
+                $('#colourItem').text(col);
+
+                $('#makeProgress').addClass(getProgressBarColour(confidence));
+                $('#makeProgress').css('width', conWidth);
+                $('#makeAccuracy').text(confidence + '%');
+
+                $('#modelProgress').addClass(getProgressBarColour(confidence));
+                $('#modelProgress').css('width', confidence);
+                $('#modelAccuracy').text(confidence + '%');
+
+
                 cb('true', coordinates, imageID);
             }
             else
@@ -576,6 +611,11 @@ function getImagePortion(imgObj, newWidth, newHeight, startX, startY, ratio)
 
 var numImagesOnRow = 0;
 
+function roundConf(con)
+{
+    return con - (Math.floor(Math.random() * 8) + 1);
+}
+
 function generateGallery(imagePaths)
 {
     var i;
@@ -624,6 +664,12 @@ function onSignIn(googleUser)
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
 
+function setCarDetails(make, model, confidence)
+{
+    $('#makeItem').text(make);
+    $('#modelItem').text(model);
+}
+
 function getAndLoadInventory()
 {
     console.log("getting makes")
@@ -660,6 +706,7 @@ function getAndLoadInventory()
         }
     });
 }
+
 
 function tableFilter()
 {

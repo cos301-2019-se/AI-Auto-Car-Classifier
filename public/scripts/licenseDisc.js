@@ -44,20 +44,20 @@ function scanLicenseDisc(image)
 
 function parseRawInfo(raw)
 {
-    var arr = raw.split('%');
+    let arr = raw.split('%');
 
-   var licenseNo = arr[5];
-   var plate = arr[6];
-   var regNum = arr[7];
-   var body = arr[8];
-   var make = arr[9];
-   var model = arr[10];
-   var colour = arr[11].split('/')[0];
-   var vin = arr[12];
-   var engineNum = arr[13];
-   var expiryDate = arr[14];
+   let licenseNo = arr[5];
+   let plate = arr[6];
+   let regNum = arr[7];
+   let body = arr[8];
+   let make = arr[9];
+   let model = arr[10];
+   let colour = arr[11].split('/')[0];
+   let vin = arr[12];
+   let engineNum = arr[13];
+   let expiryDate = arr[14];
 
-   var disc =
+   let disc =
        { licenseNum: licenseNo,
            numberPlate: plate,
            registerNum: regNum,

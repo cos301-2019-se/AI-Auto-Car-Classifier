@@ -6,27 +6,31 @@
 
 
 **Project description**
-* AI-Auto-Car-Classifier is a web application aimed at automating the process of adding cars to a salespersons inventory of cars. This means, given a cars image, the system should be able to identify the cars make, model and color whilst also extracting the vehicles number plate if it exists. It should also allow the salesperson to edit incorrect classifications and add additional fields. The API could also be used for other applications.
+AI-Auto-Car-Classifier is a web application aimed at automating the process of adding cars to a salespersons inventory of cars. This means, given a cars image, the system should be able to identify the cars make, model and color whilst also extracting the vehicles number plate if it exists. It should also allow the salesperson to edit incorrect classifications and add additional fields. The API could also be used as a service for users who would like features of our application in their system. Besides a car saleperson's inventory use, some of the other uses of our system would include to be to used in conjunction with a CCTV to monitor and log the car drivers' vehicles, the application could also be used to detect stolen cars, given that the user has a database containing the details of the stolen cars. 
 
 
 **LINK TO THE PROJECT**
 * http://autocarclassfier.us-east-2.elasticbeanstalk.com/
 
+## [CARS SUPPORTED](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/CAR%20SUPPPORTED.pdf)
 
 **HOW TO RUN THE PROJECT LOCALLY**
 * Install `nodejs v10.14` and `Microsoft Visual C++ >=2015`
-* Pull the master respository, navigate to the `backend` directory
+* Pull the master respository, navigate to the `dev` directory
 * Run `npm install` to install packages, then `npm start` to start the project
 * Visit `localhost:3000` 
 
 
 ## **Documentation**
+
 - [Functional & Architectural Design documentation](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/SRS_DEMO4.pdf)
 - [Coding standards document](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Coding%20Standards.pdf)
 - [Testing Policy Document](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/Testing_Policy_Demo4.pdf)
-- [User Manual](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/User_Manual_Demo4.pdf)
-- [File Structure](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/file%20strucuture/fileStrct.JPG)
+- [Testing tool: Travis CLI](https://travis-ci.org/cos301-2019-se/AI-Auto-Car-Classifier)
+- [User Manual](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/master/documents/User_Manual_Version5.pdf)
 - [Project Management tool](https://app.zenhub.com/workspaces/ctrl-alt-elite-5c897d6931ef025b44d6da8c/board?repos=175168303,179668152,182155839)
+- [Cars Supported](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/CAR%20SUPPPORTED.pdf)
+
 
 
 ## **Members**
@@ -36,52 +40,4 @@
 <p>Left to Right: Keorapetse, Fiwa, Andrew, Abhinav, Vincent</p>
 </div>
 
-
- Project Management tool: [ZenHub](https://app.zenhub.com/workspaces/controlaltelite-5cc986490a0d102d91ad7cbf/board?repos=183455866)
- 
-|Member | Details | 
-| :---         | :---         |    
-|**Fiwa Lekhuleni**|    **u15187145**   |
-|LinkedIn profile |[Fiwa](https://www.linkedin.com/in/fiwa-lekhuleni-3993a28b/)|
-|**Overview**| My charisma makes it easier for me to work in a team. I am a hardworking and a very passionate, self driven software engineer who is proficient in web development |
-|**Position** |Software Engineer|
-|**Interests** |Artificial intelligence, Machine learning, Javascript|
-|**Skills**|C++, C#, Java, HTML, PHP and JavaScript|
-
-|Member | Details | 
-| :---         | :---         |  
-|**Vincent MM Soweto**|    **141372127**   |
-|LinkedIn profile |[Vince](https://www.linkedin.com/in/vincent-soweto-7a99b489/)|
-|**Overview**|My goal is to assist people to achieve their technology oriented goals and grow my own understanding of the Information Technology Industry.|
-|**Position** |Software Engineer|
-|**Interests** | Programming is my world |
-|**Skills**|Javascript,Java, HTML, Jquery, VueJS, C++, Assembly, SQL, PHP, VB .Net|
-
-|Member | Details | 
-| :---         | :---         |  
-|**Abhinav Thakur**|    **13286383**   |
-|LinkedIn profile |[bestabhinav](https://www.linkedin.com/in/abhinav-thakur-05199415b/)|
-|**Overview**|I am passionate about achieving optimal solutions to everyday problems with the use of the latest technologies. I am a dedicated learner who is always ready to learn new technologies needed to solve a problem.|
-|**Position** |Software Engineer|
-|**Interests** |Entrepreneurship, history, politics and philosophy|
-|**Skills**|Languages: Java, C++, JavaScript, XML, HTML, CSS, PHP & Networking|
-
-|Member | Details | 
-| :---         | :---         |  
-|**Andrew Jordaan**|    **16033796**   |
-|LinkedIn profile |[Drew](https://www.linkedin.com/in/andrew-jordaan-2387268b/)|
-|**Overview**|Working Together, Fully Participating and Learning|
-|**Position** |Software Engineer|
-|**Interests** |Artificial intelligence, Hockey|
-|**Skills**|Languages: Java, C++, JavaScript, XML, HTML, CSS, PHP, Networking|
-
-|Member | Details | 
-| :---         | :---         |  
-|**Keorapetse Shiko**|    **12231992**   |
-|LinkedIn profile |[Keo](https://www.linkedin.com/in/keorapetse-shiko-454535154/)|
-|**Overview**|The price of success is hard work, dedication to the job at hand, and the determination that whether we win or lose, we have applied the best of ourselves to the task at hand.|
-|**Position** |Software Engineer|
-|**Interests** |Data Science, Sports, Chess, Psychoanalysis|
-|**Skills**| Java, C++, HTML, JavaScript, CSS, Bootstrap, PHP, SQL, MongoDB, Node.js.|
-
-
+## [Team bios](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/Team%20members%20of%20CTRL%20ALT%20ELITE%20.pdf)

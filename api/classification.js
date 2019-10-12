@@ -925,7 +925,7 @@ function getNumberPlate(req, res)
         if (fs.existsSync(file))
         {
 
-            request.post('http://ec2-18-130-182-115.eu-west-2.compute.amazonaws.com/number-plate.php', {
+            request.post('http://ec2-18-130-182-115.eu-west-2.compute.amazonaws.com/get-number-plate.php', {
                 form: {imageURL: imageID}
             }, (error, res2, body) =>
             {
@@ -941,9 +941,18 @@ function getNumberPlate(req, res)
                 console.log(`statusCode: ${res2.statusCode}`);
                 console.log(body);
 
-                try
+                if(res2.statusCode === "200")
                 {
-                    var object = JSON.parse(body);
+                    console.log("Number plate Server error");
+                    res.status(200).json({
+                        status: "failed",
+                        imageID: fileName
+                    });
+
+                    return;
+                }
+
+                var object = JSON.parse(body);
 
                     var results = object.results;
                     if (results.length <= 0)
@@ -978,10 +987,20 @@ function getNumberPlate(req, res)
                         message: err
                     });
                 }
+                var plate = results[0].candidates[0].plate;
 
 
 
+                var obj = results[0].vehicle;
 
+                res.status(200).json({
+                    status: "success",
+                    numberPlate: plate,
+                    coordinates: coords,
+                    imageID: fileName,
+                    confidence: con,
+                    object: obj
+                });
             });
 
 
