@@ -747,124 +747,99 @@ function colourTest(imagePath, coordinates, cb)
 
 function getImageColorBySample(req, res)
 {
-    try
+    var imagePath = './images/' + req.body.imageID;
+    var coordinates = [];
+    var hasPlate = req.body.hasNumberPlate;
+
+    if (hasPlate === 'true')
     {
+        coordinates = req.body.coordinates;
+    }
 
-
-        var imagePath = './images/' + req.body.imageID;
-        var coordinates = [];
-        var hasPlate = req.body.hasNumberPlate;
+    Jimp.read(imagePath, function (err, image)
+    {
+        var startX, startY;
+        var regionWidth, regionHeight;
 
         if (hasPlate === 'true')
         {
-            coordinates = req.body.coordinates;
+            var upperLeftX = coordinates[0].x;
+            var upperLeftY = coordinates[0].y;
+            var lowerLeftY = coordinates[3].y;
+            var upperRightX = coordinates[1].x;
+
+            var width = upperRightX - upperLeftX + 20;
+            var height = lowerLeftY - upperLeftY;
+
+            height *= 2;
+
+            var endY = upperLeftY - height;
+
+            startY = endY - 100;
+            startX = upperLeftX - 20;
+
+            regionWidth = 100;
+            regionHeight = 100;
         }
-
-        Jimp.read(imagePath, function (err, image)
+        else
         {
-            var startX, startY;
-            var regionWidth, regionHeight;
+            var midpointX = image.bitmap.width / 2;
+            var midpointY = image.bitmap.height / 2;
+            startX = midpointX - 100;
+            startY = midpointY - 100;
+            regionWidth = 200;
+            regionHeight = 200;
+        }
+        var samples = [];
 
-            if (hasPlate === 'true')
+        getRegion(startX, startY, regionWidth, regionHeight, image, samples); //Midpoint box
+
+        var colourCount = [];
+
+        for (var i = 0; i < samples.length; i++)
+        {
+            var rgba = Jimp.intToRGBA(samples[i]);
+            var rgbString = "rgb(" + rgba.r + "," + rgba.g + "," + rgba.b + ")";
+            var names = colour(rgbString, {pick: ['basic']});
+
+            var colourName = names.basic[0].name;
+
+            let existingColour = colourCount.filter(c => c['name'] === colourName);
+
+            if (existingColour.length === 0)
             {
-                console.log("Colour detection using plate coords");
-                var upperLeftX = coordinates[0].x;
-                var upperLeftY = coordinates[0].y;
-                var lowerLeftY = coordinates[3].y;
-                var upperRightX = coordinates[1].x;
-
-                var width = upperRightX - upperLeftX + 20;
-                var height = lowerLeftY - upperLeftY;
-
-                height *= 2;
-
-                var endY = upperLeftY - height;
-
-                startY = endY - 100;
-                startX = upperLeftX - 20;
-
-                regionWidth = 100;
-                regionHeight = 100;
+                colourCount.push(new Colour(colourName));
             }
             else
             {
-                console.log("Not using plate coords!!")
-                if(typeof image == 'undefined')
-                {
-                    res.status(200).json({
-                        status: "success",
-                        color: "???"
-                    });
-
-                    return;
-                }
-
-                var midpointX = image.bitmap.width / 2;
-                var midpointY = image.bitmap.height / 2;
-                startX = midpointX - 100;
-                startY = midpointY - 100;
-                regionWidth = 200;
-                regionHeight = 200;
+                existingColour[0].addOccurance();
             }
-            var samples = [];
+        }
 
-            getRegion(startX, startY, regionWidth, regionHeight, image, samples); //Midpoint box
+        colourCount.sort(compareColour);
 
-            var colourCount = [];
-
-            for (var i = 0; i < samples.length; i++)
+        var col = colourCount[0].name;
+        if (col === 'gray' || col === 'silver' || col === 'black') // Decreases likelihood of grill/windscreen match
+        {
+            if (colourCount[0].count - colourCount[1].count < 50)
             {
-                var rgba = Jimp.intToRGBA(samples[i]);
-                var rgbString = "rgb(" + rgba.r + "," + rgba.g + "," + rgba.b + ")";
-                var names = colour(rgbString, {pick: ['basic']});
-
-                var colourName = names.basic[0].name;
-
-                let existingColour = colourCount.filter(c => c['name'] === colourName);
-
-                if (existingColour.length === 0)
-                {
-                    colourCount.push(new Colour(colourName));
-                }
-                else
-                {
-                    existingColour[0].addOccurance();
-                }
+                col = colourCount[1].name;
             }
+        }
 
-            colourCount.sort(compareColour);
+        var matchedColour = commonColourMapper(col); // Change name to more common colour
 
-            var col = colourCount[0].name;
-            if (col === 'gray' || col === 'silver' || col === 'black') // Decreases likelihood of grill/windscreen match
-            {
-                if (colourCount[0].count - colourCount[1].count < 50)
-                {
-                    col = colourCount[1].name;
-                }
-            }
+        console.log("Top 3 colours: ");
 
-            var matchedColour = commonColourMapper(col); // Change name to more common colour
+        console.log(colourCount[0]);
+        console.log(colourCount[1]);
+        console.log(colourCount[2]);
 
-            console.log("Top 3 colours: ");
-
-            console.log(colourCount[0]);
-            console.log(colourCount[1]);
-            console.log(colourCount[2]);
-
-            res.status(200).json({
-                status: "success",
-                color: matchedColour
-            });
-        });
-
-    }
-    catch(err)
-    {
         res.status(200).json({
             status: "success",
-            color: "???"
+            color: matchedColour
         });
-    }
+    });
 }
 
 function compareColour(a, b)
@@ -938,7 +913,7 @@ function getNumberPlate(req, res)
                 console.log(`statusCode: ${res2.statusCode}`);
                 console.log(body);
 
-                if(res2.statusCode !== "200")
+                if (res2.statusCode !== 200)
                 {
                     console.log("Number plate Server error");
                     res.status(200).json({
@@ -951,36 +926,22 @@ function getNumberPlate(req, res)
 
                 var object = JSON.parse(body);
 
-                    var results = object.results;
-                    if (results.length <= 0)
-                    {
-                        console.log("Unable to determine number plate");
-                        res.status(200).json({
-                            status: "failed",
-                            imageID: fileName
-                        });
-
-                        return;
-                    }
-
-                    var plate = results[0].plate;
-
-                    var coords = results[0].coordinates;
-
-                    var con = results[0].confidence;
-
+                var results = object.results;
+                if (results.length <= 0)
+                {
+                    console.log("Unable to determine number plate");
                     res.status(200).json({
-                        status: "success",
-                        numberPlate: plate,
-                        coordinates: coords,
-                        imageID: fileName,
-                        confidence: con
+                        status: "failed",
+                        imageID: fileName
                     });
 
-
+                    return;
+                }
                 var plate = results[0].candidates[0].plate;
 
+                var coords = results[0].coordinates;
 
+                var con = results[0].confidence;
 
                 var obj = results[0].vehicle;
 
@@ -992,12 +953,17 @@ function getNumberPlate(req, res)
                     confidence: con,
                     object: obj
                 });
+            });
 
+
+        }
+        else
+        {
+            res.status(200).json({
+                status: "fail",
+                message: "Image Not Found"
             });
         }
-
-
-
     });
 }
 
