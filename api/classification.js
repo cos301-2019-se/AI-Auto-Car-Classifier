@@ -53,11 +53,8 @@ router.get('/get_inventory', passport.authenticate('jwt', {session: false}), get
 router.post('/get_car', passport.authenticate('jwt', {session: false}), getCarByImageURL);
 
 
-
 router.post('/car_detector_MOCK', passport.authenticate('jwt', {session: false}), imageContainsCarMock);
 router.post('/get_car_details_MOCK', passport.authenticate('jwt', {session: false}), getMakeAndModelMock);
-
-
 
 
 function serverRunning(req, res)
@@ -521,7 +518,7 @@ async function imageContainsCar(req, res)
     var imageUrl = req.body.imageID;
 
     console.log("Image: " + imageUrl);
-let bas64Image = null;
+    let bas64Image = null;
     //read image as numpy array, turn it into numpy list and send an api call to the model
     await image2base64(imageUrl) // you can also to use url
         .then(
@@ -1018,7 +1015,7 @@ const getNumWords = (word) =>
     }
 }
 
-function getMakeAndModelMock(req,res)
+function getMakeAndModelMock(req, res)
 {
     res.status(200).json({
         make: "BMW",
