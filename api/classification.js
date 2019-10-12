@@ -979,7 +979,7 @@ function getNumberPlate(req, res)
                         imageID: fileName,
                         confidence: con
                     });
-                });
+
 
                 var plate = results[0].candidates[0].plate;
 
@@ -996,7 +996,7 @@ function getNumberPlate(req, res)
                     object: obj
                 });
 
-
+            });
         }
 
 
