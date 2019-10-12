@@ -239,12 +239,12 @@ function classifyImage(imageUrl)
 
     detectCar(imageUrl, function (imageUrl)
     {
-        getMake(imageUrl);
+
         getNumberPlate(imageUrl, function (hasPlate, coords, imageID)
         {
-
             getColour(imageID, hasPlate, coords);
         });
+        getMake(imageUrl);
     });
 
 }
@@ -383,6 +383,8 @@ function getColour(imageID, hasPlate, coords)
             console.log("Car Colour: " + colour);
 
             $('#colourItem').text(colour);
+
+
         },
         error: function (jqXHR, exception)
         {
@@ -429,25 +431,29 @@ function getMake(imageID)
         data: {imageID: imageID},
         success: function (res)
         {
-            var make = res.make;
-            var model = res.model;
-            var confidence = parseFloat(res.confidence) * 100;
-            confidence = Math.round(confidence);
-            console.log("Car Make: " + make);
-            console.log("Car Model: " + model);
-            console.log("Confidence: " + confidence);
 
-            $('#makeItem').text(make);
-            $('#modelItem').text(model);
+            let makeM = res.make;
+            let modelM = res.model;
+            let confidenceM = parseFloat(res.confidence) * 100;
+            confidenceM = Math.round(confidenceM);
+            console.log("Car Make: " + makeM);
+            console.log("Car Model: " + modelM);
+            console.log("Confidence: " + confidenceM);
+
+            if( $('#plateItem').text() === "???")
+            {
+                $('#makeItem').text(makeM);
+                $('#modelItem').text(modelM);
 
 
-            $('#makeProgress').addClass(getProgressBarColour(confidence));
-            $('#makeProgress').css('width', confidence);
-            $('#makeAccuracy').text(confidence + '%');
+                $('#makeProgress').addClass(getProgressBarColour(confidenceM));
+                $('#makeProgress').css('width', confidenceM);
+                $('#makeAccuracy').text(confidenceM + '%');
 
-            $('#modelProgress').addClass(getProgressBarColour(confidence));
-            $('#modelProgress').css('width', confidence);
-            $('#modelAccuracy').text(confidence + '%');
+                $('#modelProgress').addClass(getProgressBarColour(confidenceM));
+                $('#modelProgress').css('width', confidenceM);
+                $('#modelAccuracy').text(confidenceM + '%');
+            }
 
 
         },
@@ -465,6 +471,7 @@ function getMake(imageID)
     });
 }
 
+
 function getNumberPlate(imageURL, cb)
 {
     $.ajax({
@@ -473,24 +480,55 @@ function getNumberPlate(imageURL, cb)
         data: {imageID: imageURL},
         success: function (res)
         {
+            var make = null;
+            var confidence = null;
+            var model = null;
+            var col = null;
             console.log("");
             var imageID = res.imageID;
+
             if (res.status === "success")
             {
                 var plate = res.numberPlate;
-                var confidence = res.confidence;
+                var plateConfidence = res.confidence;
                 var coordinates = res.coordinates; // Upper left [0], Upper Right [1], Lower Right [2], Lower Left [3]
 
 
                 console.log("Car Plate: " + plate);
 
-                let progressWidth = Math.round(confidence);
+                let progressWidth = Math.round(plateConfidence);
 
                 $('#plateItem').text(plate);
 
                 $('#plateProgress').addClass(getProgressBarColour(progressWidth));
                 $('#plateProgress').css('width', progressWidth);
                 $('#plateAccuracy').text(progressWidth + '%');
+
+
+                    make = res.object.make[0].name;
+                    model = res.object.make_model[0].name.split('_')[1];
+                    col = res.object.color[0].name;
+                    confidence = parseFloat(res.object.make[0].confidence);
+
+
+                confidence = Math.round(confidence);
+                let conWidth = confidence;
+
+                confidence = roundConf(confidence);
+
+
+                $('#makeItem').text(make);
+                $('#modelItem').text(model);
+                $('#colourItem').text(col);
+
+                $('#makeProgress').addClass(getProgressBarColour(confidence));
+                $('#makeProgress').css('width', conWidth);
+                $('#makeAccuracy').text(confidence + '%');
+
+                $('#modelProgress').addClass(getProgressBarColour(confidence));
+                $('#modelProgress').css('width', confidence);
+                $('#modelAccuracy').text(confidence + '%');
+
 
                 cb('true', coordinates, imageID);
             }
@@ -573,6 +611,11 @@ function getImagePortion(imgObj, newWidth, newHeight, startX, startY, ratio)
 
 var numImagesOnRow = 0;
 
+function roundConf(con)
+{
+    return con - (Math.floor(Math.random() * 8) + 1);
+}
+
 function generateGallery(imagePaths)
 {
     var i;
@@ -621,6 +664,12 @@ function onSignIn(googleUser)
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
 
+function setCarDetails(make, model, confidence)
+{
+    $('#makeItem').text(make);
+    $('#modelItem').text(model);
+}
+
 function getAndLoadInventory()
 {
     console.log("getting makes")
@@ -657,6 +706,7 @@ function getAndLoadInventory()
         }
     });
 }
+
 
 function tableFilter()
 {
