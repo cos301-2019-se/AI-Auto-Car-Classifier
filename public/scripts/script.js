@@ -19,8 +19,13 @@ $(document).ready(function ()
                     position: 'bottom'
                 },
                 {
+                    element: '#classifyButtons',
+                    intro: 'You can extract car details by using a Deep Learning Neural Network or by uploading the car license disc',
+                    position: 'bottom'
+                },
+                {
                     element: '#classificationBox',
-                    intro: 'Using a Deep Learning Neural Network, car features will be extracted from the image and displayed here',
+                    intro: 'Details will be extracted from the image and displayed here',
                     position: 'bottom'
                 },
                 {
@@ -460,28 +465,21 @@ function getMake(imageID)
     });
 }
 
-function getNumberPlate(imageID, cb)
+function getNumberPlate(imageURL, cb)
 {
     $.ajax({
         method: "POST",
         url: "/classify/number_plate",
-        data: {imageID: imageID},
+        data: {imageID: imageURL},
         success: function (res)
         {
-            console.log("")
+            console.log("");
             var imageID = res.imageID;
             if (res.status === "success")
             {
                 var plate = res.numberPlate;
                 var confidence = res.confidence;
                 var coordinates = res.coordinates; // Upper left [0], Upper Right [1], Lower Right [2], Lower Left [3]
-                var upperLeftX = coordinates[0].x;
-                var upperLeftY = coordinates[0].y;
-                var lowerLeftY = coordinates[3].y;
-                var upperRightX = coordinates[1].x;
-
-                var width = upperRightX - upperLeftX + 10;
-                var height = lowerLeftY - upperLeftY + 20;
 
 
                 console.log("Car Plate: " + plate);
@@ -494,7 +492,6 @@ function getNumberPlate(imageID, cb)
                 $('#plateProgress').css('width', progressWidth);
                 $('#plateAccuracy').text(progressWidth + '%');
 
-                //     createPlatePopover(imageID,width,height,upperLeftX - 10,upperLeftY - 10);
                 cb('true', coordinates, imageID);
             }
             else
