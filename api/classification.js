@@ -941,7 +941,7 @@ function getNumberPlate(req, res)
                 console.log(`statusCode: ${res2.statusCode}`);
                 console.log(body);
 
-                if(res2.statusCode === "200")
+                if(res2.statusCode !== "200")
                 {
                     console.log("Number plate Server error");
                     res.status(200).json({
@@ -979,14 +979,8 @@ function getNumberPlate(req, res)
                         imageID: fileName,
                         confidence: con
                     });
-                }
-                catch(err)
-                {
-                    res.status(200).json({
-                        status: "fail",
-                        message: err
-                    });
-                }
+                });
+
                 var plate = results[0].candidates[0].plate;
 
 
@@ -1001,17 +995,12 @@ function getNumberPlate(req, res)
                     confidence: con,
                     object: obj
                 });
-            });
 
 
         }
-        else
-        {
-            res.status(200).json({
-                status: "fail",
-                message: "Image Not Found"
-            });
-        }
+
+
+
     });
 }
 
