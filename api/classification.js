@@ -55,6 +55,7 @@ router.post('/get_car', passport.authenticate('jwt', {session: false}), getCarBy
 
 router.post('/car_detector_MOCK', passport.authenticate('jwt', {session: false}), imageContainsCarMock);
 router.post('/get_car_details_MOCK', passport.authenticate('jwt', {session: false}), getMakeAndModelMock);
+router.post('/scan_license_disc', passport.authenticate('jwt', {session: false}), scanLicenseDisc);
 
 
 function serverRunning(req, res)
@@ -964,6 +965,29 @@ function getNumberPlate(req, res)
                 message: "Image Not Found"
             });
         }
+    });
+}
+
+function scanLicenseDisc(req, res)
+{
+    request.post('http://ec2-18-130-182-115.eu-west-2.compute.amazonaws.com/scanDisc.php', {
+        form: {imageURL: req.body.imageURL}
+    }, (error, res2, body) =>
+    {
+        if (error)
+        {
+            console.error(error);
+            res.status(200).json({
+                status: "failed"
+            });
+            return;
+        }
+
+
+        res.status(200).json({
+            status: "success",
+            licenseDisc: body
+        });
     });
 }
 

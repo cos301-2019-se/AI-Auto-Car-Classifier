@@ -141,16 +141,10 @@ function uploadLicenseDisc()
                 $('.classification').html(loadingGif);
                 var imageUrl = results[0].secure_url;
 
-                var img = new Image();
-                img.src = imageUrl;
-                img.crossOrigin = "Anonymous";
 
-                $(img).on('load', function ()
-                {
-                    var disc = scanLicenseDisc(img);
+                var disc = scanLicenseDisc(imageUrl);
 
-                    setLicenseDiscDetails(disc);
-                });
+
 
 
             }
