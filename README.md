@@ -6,7 +6,7 @@
 
 
 **Project description**
-AI-Auto-Car-Classifier is a web application aimed at automating the process of adding cars to a salespersons inventory of cars. This means, given a cars image, the system should be able to identify the cars make, model and color whilst also extracting the vehicles number plate if it exists. It should also allow the salesperson to edit incorrect classifications and add additional fields. The API could also be used as a service for users who would like features of our application in their system. Besides a car saleperson's inventory use, some of the other uses of our system would include to be to used in conjunction with a CCTV to monitor and log the car drivers' vehicles, the application could also be used to detect stolen cars, given that the user has a database containing the details of the stolen cars. 
+* AI-Auto-Car-Classifier is a web application aimed at automating the process of adding cars to a salespersons inventory of cars. This means, given a cars image, the system should be able to identify the cars make, model and color while also extracting the vehicles number plate if it exists. The application is also available as a service for boom gates. This means for gates that take images of cars, they can either choose to only retrieve the cars details(and store them in their own database) or use the apps database.
 
 
 **LINK TO THE PROJECT**
@@ -15,11 +15,19 @@ AI-Auto-Car-Classifier is a web application aimed at automating the process of a
 ## [CARS SUPPORTED](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/CAR%20SUPPPORTED.pdf)
 
 **HOW TO RUN THE PROJECT LOCALLY**
-* Install `nodejs v10.14` and `Microsoft Visual C++ >=2015`
-* Pull the master respository, navigate to the `dev` directory
-* Run `npm install` to install packages, then `npm start` to start the project
-* Visit `localhost:3000` 
+* Install `nodejs ^v10.0` and `Microsoft Visual C++ >=2015`
+* Pull the dev respository
+* Run `npm install` to install packages
+* Create a local mysql database and change the passport configurations to point to it
+* Run `npm start` to start the project
+* Visit `localhost:3000`
 
+
+**HOW TO CONTRIBUTE TO THE PROJECT**
+* Clone the repository and pull the dev branch
+* Create a new Branch based on the dev branch
+* Naming the Branch starts with `fix/name-of-branch` for fixes and `feature/name-of-branch` for features
+* Make a pull request to dev, it will have to have atleast approving reviews before being merged
 
 ## **Documentation**
 
@@ -32,12 +40,8 @@ AI-Auto-Car-Classifier is a web application aimed at automating the process of a
 - [Cars Supported](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/CAR%20SUPPPORTED.pdf)
 
 
+ Project Management tool: [ZenHub](https://app.zenhub.com/workspaces/cos-301-control-alt-elite-5d2cc8835119c359764862d4/board?repos=182155839)
 
-## **Members**
+Contributor profiles: https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/fix/dev/documents/contributors.md
 
-<div align="center" style="margin:0 auto;">
-<img src="https://i.imgur.com/ui0gcZL.jpg" alt="Ctrl Alt Elte" title="Ctrl Alt Elite" style="width:80%; height:90%; margin: 0 auto; text-align:center;" />
-<p>Left to Right: Keorapetse, Fiwa, Andrew, Abhinav, Vincent</p>
-</div>
 
-## [Team bios](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/Team%20members%20of%20CTRL%20ALT%20ELITE%20.pdf)

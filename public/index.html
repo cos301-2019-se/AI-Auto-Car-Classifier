@@ -4,9 +4,7 @@
 	<title>Auto Car Classifier</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<meta name="google-signin-client_id" content="249070052268-5e89b8vriv4ek8a27d4kh7d39iflk93h.apps.googleusercontent.com">
-	<script src="https://apis.google.com/js/platform.js" async defer></script>
+	
 	<link rel="icon" type="image/png" href="login/images/icons/favicon.ico"/>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -18,38 +16,6 @@
 
 	<link rel="stylesheet" type="text/css" href="login/css/util.css">
 	<link rel="stylesheet" type="text/css" href="login/css/main.css">
-	<script>
-		/*
-		@NOTICE commented out because of facebook problem with localhost
-		
-		window.fbAsyncInit = function() {
-			FB.init({
-				appId      : '2422889254471415',
-				cookie     : true,
-				xfbml      : true,
-				version    : 'v3.3'
-			});
-			FB.AppEvents.logPageView();
-			checkLoginState();
-		}
-
-		function checkLoginState() {
-			console.log('Hello')
-			FB.getLoginStatus(function(response) {
-				//statusChangeCallback(response);
-				console.log(response);
-			});
-			FB.logout();
-		}
-
-		(function(d, s, id){
-			var js, fjs = d.getElementsByTagName(s)[0];
-			if (d.getElementById(id)) {return;}
-			js = d.createElement(s); js.id = id;
-			js.src = "https://connect.facebook.net/en_US/sdk.js";
-			fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));*/
-	</script>
 </head>
 <body>
 	
@@ -64,13 +30,12 @@
 						Sign In With
 					</span>
 
-					<a href="#" class="btn-face " onclick="checkLoginState()">
+					<a href="#" id="facebook" class="btn-face " onclick="signIn(event)">
 						<i class="fa fa-facebook-official"></i>
 						Facebook
 					</a>
 
-					<a class="g-signin2 btn-google m-b-20" data-onsuccess="onSignIn">
-						
+					<a class="g-signin2 btn-google m-b-20" id="google" onclick="signIn(event)">
 						Google
 					</a>
 					
@@ -83,11 +48,23 @@
 
 	<div id="dropDownSelect1"></div>
 
+	  <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+	  <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-app.js"></script>
+
+	  <!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+	  <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-analytics.js"></script>
+	
+	  <!-- Add Firebase products that you want to use -->
+	  <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-auth.js"></script>
+	  <script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-firestore.js"></script>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/animsition/4.0.2/js/animsition.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.15.0/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/i18n/en.js"></script>
+	<script data-main="scripts/main" src="scripts/require.js"></script>
 	<script src="scripts/signin.js"></script>
+
 </body>
 </html>
