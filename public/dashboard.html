@@ -84,7 +84,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" onclick="logout()">
                         <i class="ni ni-key-25 text-info"> </i> Logout
                     </a>
                 </li>
@@ -1054,13 +1054,22 @@
                </div>
 
             <div class="modal-footer">
-
                 <button type="button" class="btn btn-link  ml-auto" data-dismiss="modal">Close</button>
             </div>
 
         </div>
     </div>
 </div>
+
+<!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-app.js"></script>
+
+<!-- If you enabled Analytics in your project, add the Firebase SDK for Analytics -->
+<script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-analytics.js"></script>
+
+<!-- Add Firebase products that you want to use -->
+<script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.1.0/firebase-firestore.js"></script>
 
 <!--   Core
 <script src="./assets/js/plugins/jquery/dist/jquery.min.js"></script>
@@ -1087,6 +1096,7 @@
 <script src="resources/zxing-pdf417.min.js"></script>
 <script src="scripts/licenseDisc.js"></script>
 <script src="scripts/script.js"></script>
+<script src="scripts/signin.js"></script>
 
 
 </body>

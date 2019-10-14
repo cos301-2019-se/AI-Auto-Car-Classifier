@@ -23,7 +23,6 @@ function signIn(e){
         // This gives you a Google Access Token. You can use it to access the Google API.
         var token = result.credential.accessToken;
         // The signed-in user info.
-        console.log(result.user);
         signInUser(result.user)
         // ...
       }).catch(function(error) {
@@ -33,6 +32,9 @@ function signIn(e){
 
 
 function signInUser(user) {
+    if(!user.email){
+        //Tell user they need to have an email linked to facebook to continue
+    }
 	$.ajax({
         method: "POST",
         url: "/auth/login",
@@ -42,22 +44,31 @@ function signInUser(user) {
 			email: user.email
 		},
         success: function (res) {
-            console.log(res);
+            console.log("Hello there");
             if(res.token){
                 localStorage.setItem("authToken", res.token);
                 window.location = '/dashboard.html';
             }
+            console.log(res);
             /**otherwise tell the user something went wring logging them in */
         },
-        error: function (jqXHR, textStatus, exception){
+        error: function (error){
             /**
              * Tell the user we could not log them in. Do not redirect them to index
              */
-			console.log('something went wrong!');
-			console.log(`${exception}`);
-			console.log(jqXHR);
-			console.log(textStatus);
+			console.log('something went wrong!', error);
 			return false;
         }
+    });
+}
+
+function logout() {
+    firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+        localStorage.removeItem("authToken");
+        window.location = '/index.html';
+    }).catch(function(error) {
+        // An error happened.
+        console.log("Something went wrong logging out", error)
     });
 }
