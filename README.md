@@ -40,4 +40,16 @@ AI-Auto-Car-Classifier is a web application aimed at automating the process of a
 <p>Left to Right: Keorapetse, Fiwa, Andrew, Abhinav, Vincent</p>
 </div>
 
-## [Team bios](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/Team%20members%20of%20CTRL%20ALT%20ELITE%20.pdf)
+
+<details>
+    <details><summary> Team links</summary></details>
+    <details>
+    ## [Team bios](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/Team%20members%20of%20CTRL%20ALT%20ELITE%20.pdf)
+    </details>
+    <details>
+    <details></details>
+    <details></details>
+    <details></details>
+    </details>
+    
+</details>
