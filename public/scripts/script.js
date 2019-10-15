@@ -145,8 +145,6 @@ function uploadLicenseDisc()
                 var disc = scanLicenseDisc(imageUrl);
 
 
-
-
             }
 
         });
@@ -376,7 +374,8 @@ function getColour(imageID, hasPlate, coords)
             var colour = res.color;
             console.log("Car Colour: " + colour);
 
-            $('#colourItem').text(colour);
+            if ($('#plateItem').text() === "???")
+                $('#colourItem').text(colour);
 
 
         },
@@ -434,7 +433,7 @@ function getMake(imageID)
             console.log("Car Model: " + modelM);
             console.log("Confidence: " + confidenceM);
 
-            if( $('#plateItem').text() === "???")
+            if ($('#plateItem').text() === "???")
             {
                 $('#makeItem').text(makeM);
                 $('#modelItem').text(modelM);
@@ -499,10 +498,10 @@ function getNumberPlate(imageURL, cb)
                 $('#plateAccuracy').text(progressWidth + '%');
 
 
-                    make = res.object.make[0].name;
-                    model = res.object.make_model[0].name.split('_')[1];
-                    col = res.object.color[0].name;
-                    confidence = parseFloat(res.object.make[0].confidence);
+                make = res.object.make[0].name;
+                model = res.object.make_model[0].name.split('_')[1];
+                col = res.object.color[0].name;
+                confidence = parseFloat(res.object.make[0].confidence);
 
 
                 confidence = Math.round(confidence);
