@@ -41,8 +41,8 @@ AI-Auto-Car-Classifier is a web application aimed at automating the process of a
 </div>
 
 ## [Team bios](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/team%20overview/Team%20members%20of%20CTRL%20ALT%20ELITE%20.pdf)
-<br>
 **For detailed team bio click on the the link just above**
+<br>
 
 
 **Linked to LenkedIn, and Github are below.**
@@ -79,6 +79,7 @@ AI-Auto-Car-Classifier is a web application aimed at automating the process of a
   <details><summary>Vincent MM Soweto</summary>
        <img src="https://i.imgur.com/Xqy7DfH.png" alt="Github"  style="max-width:20%;">
        <a href="https://github.com/vmmsoweto" target="_blank">Github</a> <br>
+       <img src="https://img.icons8.com/color/30/000000/linkedin.png">
        <a href="https://www.linkedin.com/in/vincent-soweto-7a99b489/" target="_blank">Linked In</a> <br>
       
   </details>
