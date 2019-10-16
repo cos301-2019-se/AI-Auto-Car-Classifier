@@ -16,7 +16,6 @@ The ability of a digital computer to perform tasks commonly associated with inte
 
 - **Type2**
   - **Reactive Machines** - basic form of AI without past memory.
-  
   - **Limited Memory** - AI that uses past experience to inform future decisions. 
   - **Theory of Mind** - this type of AI is able to understand people’s emotions, beliefs, thoughts, expectations and interact socially.
   - **Self-awareness** - is an SI that has its own conScious, super intelligent, self- awareness and sentiment(a complete human being).
