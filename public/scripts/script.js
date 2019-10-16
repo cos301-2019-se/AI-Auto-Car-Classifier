@@ -8,7 +8,7 @@ $(document).ready(function ()
 
     $('#gettingStarted').on('click', function ()
     {
-        console.log('getting started');
+        //console.log('getting started');
         var introguide = introJs();
 
         introguide.setOptions({
@@ -178,7 +178,7 @@ function setLicenseDiscDetails(disc)
 
 function showCarFromInventory()
 {
-    console.log('Clicked');
+    //console.log('Clicked');
     clearProgress();
     var imageURL = $(this).data("imageurl");
     getCarDetails(imageURL);
@@ -218,7 +218,7 @@ function getCarDetails(imageURL)
 
 function loadInventoryDetails()
 {
-    console.log('Setting Details');
+    //console.log('Setting Details');
 
     var make = $('#makeItem').text();
     var model = $('#modelItem').text();
@@ -280,7 +280,7 @@ function saveCarDetails()
             },
         success: function (res)
         {
-            console.log('Save Car: ' + res.status);
+            //console.log('Save Car: ' + res.status);
             $('#exampleModal').modal('hide');
 
             addNewCarToTable(make, model, colour, plate, imageURL);
@@ -383,7 +383,7 @@ function getColour(imageID, hasPlate, coords)
         success: function (res)
         {
             var colour = res.color;
-            console.log("Car Colour: " + colour);
+            //console.log("Car Colour: " + colour);
 
             if ($('#plateItem').text() === "???")
                 $('#colourItem').text(colour);
@@ -440,9 +440,9 @@ function getMake(imageID)
             let modelM = res.model;
             let confidenceM = parseFloat(res.confidence) * 100;
             confidenceM = Math.round(confidenceM);
-            console.log("Car Make: " + makeM);
-            console.log("Car Model: " + modelM);
-            console.log("Confidence: " + confidenceM);
+            //console.log("Car Make: " + makeM);
+            //console.log("Car Model: " + modelM);
+            //console.log("Confidence: " + confidenceM);
 
             if ($('#plateItem').text() === "???")
             {
@@ -521,7 +521,7 @@ function getNumberPlate(imageURL, cb)
             confidence = null;
             model = null;
             var col = null;
-            console.log("");
+            //console.log("");
             var imageID = res.imageID;
 
             if (res.status === "success")
@@ -531,7 +531,7 @@ function getNumberPlate(imageURL, cb)
                 var coordinates = res.coordinates; // Upper left [0], Upper Right [1], Lower Right [2], Lower Left [3]
 
 
-                console.log("Car Plate: " + plate);
+                //console.log("Car Plate: " + plate);
 
                 let progressWidth = Math.round(plateConfidence);
 
@@ -683,10 +683,10 @@ function displayImage(image)
 function onSignIn(googleUser)
 {
     var profile = googleUser.getBasicProfile();
-    console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
-    console.log('Name: ' + profile.getName());
-    console.log('Image URL: ' + profile.getImageUrl());
-    console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+    //console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    //console.log('Name: ' + profile.getName());
+    //console.log('Image URL: ' + profile.getImageUrl());
+    //console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 }
 
 function setCarDetails(make, model, confidence)
@@ -697,14 +697,14 @@ function setCarDetails(make, model, confidence)
 
 function getAndLoadInventory()
 {
-    console.log("getting makes")
+    //console.log("getting makes")
     $.ajax({
         method: "GET",
         url: "/classify/get_inventory",
         dataType: "json",
         success: function (res)
         {
-            console.log(res);
+            //console.log(res);
             let tableBody = document.getElementsByClassName("inventory");
             let dynamicTable = ``;
 
@@ -721,7 +721,7 @@ function getAndLoadInventory()
         },
         error: function (jqXHR, textStatus, exception)
         {
-            console.log('something went wrong!');
+            //console.log('something went wrong!');
             console.log(`${exception}`);
             return false;
         },
