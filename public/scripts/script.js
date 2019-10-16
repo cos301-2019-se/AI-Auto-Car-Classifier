@@ -51,83 +51,94 @@ $(document).ready(function ()
 
     });
 
-    $('#saveToInventoryBtn').on('click', loadInventoryDetails);
-
-    $('#submitCarDetails').on('click', saveCarDetails);
-
-    $('#classifyBtn').on('click', function ()
+    $("#inventoryInput").on("keyup", function ()
     {
-        let imageURL = $('#mainImage').attr('src');
-
-        if (!imageURL.includes('http'))
+        var value = $(this).val().toLowerCase();
+        $("#inventoryTable tbody tr").filter(function ()
         {
-            displayError("Please Upload an image first");
-        }
-        else
-        {
-            classifyImage(imageURL);
-
-        }
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
     });
 
-    $('#licenseBtn').on('click', function ()
-    {
-        let imageURL = $('#mainImage').attr('src');
 
-        if (!imageURL.includes('http'))
-        {
-            displayError("Please Upload an image first");
-        }
-        else
-        {
-            uploadLicenseDisc();
-        }
-    });
+$('#saveToInventoryBtn').on('click', loadInventoryDetails);
 
-    const uploadButton = document.querySelector('#uploadBtn');
-    uploadButton.addEventListener('click', (e) =>
+$('#submitCarDetails').on('click', saveCarDetails);
+
+$('#classifyBtn').on('click', function ()
+{
+    let imageURL = $('#mainImage').attr('src');
+
+    if (!imageURL.includes('http'))
     {
-        cloudinary.openUploadWidget({cloud_name: 'dso2wjxjj', upload_preset: 'zfowrq1z'},
-            function (error, results)
+        displayError("Please Upload an image first");
+    }
+    else
+    {
+        classifyImage(imageURL);
+
+    }
+});
+
+$('#licenseBtn').on('click', function ()
+{
+    let imageURL = $('#mainImage').attr('src');
+
+    if (!imageURL.includes('http'))
+    {
+        displayError("Please Upload an image first");
+    }
+    else
+    {
+        uploadLicenseDisc();
+    }
+});
+
+const uploadButton = document.querySelector('#uploadBtn');
+uploadButton.addEventListener('click', (e) =>
+{
+    cloudinary.openUploadWidget({cloud_name: 'dso2wjxjj', upload_preset: 'zfowrq1z'},
+        function (error, results)
+        {
+            //console.log(error, result)
+            if (typeof results !== 'undefined')
             {
-                //console.log(error, result)
-                if (typeof results !== 'undefined')
+                var imageUrl = results[0].secure_url;
+
+                displayImage(imageUrl);
+                //  classifyImage(imageUrl);
+                var imageUrls = [];
+
+                for (let i = 0; i < results.length; i++)
                 {
-                    var imageUrl = results[0].secure_url;
-
-                    displayImage(imageUrl);
-                    //  classifyImage(imageUrl);
-                    var imageUrls = [];
-
-                    for (let i = 0; i < results.length; i++)
-                    {
-                        imageUrls.push(results[i].secure_url);
-                    }
-
-                    generateGallery(imageUrls);
+                    imageUrls.push(results[i].secure_url);
                 }
 
-            });
-    });
+                generateGallery(imageUrls);
+            }
 
-    /******************Get inventory Items and display them *******/
-    getAndLoadInventory();
-
-    /****************** Gallery Image Clicked *******************/
-
-    $(document).on('click', '.thumbnail', function ()
-    {
-        console.log('Clicked');
-        var src = $(this).children("img").attr("src");
-        var imageID = $(this).children("img").attr("id");
-        displayImage(imageID);
-
-        $("html, body").animate({scrollTop: 0}, 200);
-
-        // classifyImage(imageID);
-    });
-
+        });
 });
+
+/******************Get inventory Items and display them *******/
+getAndLoadInventory();
+
+/****************** Gallery Image Clicked *******************/
+
+$(document).on('click', '.thumbnail', function ()
+{
+    console.log('Clicked');
+    var src = $(this).children("img").attr("src");
+    var imageID = $(this).children("img").attr("id");
+    displayImage(imageID);
+
+    $("html, body").animate({scrollTop: 0}, 200);
+
+    // classifyImage(imageID);
+});
+
+})
+;
 
 function uploadLicenseDisc()
 {
@@ -447,6 +458,36 @@ function getMake(imageID)
                 $('#modelProgress').css('width', confidenceM);
                 $('#modelAccuracy').text(confidenceM + '%');
             }
+            else
+            {
+                if (make.toUpperCase() === makeM.toUpperCase())
+                {
+                    if (make === 'audi')
+                    {
+                        $('#modelItem').text(modelM);
+                    }
+                    else
+                    {
+                        $('#modelItem').text(model);
+                    }
+                }
+                else
+                {
+                    $('#modelItem').text(model);
+
+                }
+                $('#makeItem').text(make);
+
+                let conWidth = confidence;
+
+                $('#makeProgress').addClass(getProgressBarColour(confidence));
+                $('#makeProgress').css('width', conWidth);
+                $('#makeAccuracy').text(confidence + '%');
+
+                $('#modelProgress').addClass(getProgressBarColour(confidence));
+                $('#modelProgress').css('width', confidence);
+                $('#modelAccuracy').text(confidence + '%');
+            }
 
 
         },
@@ -464,6 +505,9 @@ function getMake(imageID)
     });
 }
 
+var make = null;
+var confidence = null;
+var model = null;
 
 function getNumberPlate(imageURL, cb)
 {
@@ -473,9 +517,9 @@ function getNumberPlate(imageURL, cb)
         data: {imageID: imageURL},
         success: function (res)
         {
-            var make = null;
-            var confidence = null;
-            var model = null;
+            make = null;
+            confidence = null;
+            model = null;
             var col = null;
             console.log("");
             var imageID = res.imageID;
@@ -505,22 +549,10 @@ function getNumberPlate(imageURL, cb)
 
 
                 confidence = Math.round(confidence);
-                let conWidth = confidence;
-
                 confidence = roundConf(confidence);
 
 
-                $('#makeItem').text(make);
-                $('#modelItem').text(model);
                 $('#colourItem').text(col);
-
-                $('#makeProgress').addClass(getProgressBarColour(confidence));
-                $('#makeProgress').css('width', conWidth);
-                $('#makeAccuracy').text(confidence + '%');
-
-                $('#modelProgress').addClass(getProgressBarColour(confidence));
-                $('#modelProgress').css('width', confidence);
-                $('#modelAccuracy').text(confidence + '%');
 
 
                 cb('true', coordinates, imageID);
@@ -725,6 +757,42 @@ function tableFilter()
             {
                 tr[i].style.display = "none";
             }
+        }
+    }
+}
+
+function inventoryFilter()
+{
+    var input, filter, table, tr, td, i;
+    input = document.getElementById("inventoryInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("inventoryTable");
+    var tbody = table.getElementsByTagName("tbody")[0];
+    var rows = tbody.getElementsByTagName("tr");
+    for (i = 0; i < rows.length; i++)
+    {
+        var cells = rows[i].getElementsByTagName("td");
+        var j;
+        var rowContainsFilter = false;
+        for (j = 0; j < cells.length; j++)
+        {
+            if (cells[j])
+            {
+                if (cells[j].innerHTML.toUpperCase().indexOf(filter) > -1)
+                {
+                    rowContainsFilter = true;
+                    continue;
+                }
+            }
+        }
+
+        if (!rowContainsFilter)
+        {
+            rows[i].style.display = "none";
+        }
+        else
+        {
+            rows[i].style.display = "";
         }
     }
 }

@@ -31,6 +31,13 @@
     border: 1px solid #ddd; /* Add a grey border */
     margin-bottom: 12px; /* Add some space below the input */
 }
+#inventoryInput{
+    width: 50%; /* Full-width */
+    font-size: 14px; /* Increase font-size */
+    padding: 6px 10px 6px 20px; /* Add some padding */
+    border: 1px solid #ddd; /* Add a grey border */
+    margin-bottom: 6px; /* Add some space below the input */
+}
 #infoTableDiv{
     height: 50vh;
     overflow-y: scroll;
