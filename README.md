@@ -40,16 +40,36 @@ AI-Auto-Car-Classifier is a web application aimed at automating the process of a
 <p>Left to Right: Keorapetse, Fiwa, Andrew, Abhinav, Vincent</p>
 </div>
 
+## [Team bios](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/team%20overview/Team%20members%20of%20CTRL%20ALT%20ELITE%20.pdf)
+<br>
+> For detailed team bio click on the the link just above
 
-<details>
-    <details><summary> Team links</summary></details>
-    <details>
-    ## [Team bios](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/Team%20members%20of%20CTRL%20ALT%20ELITE%20.pdf)
-    </details>
-    <details>
-    <details></details>
-    <details></details>
-    <details></details>
-    </details>
-    
+
+<details><summary>Meet The Team</summary><br>
+  
+   <details><summary>Andrew Jordaan</summary>
+       <a href="https://github.com/ajordaan" target="_blank">Github</a> <br>
+       <a href="https://www.linkedin.com/in/andrew-jordaan-2387268b/" target="_blank">Linked In</a> <br>
+      
+  </details>
+  <details><summary>Fiwa Lekhulani</summary>
+       <a href="https://github.com/flekhuleni" target="_blank">Github</a> <br>
+       <a href="https://www.linkedin.com/in/fiwa-lekhuleni-3993a28b/" target="_blank">Linked In</a> <br>
+      
+  </details>
+  <details><summary>Keorapitse Shiko</summary>
+       <a href="https://github.com/keo11" target="_blank">Github</a> <br>
+       <a href="https://www.linkedin.com/in/keorapetse-shiko-454535154/" target="_blank">Linked In</a> <br>
+      
+  </details>
+  <details><summary>Abhinav Thakur</summary>
+       <a href="https://github.com/bestabhinav" target="_blank">Github</a> <br>
+       <a href="https://www.linkedin.com/in/abhinav-thakur-05199415b/" target="_blank">Linked In</a> <br>
+      
+  </details>
+  <details><summary>Vincent MM Soweto</summary>
+       <a href="https://github.com/vmmsoweto" target="_blank">Github</a> <br>
+       <a href="https://www.linkedin.com/in/vincent-soweto-7a99b489/" target="_blank">Linked In</a> <br>
+      
+  </details>
 </details>
