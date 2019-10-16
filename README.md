@@ -9,7 +9,7 @@
 AI-Auto-Car-Classifier is a web application aimed at automating the process of adding cars to a salespersons inventory of cars. This means, given a cars image, the system should be able to identify the cars make, model and color whilst also extracting the vehicles number plate if it exists. It should also allow the salesperson to edit incorrect classifications and add additional fields. The API could also be used as a service for users who would like features of our application in their system. Besides a car saleperson's inventory use, some of the other uses of our system would include to be to used in conjunction with a CCTV to monitor and log the car drivers' vehicles, the application could also be used to detect stolen cars, given that the user has a database containing the details of the stolen cars. 
 
 <br>
-**For an Introduction to Artifical Intelligence**
+## **For an Introduction to Artifical Intelligence**
 
 
 **LINK TO THE PROJECT**
