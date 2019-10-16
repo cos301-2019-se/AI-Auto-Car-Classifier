@@ -48,7 +48,7 @@ AI-Auto-Car-Classifier is a web application aimed at automating the process of a
 <details><summary>Meet The Team</summary><br>
   
    <details><summary>Andrew Jordaan</summary>
-       <img src="https://avatars2.githubusercontent.com/u/4571183?s=400&v=4" alt="Github"  style="max-width:100%;">
+       <img src="https://avatars2.githubusercontent.com/u/4571183?s=400&v=4" alt="Github"  style="max-width:20%;">
        <a href="https://github.com/ajordaan" target="_blank">Github</a> <br>
        <a href="https://www.linkedin.com/in/andrew-jordaan-2387268b/" target="_blank">Linked In</a> <br>
       
