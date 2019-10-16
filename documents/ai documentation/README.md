@@ -13,8 +13,10 @@ The ability of a digital computer to perform tasks commonly associated with inte
   - **Strong AI** - these are machines that can perform tasks like a human being.
 
 <br>
+
 - **Type2**
   - **Reactive Machines** - basic form of AI without past memory.
+  
   - **Limited Memory** - AI that uses past experience to inform future decisions. 
   - **Theory of Mind** - this type of AI is able to understand people’s emotions, beliefs, thoughts, expectations and interact socially.
   - **Self-awareness** - is an SI that has its own conScious, super intelligent, self- awareness and sentiment(a complete human being).
@@ -28,7 +30,7 @@ The ability of a digital computer to perform tasks commonly associated with inte
   - **Robotics** - It is a field of engineering focused on the design and manufacturing  of robots.
   - **Autonomous Vehicles** - this area of AI has gathered a lot of attention.
 
-For more detailed explanation check the github page click this link.
+For more detailed explanation check the github page click [this link.](https://www.google.com)
 <br>
 
 ## **What category of Artificial Intelligence does out project fall under?**
