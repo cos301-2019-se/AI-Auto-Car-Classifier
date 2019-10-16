@@ -37,38 +37,47 @@ AI-Auto-Car-Classifier is a web application aimed at automating the process of a
 
 <div align="center" style="margin:0 auto;">
 <img src="https://i.imgur.com/ui0gcZL.jpg" alt="Ctrl Alt Elte" title="Ctrl Alt Elite" style="width:80%; height:90%; margin: 0 auto; text-align:center;" />
-<p>Left to Right: Keorapetse, Fiwa, Andrew, Abhinav, Vincent</p>
+<b><p>Left to Right: Keorapetse, Fiwa, Andrew, Abhinav, Vincent</p><b>
 </div>
 
 ## [Team bios](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/dev/documents/team%20overview/Team%20members%20of%20CTRL%20ALT%20ELITE%20.pdf)
 <br>
-> For detailed team bio click on the the link just above
+**For detailed team bio click on the the link just above**
 
 
+**Linked to LenkedIn, and Github are below.**
 <details><summary>Meet The Team</summary><br>
-  
+    
    <details><summary>Andrew Jordaan</summary>
        <img src="https://i.imgur.com/Xqy7DfH.png" alt="Github"  style="max-width:20%;">
        <a href="https://github.com/ajordaan" target="_blank">Github</a> <br>
+       <img src="https://img.icons8.com/color/30/000000/linkedin.png">
        <a href="https://www.linkedin.com/in/andrew-jordaan-2387268b/" target="_blank">Linked In</a> <br>
       
   </details>
   <details><summary>Fiwa Lekhulani</summary>
+       <img src="https://i.imgur.com/Xqy7DfH.png" alt="Github"  style="max-width:20%;">
        <a href="https://github.com/flekhuleni" target="_blank">Github</a> <br>
+       <img src="https://img.icons8.com/color/30/000000/linkedin.png">
        <a href="https://www.linkedin.com/in/fiwa-lekhuleni-3993a28b/" target="_blank">Linked In</a> <br>
       
   </details>
   <details><summary>Keorapitse Shiko</summary>
+       <img src="https://i.imgur.com/Xqy7DfH.png" alt="Github"  style="max-width:20%;">
        <a href="https://github.com/keo11" target="_blank">Github</a> <br>
+       <img src="https://img.icons8.com/color/30/000000/linkedin.png">
        <a href="https://www.linkedin.com/in/keorapetse-shiko-454535154/" target="_blank">Linked In</a> <br>
       
   </details>
   <details><summary>Abhinav Thakur</summary>
+       <img src="https://i.imgur.com/Xqy7DfH.png" alt="Github"  style="max-width:20%;">
        <a href="https://github.com/bestabhinav" target="_blank">Github</a> <br>
+       <img src="https://img.icons8.com/color/30/000000/linkedin.png">
        <a href="https://www.linkedin.com/in/abhinav-thakur-05199415b/" target="_blank">Linked In</a> <br>
       
   </details>
   <details><summary>Vincent MM Soweto</summary>
+       <img src="https://i.imgur.com/Xqy7DfH.png" alt="Github"  style="max-width:20%;">
        <a href="https://github.com/vmmsoweto" target="_blank">Github</a> <br>
        <a href="https://www.linkedin.com/in/vincent-soweto-7a99b489/" target="_blank">Linked In</a> <br>
       
