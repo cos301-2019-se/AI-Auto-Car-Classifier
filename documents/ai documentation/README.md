@@ -1,9 +1,7 @@
 <img src="https://cs.up.ac.za/static/images/headerUP.jpg" alt="UP logo">
 
 
-## ** FAQ **
-
-**What is Artificial Intelligence(AI)?**
+##**What is Artificial Intelligence(AI)?**
 
 The ability of a digital computer to perform tasks commonly associated with intelligent beings.
 
@@ -29,7 +27,7 @@ The ability of a digital computer to perform tasks commonly associated with inte
   - **Robotics** - It is a field of engineering focused on the design and manufacturing  of robots.
   - **Autonomous Vehicles** - this area of AI has gathered a lot of attention.
 
-For more detailed explanation check the github page click [this link.](https://www.google.com)
+For more detailed explanation check the github page click [this link.](https://github.com/cos301-2019-se/AI-Auto-Car-Classifier/blob/updates/documents/ai%20documentation/AI%20Document.pdf)
 <br>
 
 ## **What category of Artificial Intelligence does out project fall under?**
