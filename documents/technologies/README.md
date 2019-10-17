@@ -17,6 +17,9 @@
   <img src="https://media.licdn.com/dms/image/C560BAQFF6NsJiRfdIQ/company-logo_200_200/0?e=2159024400&v=beta&t=__Uf6QioRE6C4_4JHyT7XZe0c3fKGmkZP8_M75ELB5k">
 
   <img src="http://ftp.riken.jp/tex-archive/info/guide-latex-fr/Images/overleaf.png" height="200" width="200">
+
+  <img src="https://library.kissclipart.com/20181222/yqw/kissclipart-tensorflow-icon-clipart-tensorflow-machine-learnin-e81b0694f85f47c4.png" height="200" width="200">
+
     
 </p>
 
