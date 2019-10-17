@@ -54,35 +54,35 @@ For detailed team bio click on the the link just above
        <img src="https://i.imgur.com/Xqy7DfH.png" alt="Github"  style="max-width:20%;">
        <a href="https://github.com/ajordaan" target="_blank">Github</a> <br>
        <img src="https://img.icons8.com/color/30/000000/linkedin.png">
-       <a href="https://www.linkedin.com/in/andrew-jordaan-2387268b/" target="_blank">Linked In</a> <br>
+       <a href="https://www.linkedin.com/in/andrew-jordaan-2387268b/" target="_blank">LinkedIn</a> <br>
       
   </details>
   <details><summary>Fiwa Lekhulani</summary>
        <img src="https://i.imgur.com/Xqy7DfH.png" alt="Github"  style="max-width:20%;">
        <a href="https://github.com/flekhuleni" target="_blank">Github</a> <br>
        <img src="https://img.icons8.com/color/30/000000/linkedin.png">
-       <a href="https://www.linkedin.com/in/fiwa-lekhuleni-3993a28b/" target="_blank">Linked In</a> <br>
+       <a href="https://www.linkedin.com/in/fiwa-lekhuleni-3993a28b/" target="_blank">LinkedIn</a> <br>
       
   </details>
   <details><summary>Keorapitse Shiko</summary>
        <img src="https://i.imgur.com/Xqy7DfH.png" alt="Github"  style="max-width:20%;">
        <a href="https://github.com/keo11" target="_blank">Github</a> <br>
        <img src="https://img.icons8.com/color/30/000000/linkedin.png">
-       <a href="https://www.linkedin.com/in/keorapetse-shiko-454535154/" target="_blank">Linked In</a> <br>
+       <a href="https://www.linkedin.com/in/keorapetse-shiko-454535154/" target="_blank">LinkedIn</a> <br>
       
   </details>
   <details><summary>Abhinav Thakur</summary>
        <img src="https://i.imgur.com/Xqy7DfH.png" alt="Github"  style="max-width:20%;">
        <a href="https://github.com/bestabhinav" target="_blank">Github</a> <br>
        <img src="https://img.icons8.com/color/30/000000/linkedin.png">
-       <a href="https://www.linkedin.com/in/abhinav-thakur-05199415b/" target="_blank">Linked In</a> <br>
+       <a href="https://www.linkedin.com/in/abhinav-thakur-05199415b/" target="_blank">LinkedIn</a> <br>
       
   </details>
   <details><summary>Vincent MM Soweto</summary>
        <img src="https://i.imgur.com/Xqy7DfH.png" alt="Github"  style="max-width:20%;">
        <a href="https://github.com/vmmsoweto" target="_blank">Github</a> <br>
        <img src="https://img.icons8.com/color/30/000000/linkedin.png">
-       <a href="https://www.linkedin.com/in/vincent-soweto-7a99b489/" target="_blank">Linked In</a> <br>
+       <a href="https://www.linkedin.com/in/vincent-soweto-7a99b489/" target="_blank">LinkedIn</a> <br>
       
   </details>
 </details>
