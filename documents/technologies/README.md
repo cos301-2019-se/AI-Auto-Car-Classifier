@@ -20,7 +20,7 @@
 
   <img src="https://miro.medium.com/max/1200/1*dr3pZsLJg28gKwq0MXp1Mg.png" height="200" width="200">
 
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4N_xMlxP9i4UDwtBaTxPHFB_GS2yY2eexx4B6A0iimxP2EVnaOw"  height="400" width="300">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4N_xMlxP9i4UDwtBaTxPHFB_GS2yY2eexx4B6A0iimxP2EVnaOw"  height="300" width="300">
 
 </p>
 
